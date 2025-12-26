@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+   <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<link rel="stylesheet" href="../public/css/style.css">
+</head>
+<body class="flex flex-col items-center">
+
+  <nav class="w-screen  fixed top-0 right-0 flex flex-col items-end z-[1000] absolute pr-4">
+    <button class="humbergur cursor-pointer bg-gray-800 m-2 rounded-full p-1">
+      <svg width="40" height="40" viewBox="-20 -20 40 40">
+        <path d="M -9 0 L 10 0 M -9 -7 L 10 -7 M -9 7 L 10 7"
+          stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class=" flex flex-col">
+          <a href="/Ella_home" id="home_btn" class="block scale-85 w-30 px-4 py-2 bg-amber-400 rounded-sm text-white text-[18px] transition ease-in duration-100 opacity-0 mb-2" >
+      Home
+    </a>
+    
+    <button id="orders_btn" class="scale-85 w-30 px-4 py-2 bg-amber-400 rounded-sm text-white text-[18px] transition ease-in duration-150 opacity-0">
+      ORDERS
+    </button>
+   
+    
+    <button id="foods_btn" class="scale-85 w-30 mt-2 px-4 py-2 bg-amber-400 rounded-sm text-white text-[18px] opacity-0 transition ease-in duration-300" >
+      Foods 
+    </button>
+    
+    <button id="comments_btn" class=" scale-85 w-30 mt-2 px-4 py-2 bg-amber-400 rounded-sm text-white text-[18px] opacity-0 transition ease-in duration-400">
+      Comments 
+    </button>
+    <button id="secret_btn" class=" scale-85 w-30 mt-2  py-2 bg-amber-400 rounded-sm text-white text-[18px] opacity-0 transition ease-in duration-400 flex flex-nowrap gap-2 items-center px-2" >
+      <i class="fa-solid fa-key"></i>
+      Password
+    </button>
+    
+   
+    </div>
+  </nav>
+  
+  
+  <div class="bg-[url(../public/images/herro.jpg)] bg-cover bg-[position:50%_75%] bg-no-repeat w-screen h-65 md:h-96 relative sm:mb-7 flex justify-center items-center">
+  <div class="overlay w-full h-[100%] absolute bottom-0 left-0 bg-black/40 flex flex-col justify-center items-center ">
+    
+    
+    <h1 class="text-6xl md:text-8xl mx-auto w-fit text-white" style="font-family: cursive;">Manage orders</h1>
+  </div>
+    
+  </div>
+  
+  
+  <!--password and recovery email -->
+  <form id="changeSecret" class="hidden changeSecret h-screen w-screen  top-0 left-0 z-10000 flex justify-center items-center transition transition-all duration-300 bg-black/70 fixed flex flex-col">
+  <div class="flex flex-col justify-center items-center scale-75 transition transition-all duration-300 succes_show">
+    <i class="far fa-circle-check text-green-500 text-6xl scale-200"></i>
+  <p class="text-3xl text-white mt-10">Successfull !</p>
+  </div>
+  
+    <div class="w-80 bg-white border border-gray-300 rounded-xl flex justify-center py-4 flex-col px-3 fixed scale-75 secretInputs transition transition-all duration-300">
+   <div class="flex flex-col gap-2">
+    <div class="flex flex-col w-full relative bg-amber-00">
+   <label for="password" class="m-1 text-gray-700 font-medium">
+          Password
+        </label>
+        <i class="fas fa-key text-gray-400 absolute bottom-4 ml-2"></i>
+        <button type="button" class="fas fa-eye-slash togglepassword text-gray-400 hover:text-gray-600 absolute bottom-4 right-0 mr-2"></button>
+      <input type="password" id="password" class="border border-gray-500  px-2 py-2.5 w-full rounded-lg flex-1 px-10" placeholder="••••••••" name="password" autocomplete="off">
+      </div>
+    <div class="flex flex-col w-full relative bg-amber-00">
+   <label for="recoveryEmail" class="m-1 text-gray-700 font-medium">
+          Recover Email
+        </label>
+        
+        <i class="fas fa-envelope text-gray-400 absolute bottom-4 ml-2"></i>
+      <input type="email" id="recoveryEmail" class="border border-gray-500  px-2 py-2.5 w-full rounded-lg flex-1 px-10" placeholder="ella@example.com" name="recoveryEmail" autocomplete="off">
+      </div>
+   </div>   
+   
+   <button type="submit" class="py-3 px-5 bg-amber-500 mt-4 rounded-xl text-lg text-white">Change</button>
+    </div>
+  </form>  
+
+  
+  <div class="comment_container px-4 w-full pt-12 flex flex-col md:flex-row justify-end items-end gap-7 flex-wrap">
+    
+  </div>
+  
+  <div class="orders_container flex flex-row flex-wrap gap-3 mb-12 justify-center mt-10">
+    
+  </div>
+  
+  
+  <form id="addNewFoodform" class="hidden add_food bg-amber-00 px-7 py-4 max-w-xl w-full border border-gray-300 mb-10 block flex flex-col gap-3 hidden">
+    <h1 class="text-center text-2xl font-extrabold mb-4;">Add New Food</h1>
+    <input type="text" class="border w-full p-2 rounded border-gray-500" placeholder="Food Name" required name="name">
+    <input type="number" class="border w-full p-2 rounded-sm border-gray-500" placeholder="Price" required name="price">
+    <input type="number" class="border w-full p-2 rounded-sm border-gray-500" placeholder="Time taken to cook" required name="time_taken">
+    
+<label class="flex flex-col items-center justify-center w-full h-20 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer transition">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-amber-00 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0l-4 4m4-4l4 4" />
+  </svg>
+  <span class="text-sm  font-medium">Upload Image</span>
+  <input type="file" accept="image/*" id="food_img" class="sr-only" required name="photo">
+</label>
+    
+    <button type="submit" style="font-family: cursive;" class="mx-auto bg-amber-400 px-5 py-2 rounded-sm block text-2xl font-extrabold text-white mt-5">
+      Add
+    </button>
+    
+  </form>
+  
+  <div id="foods_container" class="hidden foods_container w-screen flex flex-row justify-center flex-wrap pt-10 gap-4 px-2">
+    
+  </div>
+
+  <!--popup overlay-->
+  <div class="hidden w-screen h-screen bg-black/80 fixed top-0 left-0 z-1000 flex justify-center items-center px-2 popup-overlay">
+    
+    <!--popup-->
+    <form class=" border border-gray-300 mx-2 rounded-xl  min-w-[300px] w-full max-w-xl div bg-white relative transition tracking-normal duration-300 scale-70 popup">
+<img src="/public/images/Burguer.jpeg" class="w-full rounded-t-xl aspect-[16/9]">
+
+<!--close button-->
+<button type="button" class="rounded-full bg-black/70  text-white absolute text-xl top-2 right-2 w-10 h-10 aspect-square cancelOrder_btn">
+  <i class="fa-solid fa-times"></i>
+</button>
+<label class="rounded-full bg-black/70  text-white absolute text-xl top-2 left-2 w-10 h-10 aspect-square cancelOrder_btn flex justify-center items-center pb-1">
+  <i class="fa fa-camera hidden"></i>
+  <input type="file" accept="image/*" class="sr-only" name="photo">
+</label>
+
+<input type="number" name="id" class="sr-only">
+<input type="text" name="img_name" class="sr-only">
+<!--info container-->
+<div class="w-full px-4  flex flex-col">
+  <label for="name">Name:</label>  
+<input id="name" type="text" class="border border-gray-400 rounded-sm p-1" name="name">
+  <label for="price">Price:</label>  
+<input id="price" type="number" class="border border-gray-400 rounded-sm p-1" name="price">
+  <label for="time_taken">Time Taken:</label>  
+<input id="time_taken"type="number" class="border border-gray-400 rounded-sm p-1" name="time_taken">
+
+
+<button type="submit" id="update_btn" class="bg-amber-500 flex-none mx-auto w-30 p-2 m-7 text-2xl text-white font-extrabold rounded-sm">
+  UDATE
+</button>
+</div>
+    
+</form>
+  <div class="hidden flex flex-col justify-center items-center scale-75 transition transition-all duration-300 succes_massage">
+    <i class="far fa-circle-check text-green-500 text-6xl scale-200"></i>
+  <p class="text-3xl text-white mt-10">Successfully !</p>
+  </div>
+  </div>
+  <!--footer-->
+  <footer class="bg-gray-900 text-white py-12 mt-7 w-screen">
+  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+    
+    <!-- About -->
+    <div>
+      <h2 class="text-xl font-bold mb-4">Ella kichin caffe</h2>
+      <p class="text-gray-400 text-sm">
+        Connecting freelancers and clients seamlessly. Find the right job or talent quickly and securely.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+
+    <!-- Contact -->
+    <div>
+      <h2 class="text-xl font-bold mb-4">Contact</h2>
+      <ul class="space-y-2 text-gray-400 text-sm">
+        <li><i class="fas fa-envelope mr-2"></i>support@workhub.com</li>
+        <li><i class="fas fa-phone mr-2"></i>+251 936584567</li>
+        <li><i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis Ababa, Ethiopia</li>
+      </ul>
+    </div>
+
+    <!-- Social Media -->
+    <div>
+      <h2 class="text-xl font-bold mb-4">Follow Us</h2>
+      <div class="flex gap-4">
+        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-linkedin-in"></i></a>
+        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom -->
+  <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
+    &copy; 2025 WorkHub. All rights reserved.
+  </div>
+</footer>
+
+
+<script>
+  const humbergur=document.querySelector(".humbergur")
+  const orders_container=document.querySelector(".orders_container")
+  const add_food=document.querySelector(".add_food")
+  const foods_btn=document.querySelector("#foods_btn")
+  const foods_container=document.querySelector(".foods_container")
+  const add_btn=document.querySelector("#add_btn")
+ const orders_btn=document.getElementById("orders_btn")
+ const comments_btn=document.getElementById("comments_btn")
+ const secret_btn=document.getElementById("secret_btn")
+ const home_btn=document.getElementById("home_btn")
+ const comment_container =document.querySelector(".comment_container")
+ 
+ function humbuttons(){
+   
+   orders_btn.classList.toggle("opacity-0")
+    orders_btn.classList.remove("scale-85")
+    orders_btn.classList.add("scale-100")
+    foods_btn.classList.toggle("opacity-0")
+    foods_btn.classList.toggle("scale-85")
+    foods_btn.classList.toggle("scale-100")
+    comments_btn.classList.toggle("opacity-0")
+    comments_btn.classList.toggle("scale-85")
+    comments_btn.classList.toggle("scale-100")
+    home_btn.classList.toggle("opacity-0")
+    home_btn.classList.toggle("scale-85")
+    home_btn.classList.toggle("scale-100")
+    secret_btn.classList.toggle("opacity-0")
+    secret_btn.classList.toggle("scale-85")
+    secret_btn.classList.toggle("scale-100")
+ }
+ 
+  humbergur.addEventListener("click",humbuttons)
+  
+  humbergur.addEventListener("blur",()=>{
+    setTimeout(humbuttons,100)
+  })
+  home_btn.addEventListener("click",()=>{
+    add_food.classList.add("hidden")
+    comment_container.classList.add("hidden")
+    orders_container.classList.add("hidden")
+    foods_container.classList.add("hidden")
+  })
+  orders_btn.addEventListener("click",()=>{
+    add_food.classList.add("hidden")
+    comment_container.classList.add("hidden")
+    orders_container.classList.remove("hidden")
+    foods_container.classList.add("hidden")
+  })
+  comments_btn.addEventListener("click",async()=>{
+  comment_container.classList.remove("hidden")
+    add_food.classList.add("hidden")
+    orders_container.classList.add("hidden")
+    foods_container.classList.add("hidden")
+      
+    
+  const getcomments = await fetch("/getAllcomments") 
+  const Comments=await getcomments.json()
+  Comments.forEach(comment=>{
+   const commentContainer=document.createElement("div")
+   const commentText=document.createElement("div")
+   const commentOwner=document.createElement("div")
+   const ownerPhoto=document.createElement("div")
+   const ownerName=document.createElement("div")
+  // style
+  commentContainer.classList.add("flex","items-end","gap-2","flex-none","flex-1","w-82")
+  commentText.classList.add("h-fit","md:h-30","w-full","bg-gray-50","flex-1","rounded-t-3xl","rounded-bl-3xl","p-4","shadow-sm","shadow-gray-400","break-words","overflow-y-auto","max-w-100") 
+  commentOwner.classList.add("flex","flex-col","gap-2","items-end")
+  ownerPhoto.classList.add("w-15","h-15","rounded-full","text-3xl","font-medium","text-white",`bg-[${comment.color}]`,"flex","justify-center","items-center")
+  ownerName.classList.add("text-lg")
+  
+// ====== inner content ===== //
+  
+commentText.textContent=comment.feedback
+ownerPhoto.textContent=comment.name.substr(0,1)
+ownerName.textContent=comment.name
+commentContainer.appendChild(commentText)
+commentContainer.appendChild(commentOwner)
+commentOwner.appendChild(ownerPhoto)
+commentOwner.appendChild(ownerName)
+comment_container.appendChild(commentContainer)
+
+  })
+  
+
+    
+  })
+  foods_btn.addEventListener("click",()=>{
+    add_food.classList.remove("hidden")
+    foods_container.classList.remove("hidden")
+    orders_container.classList.add("hidden")
+    comment_container.classList.add("hidden")
+  })
+  const changeSecret=document.getElementById("changeSecret")
+  const succes_show=document.querySelector(".succes_show")
+  const secretInputs=document.querySelector(".secretInputs")
+  secret_btn.addEventListener("click",()=>{
+  changeSecret.classList.remove("hidden")
+  setTimeout(()=>{
+   secretInputs.classList.remove("scale-75") 
+  },5)
+  })
+  
+  changeSecret.addEventListener("click",(e)=>{
+    if(e.target===changeSecret){
+    changeSecret.classList.add("hidden")
+   secretInputs.classList.add("scale-75") 
+    }
+  })
+  
+ changeSecret.addEventListener("submit",async function(e){
+   e.preventDefault()
+   const fd=new FormData(e.target)
+   const credentials=Object.fromEntries(fd.entries())
+   
+   const secret=await fetch("/changeSecret",{
+     method:"POST",
+     headers:{
+       "Content-Type":"application/json"
+     },
+     body:JSON.stringify(credentials)
+   })
+   const secretRes=await secret.json()
+   
+   if(secretRes.message=="successful"){
+    secretInputs.classList.add("scale-75")
+    setTimeout(()=>{
+      secretInputs.classList.add("hidden")
+      succes_show.classList.remove("hidden")
+     succes_show.classList.remove("scale-75") 
+    },250) 
+    setTimeout(()=>{
+     succes_show.classList.add("scale-75","hidden")
+     secretInputs.classList.remove("hidden")
+     changeSecret.classList.add("hidden")
+     this.reset()
+    },800)
+    
+   }
+ }) 
+ 
+</script>
+<!--close popup-->
+<script>
+const popup_overlay=document.querySelector(".popup-overlay")
+const popup=document.querySelector(".popup")
+const succes_massage=document.querySelector(".succes_massage")
+//  cancel edit logic
+document.querySelector(".cancelOrder_btn").addEventListener("click",()=>{
+  popup.classList.add("scale-70")
+  setTimeout(()=>{
+    popup_overlay.classList.add("hidden")
+  },250)
+  popup.querySelectorAll("input").forEach(input=>{
+    input.value=""
+  })
+})
+//update foods logic
+popup.addEventListener("submit",async (e)=>{
+  e.preventDefault()
+  popup.classList.add("scale-70")
+  setTimeout(()=>{
+    popup.classList.add("hidden")
+    succes_massage.classList.remove("hidden")
+  },250)
+  setTimeout(()=>{
+    succes_massage.classList.remove("scale-75")
+  },255)
+  setTimeout(async()=>{
+    popup_overlay.classList.add("hidden")
+    popup.classList.remove("hidden")
+    succes_massage.classList.add("hidden")
+    succes_massage.classList.add("scale-75")
+    const formdata=new FormData(e.target)
+  const fd=Object.fromEntries(formdata.entries())
+ const response=await fetch("/updateFood",{
+   method:"POST",
+   body:formdata
+ })
+ const data=await response.json()
+ if(data.message=="successful"){
+  const updatedCard=document.querySelector(`.card[data-id="${data.info.id}"]`)
+
+   if(data.info.image_url !=""){  
+updatedCard.querySelector(".food_photo").style.backgroundImage=`url(${data.info.image_url})`  
+}  
+if(data.info.name !=""){  
+  updatedCard.querySelector(".food_name").textContent=data.info.name 
+}  
+if(data.info.price !=""){  
+  updatedCard.querySelector(".food_price").textContent=data.info.price +" Birr"  
+}  
+if(data.info.time_taken !=""){  
+  updatedCard.querySelector(".cook_time").textContent=data.info.time_taken +"+ min"  
+}  
+ }
+ 
+  },900)
+  
+ 
+
+})
+</script>
+<!--fetch and display foods-->
+<script>
+   function addNewFood(food,food_container,popup_overlay,popup){
+    const card=document.createElement("div");
+const food_photo=document.createElement("div");
+const text_wrapper=document.createElement("div");
+const food_name=document.createElement("strong");
+const cook_time=document.createElement("span");
+const food_price=document.createElement("strong");
+const remove_btn=document.createElement("button");
+food_name.classList.add("food_name")
+cook_time.classList.add("cook_time")
+food_price.classList.add("food_price")
+card.classList.add("card","w-[150px]","min-h-48","h-fit","rounded-xl","border","border-gray-200","flex","flex-col","flex-none")
+card.setAttribute("data-id",food.id)
+food_photo.style.backgroundImage=`url(${food.image_url})`
+food_photo.classList.add("food_photo","w-full","h-25","bg-cover","rounded-t-xl","bg-no-repeat","bg-center","flex-none")
+text_wrapper.classList.add("w-full","p-2","flex","flex-col")
+cook_time.classList.add("text-sm")
+remove_btn.classList.add("py-0.5", "px-3","border","border-red-500","rounded-xl","text-red-500","mt-1","focus:bg-red-500","w-fit","focus:text-white")
+remove_btn.setAttribute("id","remove_btn")
+remove_btn.textContent="Remove"
+food_name.textContent=food.name
+cook_time.textContent=`${food.time_taken}+ min`
+food_price.textContent=`${food.price} Birr`
+text_wrapper.appendChild(food_name)
+text_wrapper.appendChild(cook_time)
+text_wrapper.appendChild(food_price)
+remove_btn.addEventListener("click",async function(){
+  const confirmed=confirm("Are you sure you want to delete this item?")
+  if(confirmed){
+    const remove_res=await fetch("/deleteFood",{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({id:food.id,image_url:food.image_url})
+    })
+    const res_message=await remove_res.json() 
+  if(res_message.message==="successful"){
+   popup_overlay.classList.remove("hidden")
+    popup.classList.add("hidden")
+    succes_massage.querySelector("p").textContent="successful Removed!"
+    succes_massage.classList.remove("hidden")
+    
+    setTimeout(()=>{
+      succes_massage.classList.remove("scale-75")
+    },4)
+    setTimeout(async ()=>{
+    popup_overlay.classList.add("hidden")
+    popup.classList.remove("hidden")
+    succes_massage.classList.add("hidden")  
+    succes_massage.classList.add("scale-75")
+    this.parentElement.parentElement.remove()
+    
+    },650) 
+  }  
+  }
+})
+
+
+text_wrapper.appendChild(remove_btn)
+card.appendChild(food_photo)
+card.appendChild(text_wrapper)
+
+card.addEventListener("click",async(e)=>{
+  if(e.target.id !="remove_btn"){
+    
+  const currentData=await fetch("/getAllfoods")
+  const currentInfo=await currentData.json() 
+  const livedata=currentInfo.filter(info=>{
+    return info.id===food.id
+  })
+
+  popup_overlay.querySelector("[name='id']").value=food.id
+  popup_overlay.querySelector("[name='img_name']").value=livedata[0].image_url
+  popup_overlay.querySelector("[name='name']").value=livedata[0].name
+  popup_overlay.querySelector("[name='price']").value=parseFloat(livedata[0].price)
+  popup_overlay.querySelector("[name='time_taken']").value=livedata[0].time_taken
+  popup_overlay.querySelector("img").setAttribute('src',livedata[0].image_url)
+  popup_overlay.setAttribute("data-id",food.id)
+  popup_overlay.classList.remove("hidden")
+  setTimeout(()=>{
+    popup.classList.remove("scale-70")
+  },10)
+
+
+  }
+})
+
+food_container.appendChild(card)
+  }  
+  const food_container=document.getElementById("foods_container")
+  document.addEventListener("DOMContentLoaded",async()=>{
+ 
+  const response=await fetch("/getAllfoods")
+  const foods=await response.json()
+  
+  
+  
+foods.forEach(food=>{
+addNewFood(food,food_container,popup_overlay,popup)
+})
+
+
+  })
+  
+</script>
+<!--add new food-->
+<script>
+  const addFoodForm=document.getElementById("addNewFoodform")
+  addFoodForm.addEventListener("submit",async(e)=>{
+    e.preventDefault()
+    const fd=new FormData(addFoodForm)
+    const response= await fetch("/addNewFood",{
+      method:"POST",
+      body:fd
+    })
+    const result=await response.json()
+    const food=result.info
+    popup_overlay.classList.remove("hidden")
+    popup.classList.add("hidden")
+    succes_massage.querySelector("p").textContent="successful Added!"
+    succes_massage.classList.remove("hidden")
+    setTimeout(()=>{
+      succes_massage.classList.remove("scale-75")
+    },10)
+    setTimeout(async ()=>{
+    popup_overlay.classList.add("hidden")
+    popup.classList.remove("hidden")
+    succes_massage.classList.add("hidden")  
+    succes_massage.classList.add("scale-75")
+  addNewFood(food,food_container,popup_overlay,popup)
+  addFoodForm.querySelectorAll("input").forEach(input=>{
+    input.value=""
+  })
+    },700)
+  })
+</script>
+<!--fetch orders-->
+<script>
+  async function fetchOrders(){
+    const getActiveOrders=await fetch("/getActiveOrders")
+    const orders=await getActiveOrders.json()
+    
+    if(orders.length !== 0){
+     document.querySelector(".orders_container").textContent=""
+      orders.forEach(order=>{
+   const card=document.createElement("div")
+   const img=document.createElement("img")
+   const infoContainer=document.createElement("div")
+   const name=document.createElement("strong")
+   const time=document.createElement("small")
+   const timeTaken=document.createElement("small")
+   const amount=document.createElement("small")
+   const price=document.createElement("small")
+   const propic=document.createElement("button")
+  card.classList.add("border","border-gray-300","ml-2","flex","rounded-xl","gap-2","min-w-[300px]","max-h-30") 
+  img.classList.add("w-28","rounded-l-xl")
+  infoContainer.classList.add("flex","flex-col","overflow-auto")
+  propic.classList.add("ml-auto","mr-3","flex","flex-col",'my-auto',"block","justify-center","w-12","aspect-square","flex-none","rounded-full","text-3xl","font-medium","text-white",`bg-[${order.profile_color}]`)
+ const customer_name=document.createElement("small")
+ customerInfo_container=document.createElement("div")
+ customerInfo_container.classList.add("mr-1","flex","flex-col","my-auto","h-full","block", "justify-center","items-center","flex-1")
+ customer_name.textContent=order.name
+ customer_name.classList.add("mb-2")
+  name.textContent=order.name
+ time.textContent=`Time: ${order.hour}:${order.minute} ${order.period=="PM"?"ቀን" :"ማታ"}`
+ timeTaken.textContent="Time taken: "+order.time_taken
+ amount.textContent=`Amount: ${order.amount}`
+ price.textContent=`Total price: ${order.total_price} Birr`
+ img.setAttribute("src",order.food.image_url)
+ card.appendChild(img)
+ infoContainer.appendChild(name)
+ infoContainer.appendChild(time)
+ infoContainer.appendChild(timeTaken)
+ infoContainer.appendChild(price)
+ infoContainer.appendChild(amount)
+ infoContainer.appendChild(amount)
+ propic.textContent=order.name.substr(0,1)
+ card.appendChild(infoContainer)
+ customerInfo_container.appendChild(propic)
+ customerInfo_container.appendChild(customer_name)
+ card.appendChild(customerInfo_container)
+ 
+ document.querySelector(".orders_container").appendChild(card)
+   }) 
+    }
+  }
+ fetchOrders() 
+  setInterval(fetchOrders,10000)
+</script>
+</body>
+</html>

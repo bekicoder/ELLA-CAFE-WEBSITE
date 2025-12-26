@@ -1,0 +1,9 @@
+   .animate_alert {
+  animation: shake_alert 0.3s infinite ease-in-out;
+}
+
+@keyframes shake_alert {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}

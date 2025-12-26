@@ -1,0 +1,14 @@
+.autorotate{
+  padding: 20px;
+  animation: autorotate both;
+  animation-timeline: view(10% 5%);
+}
+
+@keyframes autorotate{
+  from{
+    transform: rotate(0deg);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}
