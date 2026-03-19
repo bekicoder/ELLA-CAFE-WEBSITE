@@ -171,7 +171,7 @@
     <div>
       <h2 class="text-xl font-bold mb-4">Ella kichin caffe</h2>
       <p class="text-gray-400 text-sm">
-        Connecting freelancers and clients seamlessly. Find the right job or talent quickly and securely.
+        Serving delicious food seamlessly. Find your favorite meals quickly and securely.
       </p>
     </div>
 
@@ -181,7 +181,7 @@
     <div>
       <h2 class="text-xl font-bold mb-4">Contact</h2>
       <ul class="space-y-2 text-gray-400 text-sm">
-        <li><i class="fas fa-envelope mr-2"></i>support@workhub.com</li>
+        <li><i class="fas fa-envelope mr-2"></i>support@ella_cafe.com</li>
         <li><i class="fas fa-phone mr-2"></i>+251 936584567</li>
         <li><i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis Ababa, Ethiopia</li>
       </ul>
@@ -200,11 +200,15 @@
   </div>
 
   <!-- Bottom -->
-  <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
-    &copy; 2025 WorkHub. All rights reserved.
-  </div>
+  <p class="text-center text-gray-400 mt-12 text-sm">
+  &copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.
+</p>
 </footer>
 
+<script>
+  // Get current year and insert into the span
+  document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>
 
 <script>
   const humbergur=document.querySelector(".humbergur")

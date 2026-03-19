@@ -111,10 +111,15 @@
   </div>
 
   <!-- Bottom -->
-  <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500 text-sm">
-    &copy; <span id="currentYear"></span> Ella Cafe. All Rights Reserved.
-  </div>
+  <p class="text-center text-gray-400 mt-12 text-sm">
+  &copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.
+</p>
 </footer>
+
+<script>
+  // Get current year and insert into the span
+  document.getElementById('currentYear').textContent = new Date().getFullYear();
+</script>
 
 
 <script src="/js/favorites.js"></script>

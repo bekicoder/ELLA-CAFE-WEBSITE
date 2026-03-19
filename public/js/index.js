@@ -25,7 +25,7 @@
   humbergur.addEventListener("blur",()=>{
      setTimeout(()=>{
        offcanvas_control.checked=false
-     },10)
+     },500)
   })
   
   const order_btn=document.getElementById("order_btn")

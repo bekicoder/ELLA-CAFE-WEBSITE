@@ -14,7 +14,7 @@ const db = new Pool({
   user: "postgres",
   password: "mydb@pass",
   database: "ella_cafe",
-  port: 5432,
+  port:5432,
 });
 
 // Serve static files
