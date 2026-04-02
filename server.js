@@ -7,14 +7,14 @@ const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const { Pool } = require("pg");
-
+require('dotenv').config();
 // global to prevent multiple connections during development hot-reloads
-const pool = global.pool || new Pool({
+const db = global.pool || new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
 if (process.env.NODE_ENV !== "production") {
-  global.pool = pool;
+  global.pool = db;
 }
 
 
@@ -303,6 +303,7 @@ app.post("/signIn", async (req, res) => {
     });
     res.json({ message: "successful" });
   } catch (err) {
+
     sqlError(err, res);
   }
 });
@@ -479,14 +480,17 @@ app.get("/getAllcomments",async(req,res)=>{
 
 
 app.post("/Ella_manager",async(req,res)=>{
+  try{
   const {password}=req.body
-  
+  console.log(password,"hire is the password")
   db.query("select * from managers where id = 1",async(err,results)=>{
     if(err){
       res.json({message:err})
-      return console.log(err)
+      return console.log(err,results.rows[0])
     }
-  const isMatched=password ? await bcrypt.compare(password,results.rows[0].password) :''
+    console.log(results.rows)
+
+  const isMatched= password ? await bcrypt.compare(password,results.rows[0]?.password) :''
   if(isMatched){
     res.sendFile(path.join(__dirname,"views/cms.html"))
   }  
@@ -539,14 +543,23 @@ app.post("/Ella_manager",async(req,res)=>{
     `)
   }
   })
+}catch(err){
+  console.log(err)
+}
 })
 
 app.post("/changeSecret",async(req,res)=>{
   const {password,recoveryEmail}=req.body  
   const hashedPass=password ? await bcrypt.hash(password,10) :''
-  
-  db.query(`update managers set password=COALESCE(NULLIF($1,''),password),recovery_email=COALESCE(NULLIF($2,''),recovery_email) RETURNING *;`,[hashedPass,recoveryEmail],async(err,results)=>{
-   if(err){
+  console.log(hashedPass,password,"this is the password");
+  const query = `
+  UPDATE managers 
+  SET 
+    password = COALESCE(NULLIF($1, ''), password),
+    recovery_email = COALESCE(NULLIF($2, ''), recovery_email) RETURNING *;`;
+  db.query(query,[hashedPass,recoveryEmail],async(err,results)=>{
+   console.log(results.rows)
+    if(err){
       res.json({message:err})
       return console.log(err)
     } 
