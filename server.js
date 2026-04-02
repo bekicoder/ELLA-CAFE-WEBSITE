@@ -8,14 +8,16 @@ const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const { Pool } = require("pg");
 
-// PostgreSQL connection
-const db = new Pool({
-  host: "localhost",
-  user: "postgres",
-  password: "mydb@pass",
-  database: "ella_cafe",
-  port:5432,
+// global to prevent multiple connections during development hot-reloads
+const pool = global.pool || new Pool({
+  connectionString: process.env.DATABASE_URL,
 });
+
+if (process.env.NODE_ENV !== "production") {
+  global.pool = pool;
+}
+
+
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "views")));
