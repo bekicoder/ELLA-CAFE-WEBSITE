@@ -23,6 +23,8 @@ if (process.env.NODE_ENV !== "production") {
 app.use(express.static(path.join(__dirname, "views")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/Ella_home", express.static(path.join(__dirname, "views/index.html")));
+app.use("/Ella_menu", express.static(path.join(__dirname, "views/menu.html")));
+app.use("/Ella_room", express.static(path.join(__dirname, "views/room.html")));
 app.use("/Ella_orders", express.static(path.join(__dirname, "views/orders.html")));
 app.use("/Ella_waiter", express.static(path.join(__dirname, "views/waiter.html")));
 app.use("/Ella_favorites", express.static(path.join(__dirname, "views/favorites.html")));
@@ -142,12 +144,13 @@ app.post("/addNewFood", (req, res) => {
   form.parse(req, async (err, fields, files) => {
     if (err) return sqlError(err, res);
     try {
-      const { name, price, time_taken } = fields;
+      const { name, price, time_taken,description } = fields;
       const image_url = `/cloude_store/${files.photo[0].newFilename}`;
-      const sql = `INSERT INTO foods (name, price, time_taken, image_url)
-                   VALUES ($1, $2, $3, $4)
+      const sql = `INSERT INTO foods (name,description,price, time_taken, image_url)
+                   VALUES ($1, $2, $3, $4,$5)
                    RETURNING *;`;
-      const result = await db.query(sql, [name[0], price[0], time_taken[0], image_url]);
+                   console.log(description,sql)
+      const result = await db.query(sql, [name[0], description[0],price[0], time_taken[0], image_url]);
       res.status(200).json({ message: "successful", info: result.rows[0] });
     } catch (e) {
       sqlError(e, res);
@@ -401,7 +404,7 @@ app.post("/getLikedfood_info", auth, async (req, res) => {
 
 app.post("/order_food",auth,(req,res)=>{
   const info=JSON.parse(req.body.info)
-  db.query("insert into orders(user_id,food_id,hour,minute,period,amount,total_price) VALUES($1,$2,$3,$4,$5,$6,$7)",[req.user_id,info.food_id,info.hour,info.minute,info.period,info.amount,info.total_price],(err,results)=>{
+  db.query("insert into orders(user_id,food_id,drinkIds,date,hour,minute,period,totalFoodQty,totalDrinkQty,totalFoodPrice,totalDrinkPrice) VALUES($1,$2,$3,$4,$5,$6,$7)",[req.user_id,info.food_id,info.hour,info.minute,info.period,info.totallFoodQty,info.total_price],(err,results)=>{
     if(err) return(res.json({errir:"Internal databses Error try again later"+err}))
     else{
       res.status(200).redirect("/")
@@ -434,6 +437,7 @@ app.get("/getActiveOrders", async (req, res) => {
     const results = await db.query(`SELECT * FROM orders WHERE status = 'false' order by id desc`);
 
     const orders = await Promise.all(
+      
       results.rows.map(async (order) => {
         // Get food info
         const foodResult = await db.query("SELECT * FROM foods WHERE id = $1", [order.food_id]);

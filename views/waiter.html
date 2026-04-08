@@ -1,188 +1,297 @@
-<!DOCTYPE html>  <html lang="en">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/public/css/style.css" />
+  </head>
+  <body class="overflow-x-hidden">
+    <nav
+      class="w-screen fixed top-0 right-0 flex flex-row items-center justify-between z-[100] absolute bg-transparent md:text-white"
+    >
+      <!-- Highlight box -->
 
-<head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">  
-  <title>Document</title>  
-   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>  
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">  
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">  
-   <script src="https://unpkg.com/html5-qrcode"></script>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-   <link rel="stylesheet" href="/public/css/style.css">
-</head>  
-<body class="overflow-x-hidden">  
+      <!-- Hamburger menu -->
+      <input type="checkbox" id="offcanvas-control" class="peer" />
+      <label id="overlay" for="offcanvas-control"></label>
 
- <nav class="w-screen  fixed top-0 right-0 flex flex-row items-center justify-between z-[100] absolute bg-transparent md:text-white">
-    
+      <a
+        href="/Ella_accounts"
+        class="bg-white py-3 px-5 rounded-full absolute right-18 md:right-10 font-medium text-black block signUp_link hidden"
+        >Sign Up</a
+      >
+      <label
+        for="offcanvas-control"
+        class="humbergur ml-auto cursor-pointer bg-gray-800 m-2 rounded-full md:hidden p-2"
+        tabindex="0"
+      >
+        <svg width="40" height="40" viewBox="-20 -20 40 40">
+          <path
+            d="M -9 0 L 10 0 M -9 -7 L 10 -7 M -9 7 L 10 7"
+            stroke="white"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </label>
 
-    <!-- Highlight box -->
+      <!-- Offcanvas nav -->
+      <!-- Offcanvas nav -->
+      <div
+        class="nav-links flex flex-col md:flex-row w-[300px] md:w-full h-screen md:h-full bg-white md:bg-transparent absolute md:relative top-0 right-0 justify-start items-start text-black md:text-white peer-checked:transition peer-checked:duration-500 peer-checked:ease-out translate-x-[100%] md:translate-x-0 peer-c"
+      >
+        <a
+          href="/logout"
+          class="text-lg ml-auto mr-2 absolute top-5 right-4 text-[18px] font-medium hidden"
+          >&larr; Sign out</a
+        >
+        <div
+          class="flex absolute bottom-15 left-2 h-max gap-2 items-center md:hidden"
+        >
+          <div
+            class="w-15 h-15 rounded-full text-4xl font-medium flex justify-center items-center text-white profileLetter"
+          ></div>
+          <div>
+            <p class="text-lg profileName"></p>
+            <p class="text-sm profileEmail"></p>
+          </div>
+        </div>
+        <label
+          for="offcanvas-control"
+          class="cursor-pointer md:hidden bg-gray-800 m-2 rounded-full md:hidden p-2"
+        >
+          <svg width="40" height="40" viewBox="-20 -20 40 40">
+            <path
+              d="M -8 -7 L 8 7 M 8 -7 L -8 7"
+              stroke="white"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </label>
+        <a
+          href="/Ella_accounts"
+          class="signUp_link bg-gray-800 py-3 px-5 rounded-full absolute right-4 font-medium text-white top-2 md:hidden hidden"
+          >Sign Up</a
+        >
+        <div
+          class="h-full w-full bg-gray-00 pl-5 mt-2 flex flex-col text-[18px] md:flex-row md:gap-7 min-[850px]:justify-center"
+        >
+          <a href="/Ella_home" class="nav-link w-full py-3 md:w-fit">Home</a>
+          <a href="/Ella_orders" class="nav-link w-full py-3 md:w-fit"
+            >Orders</a
+          >
+          <a href="/Ella_menu" class="nav-link w-full py-3 md:w-fit">Menu</a>
+          <a href="/Ella_room" class="nav-link w-full py-3 md:w-fit">Room</a>
+          <a href="/Ella_favorites" class="nav-link w-full py-3 sm:w-fit"
+            >Favorites</a
+          >
+          <a href="/getInto_Manager" class="nav-link w-full py-4 md:w-fit"
+            >Manage</a
+          >
+          <a href="/Ella_waiter" class="nav-link w-full py-3 md:w-fit"
+            >Waiter</a
+          >
+          <a href="#about" class="nav-link w-full py-3 md:w-fit">About</a>
+        </div>
+      </div>
+    </nav>
 
-
-    <!-- Hamburger menu -->
-    <input type="checkbox" id="offcanvas-control" class="peer"/>
-    <label id="overlay" for="offcanvas-control"></label>
-  
-  <a href="/Ella_accounts"class="bg-white py-3 px-5 rounded-full absolute right-18 md:right-10 font-medium text-black block signUp_link hidden">Sign Up</a>
-    <label for="offcanvas-control" class="humbergur ml-auto cursor-pointer bg-gray-800 m-2 rounded-full md:hidden p-2" tabindex="0">
-      <svg width="40" height="40" viewBox="-20 -20 40 40">
-        <path d="M -9 0 L 10 0 M -9 -7 L 10 -7 M -9 7 L 10 7"
-          stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-    </label>
-
-    <!-- Offcanvas nav -->
-<!-- Offcanvas nav -->
-<div class="nav-links flex flex-col md:flex-row w-[300px] md:w-full h-screen md:h-full bg-white md:bg-transparent absolute md:relative top-0 right-0 justify-start items-start text-black md:text-white peer-checked:transition peer-checked:duration-500 peer-checked:ease-out translate-x-[100%] md:translate-x-0 peer-c">
-  <a href="/logout" class="text-lg ml-auto mr-2 absolute top-5 right-4 text-[18px] font-medium hidden">&larr; Sign out</a>
-    <div class="flex absolute bottom-15 left-2 h-max gap-2 items-center md:hidden">
-      <div class="w-15 h-15   rounded-full text-4xl font-medium flex justify-center items-center text-white profileLetter">
-    
-  </div>
-  <div>
-    <p class="text-lg profileName"></p>
-    <p class="text-sm profileEmail"></p>
-  </div>
+    <div
+      class="bg-[url(../public/images/waiter.hero1.jpg)] bg-cover bg-[position:50%_75%] bg-no-repeat w-screen h-65 md:h-96 relative mb-7 flex justify-center items-center"
+    >
+      <div
+        class="overlay w-full h-[100%] absolute bottom-0 left-0 bg-black/20 flex flex-col justify-center items-center text-center"
+      >
+        <h1
+          class="text-6xl md:text-9xl mx-auto w-fit text-white"
+          style="font-family: cursive"
+        >
+          Scan To Serve
+        </h1>
+      </div>
     </div>
-  <label for="offcanvas-control" class="cursor-pointer md:hidden bg-gray-800 m-2 rounded-full md:hidden p-2">
-    <svg width="40" height="40" viewBox="-20 -20 40 40">
-      <path d="M -8 -7 L 8 7 M 8 -7 L -8 7" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
-  </label>
-  <a href="/Ella_accounts"class="signUp_link bg-gray-800 py-3 px-5 rounded-full absolute right-4 font-medium text-white top-2 md:hidden hidden">Sign Up</a>
-<div class="h-full w-full bg-gray-00 pl-5 mt-2 flex flex-col text-[18px] md:flex-row  md:gap-7 min-[850px]:justify-center">
-    <a href="/Ella_home" class="nav-link w-full py-3 md:w-fit">Home</a>
-  <a href="/Ella_orders"class="nav-link w-full py-3 md:w-fit">Orders</a>
-  <a href="/Ella_favorites" class="nav-link w-full py-3 sm:w-fit">Favorites</a>
-  <a href="/getInto_Manager" class="nav-link w-full py-4 md:w-fit">Manage</a>
-  <a href="/Ella_waiter" class="nav-link w-full py-3 md:w-fit">Waiter</a>
-  <a href="/Ella_developer_Bereket_Girma" class="nav-link w-full py-3 md:w-fit">Developer</a>
-  <a href="#about" class="nav-link w-full py-3 md:w-fit">About</a>
-  
 
-</div>
-</div>
-  </nav> 
+    <div class="flex flex-row flex-wrap gap-3 mb-12 justify-center">
+      <button
+        id="scanBtn"
+        class="p-4 rounded-xl text-gray-200 bg-gray-800 flex items-center gap-2"
+        style="
+          :hover {
+            scale: 1.5;
+          }
+        "
+        id="scanQR"
+      >
+        <span class="material-icons-outlined text-3xl">qr_code_scanner</span>
+        <strong>Scan QR Cod</strong>
+      </button>
+      <!-- Scanner overlay -->
+      <div
+        id="scannerOverlay"
+        class="fixed inset-0 bg-black/85 hidden flex flex-col justify-center items-center z-50"
+      >
+        <div
+          id="reader"
+          class="w-[300px] rounded-xl overflow-hidden bg-black flex-none"
+        ></div>
+        <br />
+        <div class="flex items-center">
+          <button id="torch-btn" class="p-4">
+            <!-- tourch of state icon-->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="scale-180 flash-of"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#e3e3e3"
+            >
+              <path
+                d="M792-56 640-208v128H320v-448L56-792l56-56 736 736-56 56ZM400-160h160v-128L400-448v288Zm240-274-80-80v-30l80-120v-16H394l-80-80h326v-40H274l-34-34v-46h480v240l-80 120v86Zm-160 66Zm17-209Z"
+              />
+            </svg>
+            <!-- tourch on state icon-->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="scale-180 flash-on hidden"
+              height="24px"
+              viewBox="0 -960 960 960"
+              width="24px"
+              fill="#e3e3e3"
+            >
+              <path
+                d="M320-80v-440l-80-120v-240h480v240l-80 120v440H320Zm160-260q-25 0-42.5-17.5T420-400q0-25 17.5-42.5T480-460q25 0 42.5 17.5T540-400q0 25-17.5 42.5T480-340ZM320-760h320v-40H320v40Zm320 80H320v16l80 120v384h160v-384l80-120v-16ZM480-480Z"
+              />
+            </svg>
+          </button>
+          <button
+            id="close_scaner"
+            class="text-white text-4xl ml-7 p-3 box-border flex items-center"
+          >
+            <i
+              class="fa-solid fa-xmark text-white text-4xl cursor-pointer hover:text-red-500"
+            ></i>
+            <!-- Alternative X icon -->
+          </button>
+        </div>
+      </div>
 
-  <div class="bg-[url(../public/images/waiter.hero1.jpg)] bg-cover bg-[position:50%_75%] bg-no-repeat w-screen h-65 md:h-96 relative mb-7 flex justify-center items-center">  
-  <div class="overlay w-full h-[100%] absolute bottom-0 left-0 bg-black/20 flex flex-col justify-center items-center text-center">  
-    <h1 class="text-6xl md:text-9xl mx-auto w-fit text-white" style="font-family: cursive;">Scan To Serve</h1>  
-  </div>   
-  </div>    
-  
-  <div class="flex flex-row flex-wrap gap-3 mb-12 justify-center ">  
-  <button id="scanBtn" class="p-4 rounded-xl text-gray-200 bg-gray-800 flex items-center gap-2" style=":hover{scale:1.5}" id="scanQR">
-<span class="material-icons-outlined text-3xl">qr_code_scanner</span>
-<strong>Scan QR Cod</strong>
-</button>
-<!-- Scanner overlay -->
-<div id="scannerOverlay"
-     class="fixed inset-0 bg-black/85 hidden flex flex-col justify-center items-center z-50">
+      <hr class="my-7 w-full" />
+      <div
+        class="border border-gray-300 mx-2 flex flex-col rounded-xl gap-2 min-w-[300px] bg-amber-00 pb-7"
+      >
+        <img
+          src="../public/images/Burguer lo de Beto1.jpeg"
+          class="w-full rounded-t-xl"
+        />
+        <div
+          class="flex bg-amber-00 mr-7 justify-between bg-amber-00 w-full px-2"
+        >
+          <div class="w-full flex flex-col bg-amber-00">
+            <strong class="text-xl mb-2">Burguer lo de</strong>
 
+            <strong>Amount: 4</strong>
+            <small>Date: mon, oct 20</small>
+          </div>
 
+          <button
+            class="ml-auto mr-2 flex flex-col my-auto h-full block justify-center items-center bg-amber-00 bg-amber50 flex-none"
+          >
+            <img
+              src="../public/images/reviewer2.jpg"
+              class="block w-14 h-14 bg-amber-400 rounded-full"
+            />
 
-  <div id="reader" class="w-[300px]  rounded-xl overflow-hidden bg-black flex-none"></div>
-  <br>
-  <div class="flex items-center">
-  <button id="torch-btn" class="p-4">
-    <!-- tourch of state icon-->
-    <svg xmlns="http://www.w3.org/2000/svg" class="scale-180 flash-of" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M792-56 640-208v128H320v-448L56-792l56-56 736 736-56 56ZM400-160h160v-128L400-448v288Zm240-274-80-80v-30l80-120v-16H394l-80-80h326v-40H274l-34-34v-46h480v240l-80 120v86Zm-160 66Zm17-209Z"/></svg>
-    <!-- tourch on state icon-->
-    <svg xmlns="http://www.w3.org/2000/svg" class="scale-180 flash-on hidden" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M320-80v-440l-80-120v-240h480v240l-80 120v440H320Zm160-260q-25 0-42.5-17.5T420-400q0-25 17.5-42.5T480-460q25 0 42.5 17.5T540-400q0 25-17.5 42.5T480-340ZM320-760h320v-40H320v40Zm320 80H320v16l80 120v384h160v-384l80-120v-16ZM480-480Z"/></svg>
-  </button>
-    <button id="close_scaner" class="text-white text-4xl ml-7 p-3 box-border flex items-center">
-    <i class="fa-solid fa-xmark text-white text-4xl cursor-pointer hover:text-red-500"></i> 
-    <!-- Alternative X icon -->
-  </button>
-  </div>
-
-</div>
-
-<hr class="my-7  w-full">
-<div class="border border-gray-300 mx-2 flex flex-col rounded-xl gap-2 min-w-[300px] bg-amber-00 pb-7">
-<img src="../public/images/Burguer lo de Beto1.jpeg" class="w-full rounded-t-xl">
-<div class="flex bg-amber-00 mr-7 justify-between bg-amber-00 w-full px-2">
-
-<div class="w-full flex flex-col bg-amber-00">  
-    <strong class="text-xl mb-2">Burguer lo de</strong>  
-      
-    <strong>Amount: 4</strong>  
-   <small>Date: mon, oct 20</small>  
-       
-   </div>  
-     
-         <button class="ml-auto mr-2 flex flex-col my-auto h-full block justify-center items-center bg-amber-00 bg-amber50 flex-none">  
-    <img src="../public/images/reviewer2.jpg"class="block w-14 h-14 bg-amber-400 rounded-full">  
-        
-      
-      
-     <small class="mt-auto">  
-      Bereket Girma  
-    </small>   
-   <!-- <small class="mt-auto">  
+            <small class="mt-auto"> Bereket Girma </small>
+            <!-- <small class="mt-auto">  
       Delivered   
     <i class="fa-solid fa-circle-check text-green-600"></i>  
-    </small>-->  
-  </button>  
-     
-  </div>  
-    
-</div>
+    </small>-->
+          </button>
+        </div>
+      </div>
+    </div>
 
-  </div> 
-  
-  <footer class="bg-gray-900 text-white py-12 ">  
-  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">  <!-- About -->  
-<div>  
-  <h2 class="text-xl font-bold mb-4">Ella kichin caffe</h2>  
-  <p class="text-gray-400 text-sm">  
-        Serving delicious food seamlessly. Find your favorite meals quickly and securely.
-  </p>  
-</div>  
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- About -->
+        <div>
+          <h2 class="text-xl font-bold mb-4">Ella kichin caffe</h2>
+          <p class="text-gray-400 text-sm">
+            Serving delicious food seamlessly. Find your favorite meals quickly
+            and securely.
+          </p>
+        </div>
 
-<!-- Quick Links -->  
+        <!-- Quick Links -->
 
-<!-- Contact -->  
-<div>  
-  <h2 class="text-xl font-bold mb-4">Contact</h2>  
-  <ul class="space-y-2 text-gray-400 text-sm">  
-    <li><i class="fas fa-envelope mr-2"></i>support@ella_cafe.com</li>  
-    <li><i class="fas fa-phone mr-2"></i>+251 936584567</li>  
-    <li><i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis Ababa, Ethiopia</li>  
-  </ul>  
-</div>  
+        <!-- Contact -->
+        <div>
+          <h2 class="text-xl font-bold mb-4">Contact</h2>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li><i class="fas fa-envelope mr-2"></i>support@ella_cafe.com</li>
+            <li><i class="fas fa-phone mr-2"></i>+251 936584567</li>
+            <li>
+              <i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis
+              Ababa, Ethiopia
+            </li>
+          </ul>
+        </div>
 
-<!-- Social Media -->  
-<div>  
-  <h2 class="text-xl font-bold mb-4">Follow Us</h2>  
-  <div class="flex gap-4">  
-    <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-facebook-f"></i></a>  
-    <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-twitter"></i></a>  
-    <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-linkedin-in"></i></a>  
-    <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-instagram"></i></a>  
-  </div>  
-</div>
+        <!-- Social Media -->
+        <div>
+          <h2 class="text-xl font-bold mb-4">Follow Us</h2>
+          <div class="flex gap-4">
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-twitter"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+      </div>
 
-  </div>    
+      <!-- Bottom -->
+      <p class="text-center text-gray-400 mt-12 text-sm">
+        &copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.
+      </p>
+    </footer>
 
-   <!-- Bottom -->
-  <p class="text-center text-gray-400 mt-12 text-sm">
-  &copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.
-</p>
-</footer>
+    <script>
+      // Get current year and insert into the span
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+    </script>
 
-<script>
-  // Get current year and insert into the span
-  document.getElementById('currentYear').textContent = new Date().getFullYear();
-</script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      lucide.createIcons();
+    </script>
 
-
-<script src="https://unpkg.com/lucide@latest"></script>
-<script>
-lucide.createIcons();
-</script>
-
-<script src="/js/waiter.js"></script>
-</body>  
+    <script src="/js/waiter.js"></script>
+  </body>
 </html>

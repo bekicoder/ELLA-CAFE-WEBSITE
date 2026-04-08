@@ -1,127 +1,187 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-   <link rel="stylesheet" href="../public/css/style.css">
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-</head>
-<body class="overflow-x-hidden">
-   <nav class="w-screen  fixed top-0 right-0 flex flex-row items-center justify-between z-[100] absolute bg-transparent md:text-white">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="../public/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+  </head>
+  <body class="overflow-x-hidden">
+    <nav
+      class="w-screen fixed top-0 right-0 flex flex-row items-center justify-between z-[100] absolute bg-transparent md:text-white"
+    >
+      <!-- Highlight box -->
 
-    <!-- Highlight box -->
+      <!-- Hamburger menu -->
+      <input type="checkbox" id="offcanvas-control" class="peer" />
+      <label id="overlay" for="offcanvas-control"></label>
 
+      <a
+        href="/Ella_accounts"
+        class="bg-white py-3 px-5 rounded-full absolute right-18 md:right-10 font-medium text-black block signUp_link hidden"
+        >Sign Up</a
+      >
+      <label
+        for="offcanvas-control"
+        class="humbergur ml-auto cursor-pointer bg-gray-800 m-2 rounded-full md:hidden p-2"
+        tabindex="0"
+      >
+        <svg width="40" height="40" viewBox="-20 -20 40 40">
+          <path
+            d="M -9 0 L 10 0 M -9 -7 L 10 -7 M -9 7 L 10 7"
+            stroke="white"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </label>
 
-    <!-- Hamburger menu -->
-    <input type="checkbox" id="offcanvas-control" class="peer"/>
-    <label id="overlay" for="offcanvas-control"></label>
-  
-  <a href="/Ella_accounts"class="bg-white py-3 px-5 rounded-full absolute right-18 md:right-10 font-medium text-black block signUp_link hidden">Sign Up</a>
-    <label for="offcanvas-control" class="humbergur ml-auto cursor-pointer bg-gray-800 m-2 rounded-full md:hidden p-2" tabindex="0">
-      <svg width="40" height="40" viewBox="-20 -20 40 40">
-        <path d="M -9 0 L 10 0 M -9 -7 L 10 -7 M -9 7 L 10 7"
-          stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-    </label>
+      <!-- Offcanvas nav -->
+      <!-- Offcanvas nav -->
+      <div
+        class="nav-links flex flex-col md:flex-row w-[300px] md:w-full h-screen md:h-full bg-white md:bg-transparent absolute md:relative top-0 right-0 justify-start items-start text-black md:text-white peer-checked:transition peer-checked:duration-500 peer-checked:ease-out translate-x-[100%] md:translate-x-0 peer-c"
+      >
+        <a
+          href="/logout"
+          class="text-lg ml-auto mr-2 absolute top-5 right-4 text-[18px] font-medium hidden"
+          >&larr; Sign out</a
+        >
+        <div
+          class="flex absolute bottom-15 left-2 h-max gap-2 items-center md:hidden"
+        >
+          <div
+            class="w-15 h-15 rounded-full text-4xl font-medium flex justify-center items-center text-white profileLetter"
+          ></div>
+          <div>
+            <p class="text-lg profileName"></p>
+            <p class="text-sm profileEmail"></p>
+          </div>
+        </div>
+        <label
+          for="offcanvas-control"
+          class="cursor-pointer md:hidden bg-gray-800 m-2 rounded-full md:hidden p-2"
+        >
+          <svg width="40" height="40" viewBox="-20 -20 40 40">
+            <path
+              d="M -8 -7 L 8 7 M 8 -7 L -8 7"
+              stroke="white"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </label>
+        <a
+          href="/Ella_accounts"
+          class="signUp_link bg-gray-800 py-3 px-5 rounded-full absolute right-4 font-medium text-white top-2 md:hidden hidden"
+          >Sign Up</a
+        >
+        <div
+          class="h-full w-full bg-gray-00 pl-5 mt-2 flex flex-col text-[18px] md:flex-row md:gap-7 min-[850px]:justify-center"
+        >
+          <a href="/Ella_home" class="nav-link w-full py-3 md:w-fit">Home</a>
+          <a href="/Ella_orders" class="nav-link w-full py-3 md:w-fit"
+            >Orders</a
+          >
+          <a href="/Ella_menu" class="nav-link w-full py-3 md:w-fit">Menu</a>
+          <a href="/Ella_room" class="nav-link w-full py-3 md:w-fit">Room</a>
+          <a href="/Ella_favorites" class="nav-link w-full py-3 sm:w-fit"
+            >Favorites</a
+          >
+          <a href="/getInto_Manager" class="nav-link w-full py-4 md:w-fit"
+            >Manage</a
+          >
+          <a href="/Ella_waiter" class="nav-link w-full py-3 md:w-fit"
+            >Waiter</a
+          >
+          <a href="#about" class="nav-link w-full py-3 md:w-fit">About</a>
+        </div>
+      </div>
+    </nav>
 
-    <!-- Offcanvas nav -->
-<!-- Offcanvas nav -->
-<div class="nav-links flex flex-col md:flex-row w-[300px] md:w-full h-screen md:h-full bg-white md:bg-transparent absolute md:relative top-0 right-0 justify-start items-start text-black md:text-white peer-checked:transition peer-checked:duration-500 peer-checked:ease-out translate-x-[100%] md:translate-x-0 peer-c">
-  <a href="/logout" class="text-lg ml-auto mr-2 absolute top-5 right-4 text-[18px] font-medium hidden">&larr; Sign out</a>
-    <div class="flex absolute bottom-15 left-2 h-max gap-2 items-center md:hidden">
-      <div class="w-15 h-15   rounded-full text-4xl font-medium flex justify-center items-center text-white profileLetter">
-    
-  </div>
-  <div>
-    <p class="text-lg profileName"></p>
-    <p class="text-sm profileEmail"></p>
-  </div>
-    </div>
-  <label for="offcanvas-control" class="cursor-pointer md:hidden bg-gray-800 m-2 rounded-full md:hidden p-2">
-    <svg width="40" height="40" viewBox="-20 -20 40 40">
-      <path d="M -8 -7 L 8 7 M 8 -7 L -8 7" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
-  </label>
-  <a href="/Ella_accounts"class="signUp_link bg-gray-800 py-3 px-5 rounded-full absolute right-4 font-medium text-white top-2 md:hidden hidden">Sign Up</a>
-<div class="h-full w-full bg-gray-00 pl-5 mt-2 flex flex-col text-[18px] md:flex-row  md:gap-7 min-[850px]:justify-center">
-    <a href="/Ella_home" class="nav-link w-full py-3 md:w-fit">Home</a>
-  <a href="/Ella_orders"class="nav-link w-full py-3 md:w-fit">Orders</a>
-  <a href="/Ella_favorites" class="nav-link w-full py-3 sm:w-fit">Favorites</a>
-  <a href="/getInto_Manager" class="nav-link w-full py-4 md:w-fit">Manage</a>
-  <a href="/Ella_waiter" class="nav-link w-full py-3 md:w-fit">Waiter</a>
-  <a href="/Ella_developer_Bereket_Girma" class="nav-link w-full py-3 md:w-fit">Developer</a>
-  <a href="#about" class="nav-link w-full py-3 md:w-fit">About</a>
-  
-
-</div>
-</div>
-  </nav>  
-  
-  <div class="bg-[url(../public/images/favorites1.jpg)] bg-cover bg-[position:80%_75%] bg-no-repeat w-screen h-75 md:h-96 relative mb-12">
-  <div class="overlay w-full h-[100%] absolute bottom-0 left-0 bg-black/60 flex justify-center items-center ">
-  
-    <p class="text-6xl md:text-9xl md:text-9xl text-white" style="font-family: cursive;">
-    Favorite Foods
-  </p>
-  </div> 
-  </div>
-  
-<div class="favorites_container flex flex-wrap gap-10 justify-center py-12 px-2">
-  
-</div>
-
-<!-- footer-->
-  <footer class="bg-gray-900 text-white py-12 ">
-  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-    
-    <!-- About -->
-    <div>
-      <h2 class="text-xl font-bold mb-4">Ella kichin caffe</h2>
-      <p class="text-gray-400 text-sm">
-        Serving delicious food seamlessly. Find your favorite meals quickly and securely.
-      </p>
-    </div>
-
-    <!-- Quick Links -->
-
-    <!-- Contact -->
-    <div>
-      <h2 class="text-xl font-bold mb-4">Contact</h2>
-      <ul class="space-y-2 text-gray-400 text-sm">
-        <li><i class="fas fa-envelope mr-2"></i>support@ella_cafe.com</li>
-        <li><i class="fas fa-phone mr-2"></i>+251 936584567</li>
-        <li><i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis Ababa, Ethiopia</li>
-      </ul>
-    </div>
-
-    <!-- Social Media -->
-    <div>
-      <h2 class="text-xl font-bold mb-4">Follow Us</h2>
-      <div class="flex gap-4">
-        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-instagram"></i></a>
+    <div
+      class="bg-[url(../public/images/favorites1.jpg)] bg-cover bg-[position:80%_75%] bg-no-repeat w-screen h-75 md:h-96 relative mb-12"
+    >
+      <div
+        class="overlay w-full h-[100%] absolute bottom-0 left-0 bg-black/60 flex justify-center items-center"
+      >
+        <p
+          class="text-6xl md:text-9xl md:text-9xl text-white"
+          style="font-family: cursive"
+        >
+          Favorite Foods
+        </p>
       </div>
     </div>
-  </div>
 
-  <!-- Bottom -->
-  <p class="text-center text-gray-400 mt-12 text-sm">
-  &copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.
-</p>
-</footer>
+    <div
+      class="favorites_container flex flex-wrap gap-10 justify-center py-12 px-2"
+    ></div>
 
-<script>
-  // Get current year and insert into the span
-  document.getElementById('currentYear').textContent = new Date().getFullYear();
-</script>
+    <!-- footer-->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <!-- About -->
+        <div>
+          <h2 class="text-xl font-bold mb-4">Ella kichin caffe</h2>
+          <p class="text-gray-400 text-sm">
+            Serving delicious food seamlessly. Find your favorite meals quickly
+            and securely.
+          </p>
+        </div>
 
+        <!-- Quick Links -->
 
-<script src="/js/favorites.js"></script>
-</body>
+        <!-- Contact -->
+        <div>
+          <h2 class="text-xl font-bold mb-4">Contact</h2>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li><i class="fas fa-envelope mr-2"></i>support@ella_cafe.com</li>
+            <li><i class="fas fa-phone mr-2"></i>+251 936584567</li>
+            <li>
+              <i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis
+              Ababa, Ethiopia
+            </li>
+          </ul>
+        </div>
+
+        <!-- Social Media -->
+        <div>
+          <h2 class="text-xl font-bold mb-4">Follow Us</h2>
+          <div class="flex gap-4">
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-twitter"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-instagram"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom -->
+      <p class="text-center text-gray-400 mt-12 text-sm">
+        &copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.
+      </p>
+    </footer>
+
+    <script>
+      // Get current year and insert into the span
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+    </script>
+
+    <script src="/js/favorites.js"></script>
+  </body>
 </html>

@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Food & Drink Ordering System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+      }
+      .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      .scale-70 {
+        transform: scale(0.7);
+      }
+      .popup-overlay {
+        transition: all 0.3s ease;
+      }
+      .drink-card {
+        transition: all 0.2s ease;
+        cursor: pointer;
+      }
+      .drink-card.selected {
+        background-color: #fbbf24;
+        border-color: #d97706;
+        color: white;
+      }
+      .drink-card.selected .drink-name {
+        color: white;
+      }
+      .drink-card.selected .drink-price {
+        color: #fef3c7;
+      }
+      .selected-drink-badge {
+        animation: pulse 0.5s ease;
+      }
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <!-- Sample button to trigger modal (for demo) -->
+    <button
+      id="openOrderModalBtn"
+      class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition"
+    >
+      <i class="fas fa-utensils mr-2"></i>Order Food & Drink
+    </button>
+
+    <!-- Enhanced Food & Drink Order Modal -->
+    <div
+      class="w-screen h-screen bg-black/70 fixed top-0 left-0 z-[1000] flex justify-center items-center px-2 popup-overlay"
+      id="orderModal"
+    >
+      <div
+        class="border border-gray-300 mx-2 rounded-xl min-w-[300px] w-full max-w-xl bg-white relative transition-all duration-300 max-h-[90vh] overflow-y-auto"
+      >
+        <!-- Food Image -->
+        <img
+          src="https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=600"
+          class="w-full rounded-t-xl aspect-[16/9] object-cover"
+          id="foodImage"
+        />
+
+        <!-- Favorite Button -->
+        <button
+          class="rounded-full bg-black/70 text-white absolute text-xl top-2 left-2 w-10 h-10 aspect-square favorite_btn hover:bg-black/90 transition"
+        >
+          <i class="fa-regular fa-bookmark"></i>
+        </button>
+
+        <!-- Close Button -->
+        <button
+          class="rounded-full bg-black/70 text-white absolute text-xl top-2 right-2 w-10 h-10 aspect-square cancelOrder_btn hover:bg-black/90 transition"
+          id="closeModalBtn"
+        >
+          <i class="fa-solid fa-times"></i>
+        </button>
+
+        <!-- Info Container -->
+        <div class="w-full px-4 py-4 flex flex-col gap-3">
+          <!-- Food Name & Time -->
+          <div class="w-full flex justify-between gap-2 items-center">
+            <strong class="text-2xl font-bold text-gray-800 name" id="foodName"
+              >Grilled Atlantic Salmon</strong
+            >
+            <strong
+              class="selectedTime text-sm flex-none bg-gray-100 px-3 py-1 rounded-full"
+            >
+              Time: <span id="selectedTimeDisplay">2:06 PM</span>
+            </strong>
+          </div>
+
+          <!-- Food Price -->
+          <strong class="text-xl text-amber-700" id="foodPrice"
+            >Price: $24.90</strong
+          >
+
+          <!-- DRINK SELECTION SECTION (NEW) -->
+          <div class="mt-2 border-t border-gray-200 pt-3">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fas fa-cocktail text-amber-600 text-xl"></i>
+              <strong class="text-lg text-gray-800"
+                >Choose a Drink (Optional)</strong
+              >
+              <span class="text-xs text-gray-500 ml-auto" id="drinkStatus"
+                >No drink selected</span
+              >
+            </div>
+
+            <div
+              class="grid grid-cols-2 sm:grid-cols-3 gap-2 drinks-container"
+              id=""
+            >
+              <!-- Drinks will be injected via JS -->
+            </div>
+            <div
+              class="drink-card w-64 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group"
+            >
+              <!-- Drink Image -->
+              <div class="relative h-48 overflow-hidden">
+                <img
+                  src="https://images.pexels.com/photos/2109099/pexels-photo-2109099.jpeg?auto=compress&cs=tinysrgb&w=400"
+                  alt="Fresh Mint Lemonade"
+                  class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                />
+                <!-- Badge -->
+                <span
+                  class="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full"
+                >
+                  <i class="fas fa-star text-xs mr-1"></i> Popular
+                </span>
+              </div>
+
+
+
+
+
+
+
+              // this is comment
+              <div class="relative h-40 overflow-hidden">
+                <img
+                  src="${drink.imageURI}"
+                  alt="Fresh Mint Lemonade"
+                  class="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+                />
+                <div
+                  class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition"
+                ></div>
+              </div>
+
+              <div class="innercard p-3">
+                <div class="flex justify-between items-start mb-1">
+                  <h3 class="text-base font-bold text-gray-800">
+                    ${drink.name}
+                  </h3>
+                  <span class="text-amber-600 font-bold text-base"
+                    >${drink.price} Birr</span
+                  >
+                </div>
+
+                <p class="text-gray-400 text-xs mb-2 line-clamp-1">
+                  ${drink.description}
+                </p>
+                <div class="realcard w-full flex items-center mb-2 pr-1">
+                  <strong>Amount: <span id="amount">${amount}</span></strong>
+                  ${decreaseDrinkBtn} ${increaseDrinkBtn}
+                </div>
+                ${selectBtn}
+              </div>
+
+
+
+              <!-- Drink Info -->
+              <div class="p-4">
+                <div class="flex justify-between items-start mb-2">
+                  <h3 class="text-lg font-bold text-gray-800">
+                    Fresh Mint Lemonade
+                  </h3>
+                  <span class="text-amber-600 font-bold text-lg">$4.50</span>
+                </div>
+
+                <!-- Details -->
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <span
+                    class="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full"
+                  >
+                    <i class="fas fa-leaf mr-1"></i> Organic
+                  </span>
+                  <span
+                    class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full"
+                  >
+                    <i class="fas fa-thermometer-half mr-1"></i> Iced
+                  </span>
+                  <span
+                    class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full"
+                  >
+                    <i class="fas fa-heart mr-1"></i> 120 cal
+                  </span>
+                </div>
+
+                <p class="text-gray-500 text-sm mb-3">
+                  Fresh mint, lemon juice, honey, sparkling water
+                </p>
+
+                <!-- Select Button -->
+                <button
+                  class="w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-2 rounded-xl transition flex items-center justify-center gap-2"
+                >
+                  <i class="fas fa-plus-circle"></i> Select Drink
+                </button>
+              </div>
+            </div>
+
+
+
+
+
+
+
+            <!-- Selected drink preview -->
+            <div
+              id="selectedDrinkPreview"
+              class="hidden mt-3 p-2 bg-amber-50 rounded-lg flex items-center justify-between"
+            >
+              <div class="flex items-center gap-2">
+                <i class="fas fa-check-circle text-green-600"></i>
+                <span class="text-sm font-medium" id="selectedDrinkName"
+                  >Coca Cola</span
+                >
+                <span class="text-xs text-gray-500" id="selectedDrinkPrice"
+                  >+$3.50</span
+                >
+              </div>
+              <button
+                id="removeDrinkBtn"
+                class="text-red-500 text-xs hover:text-red-700"
+              >
+                <i class="fas fa-times"></i> Remove
+              </button>
+            </div>
+          </div>
+
+          <!-- Time Selection (Hour & Minute pickers) -->
+          <div class="flex items-center justify-between flex-wrap gap-3 mt-2">
+            <strong>Select delivery time</strong>
+
+            <!-- Hour Picker -->
+            <div
+              class="relative h-24 w-12 overflow-hidden bg-gray-100 time_picker rounded-lg"
+            >
+              <div
+                class="absolute top-0 left-0 w-full h-16 pointer-events-none bg-gradient-to-b from-white to-transparent text-center text-[18px] pt-1 font-semibold"
+              >
+                Hour
+              </div>
+              <div
+                class="absolute bottom-0 left-0 w-full h-12 pointer-events-none bg-gradient-to-t from-white to-transparent"
+              ></div>
+              <div
+                class="h-24 flex flex-col overflow-y-auto scrollbar-hide py-7 houreContainer"
+                id="hourContainer"
+              >
+                <!-- Hours injected via JS -->
+              </div>
+            </div>
+
+            <!-- Minute Picker -->
+            <div
+              class="relative h-24 w-12 overflow-hidden bg-gray-100 time_picker rounded-lg"
+            >
+              <div
+                class="absolute top-0 left-0 w-full h-16 pointer-events-none bg-gradient-to-b from-white to-transparent text-center text-[18px] pt-1 font-semibold"
+              >
+                Min
+              </div>
+              <div
+                class="absolute bottom-0 left-0 w-full h-12 pointer-events-none bg-gradient-to-t from-white to-transparent"
+              ></div>
+              <div
+                class="h-24 flex flex-col overflow-y-auto scrollbar-hide py-7 minuteContainer"
+                id="minuteContainer"
+              >
+                <!-- Minutes injected via JS -->
+              </div>
+            </div>
+
+            <!-- AM/PM Period -->
+            <div class="flex flex-col gap-2">
+              <button
+                class="px-4 py-1 border-2 border-gray-300 rounded-lg text-sm font-medium period-btn day_btn hover:bg-gray-100 transition"
+                data-period="AM"
+              >
+                AM
+              </button>
+              <button
+                class="px-4 py-1 border-2 border-gray-300 rounded-lg text-sm font-medium period-btn night_btn hover:bg-gray-100 transition"
+                data-period="PM"
+              >
+                PM
+              </button>
+            </div>
+          </div>
+
+          <!-- Amount Selection -->
+          <div
+            class="w-full flex items-center justify-between mt-3 pt-2 border-t border-gray-100"
+          >
+            <strong>Quantity: <span id="amount">1</span></strong>
+            <div class="flex gap-1">
+              <button
+                class="h-10 w-10 bg-gray-200 hover:bg-gray-300 rounded-l-lg text-xl font-bold transition"
+                id="decrease_btn"
+              >
+                -
+              </button>
+              <button
+                class="h-10 w-10 bg-gray-200 hover:bg-gray-300 rounded-r-lg text-xl font-bold transition"
+                id="increase_btn"
+              >
+                +
+              </button>
+            </div>
+          </div>
+
+          <!-- Total Price (Food + Drink) -->
+          <div
+            class="bg-amber-50 p-3 rounded-lg flex justify-between items-center"
+          >
+            <span class="font-semibold text-gray-700">Total Amount:</span>
+            <span class="text-2xl font-bold text-amber-700" id="totalPrice"
+              >$24.90</span
+            >
+          </div>
+
+          <!-- Order Button -->
+          <button
+            id="order_btn"
+            class="bg-amber-600 hover:bg-amber-700 w-full py-3 mt-2 text-white font-bold rounded-xl transition shadow-lg"
+          >
+            <i class="fas fa-shopping-cart mr-2"></i>Order Now
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirmation Form (hidden initially) -->
+      <form
+        action="/order_food"
+        method="POST"
+        class="w-full bg-white flex flex-col justify-center p-3 rounded-xl mx-2 scale-70 confirm_form hidden transition-all duration-400 min-w-[300px] max-w-xl"
+        id="confirmForm"
+      >
+        <strong class="text-xl mx-auto" id="confirmFoodName">Pizza</strong>
+        <div class="flex flex-col gap-2 mt-3">
+          <strong class="text-lg text-gray-800"
+            >Price:
+            <span class="font-normal text-black confirm_cost" id="confirmCost"
+              >$0</span
+            ></strong
+          >
+          <strong class="text-lg text-gray-800"
+            >Drink:
+            <span class="font-normal text-black" id="confirmDrink"
+              >None</span
+            ></strong
+          >
+          <strong class="text-lg text-gray-800"
+            >Time:
+            <span class="font-normal text-black confirm_time" id="confirmTime"
+              >--:-- --</span
+            ></strong
+          >
+          <strong class="text-lg text-gray-800"
+            >Amount:
+            <span
+              class="font-normal text-black confirm_amount"
+              id="confirmAmount"
+              >1</span
+            ></strong
+          >
+        </div>
+        <input
+          type="text"
+          name="info"
+          required
+          class="hidden"
+          id="orderInfoInput"
+        />
+
+        <div class="flex flex-col items-center mt-5">
+          <p class="mx-auto mb-3 text-gray-600">Confirm your order details</p>
+          <div class="flex justify-center gap-3">
+            <button
+              type="button"
+              id="cancel_confirm"
+              class="border-2 border-gray-400 px-6 py-2 text-gray-700 font-semibold rounded-full hover:bg-gray-100 transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              id="submit_order"
+              class="bg-amber-600 px-6 py-2 text-white font-semibold rounded-full hover:bg-amber-700 transition"
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Success Toast -->
+    <div
+      id="successToast"
+      class="fixed bottom-5 right-5 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg hidden z-[2000] transition-all"
+    >
+      <i class="fas fa-check-circle mr-2"></i> Order placed successfully!
+    </div>
+
+    <script>
+      // Drink Database
+      const drinksData = [
+        { id: 1, name: "Coca Cola", price: 3.5, icon: "🥤", type: "Soda" },
+        {
+          id: 2,
+          name: "Fresh Orange Juice",
+          price: 4.5,
+          icon: "🍊",
+          type: "Juice",
+        },
+        { id: 3, name: "Mint Lemonade", price: 4.0, icon: "🍋", type: "Juice" },
+        {
+          id: 4,
+          name: "Iced Caramel Latte",
+          price: 5.5,
+          icon: "☕",
+          type: "Coffee",
+        },
+        {
+          id: 5,
+          name: "Sparkling Water",
+          price: 2.5,
+          icon: "💧",
+          type: "Water",
+        },
+        {
+          id: 6,
+          name: "Strawberry Smoothie",
+          price: 6.0,
+          icon: "🍓",
+          type: "Smoothie",
+        },
+      ];
+
+      // Food data (current order)
+      let currentFood = {
+        id: 1,
+        name: "Grilled Atlantic Salmon",
+        price: 24.9,
+        image:
+          "https://images.pexels.com/photos/699953/pexels-photo-699953.jpeg?auto=compress&cs=tinysrgb&w=600",
+      };
+
+      // Order state
+      let selectedDrink = null;
+      let quantity = 1;
+      let selectedHour = 2;
+      let selectedMinute = 6;
+      let selectedPeriod = "PM";
+
+      // DOM Elements
+      const modal = document.getElementById("orderModal");
+      const openBtn = document.getElementById("openOrderModalBtn");
+      const closeBtn = document.getElementById("closeModalBtn");
+      const foodNameEl = document.getElementById("foodName");
+      const foodPriceEl = document.getElementById("foodPrice");
+      const foodImageEl = document.getElementById("foodImage");
+      const amountEl = document.getElementById("amount");
+      const totalPriceEl = document.getElementById("totalPrice");
+      const decreaseBtn = document.getElementById("decrease_btn");
+      const increaseBtn = document.getElementById("increase_btn");
+      const orderBtn = document.getElementById("order_btn");
+      const selectedTimeDisplay = document.getElementById(
+        "selectedTimeDisplay",
+      );
+      const drinksContainer = document.getElementById("drinksContainer");
+      const selectedDrinkPreview = document.getElementById(
+        "selectedDrinkPreview",
+      );
+      const selectedDrinkName = document.getElementById("selectedDrinkName");
+      const selectedDrinkPrice = document.getElementById("selectedDrinkPrice");
+      const removeDrinkBtn = document.getElementById("removeDrinkBtn");
+      const drinkStatus = document.getElementById("drinkStatus");
+      const confirmForm = document.getElementById("confirmForm");
+      const confirmFoodName = document.getElementById("confirmFoodName");
+      const confirmCost = document.getElementById("confirmCost");
+      const confirmDrink = document.getElementById("confirmDrink");
+      const confirmTime = document.getElementById("confirmTime");
+      const confirmAmount = document.getElementById("confirmAmount");
+      const cancelConfirm = document.getElementById("cancel_confirm");
+      const submitOrder = document.getElementById("submit_order");
+      const orderInfoInput = document.getElementById("orderInfoInput");
+
+      // Initialize hours (1-12)
+      function initHourPicker() {
+        const hourContainer = document.getElementById("hourContainer");
+        hourContainer.innerHTML = "";
+        for (let i = 1; i <= 12; i++) {
+          const btn = document.createElement("button");
+          btn.textContent = i;
+          btn.className =
+            "w-full text-center py-1 text-[18px] rounded-sm houre_btn hover:bg-gray-200 transition";
+          btn.setAttribute("data-hour", i);
+          btn.addEventListener("click", () => {
+            selectedHour = i;
+            updateTimeDisplay();
+            highlightSelectedHour(i);
+          });
+          hourContainer.appendChild(btn);
+        }
+        highlightSelectedHour(selectedHour);
+      }
+
+      function highlightSelectedHour(hour) {
+        document.querySelectorAll(".houre_btn").forEach((btn) => {
+          if (parseInt(btn.getAttribute("data-hour")) === hour) {
+            btn.classList.add("bg-amber-500", "text-white");
+          } else {
+            btn.classList.remove("bg-amber-500", "text-white");
+          }
+        });
+      }
+
+      // Initialize minutes (0-59)
+      function initMinutePicker() {
+        const minuteContainer = document.getElementById("minuteContainer");
+        minuteContainer.innerHTML = "";
+        for (let i = 0; i <= 59; i++) {
+          const btn = document.createElement("button");
+          btn.textContent = i.toString().padStart(2, "0");
+          btn.className =
+            "w-full text-center py-1 text-[18px] rounded-sm minute_btn hover:bg-gray-200 transition";
+          btn.setAttribute("data-minute", i);
+          btn.addEventListener("click", () => {
+            selectedMinute = i;
+            updateTimeDisplay();
+            highlightSelectedMinute(i);
+          });
+          minuteContainer.appendChild(btn);
+        }
+        highlightSelectedMinute(selectedMinute);
+      }
+
+      function highlightSelectedMinute(minute) {
+        document.querySelectorAll(".minute_btn").forEach((btn) => {
+          if (parseInt(btn.getAttribute("data-minute")) === minute) {
+            btn.classList.add("bg-amber-500", "text-white");
+          } else {
+            btn.classList.remove("bg-amber-500", "text-white");
+          }
+        });
+      }
+
+      // Period buttons
+      function initPeriodButtons() {
+        document.querySelectorAll(".period-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            selectedPeriod = btn.getAttribute("data-period");
+            updateTimeDisplay();
+            document.querySelectorAll(".period-btn").forEach((b) => {
+              b.classList.remove(
+                "bg-amber-500",
+                "text-white",
+                "border-amber-500",
+              );
+              b.classList.add("border-gray-300");
+            });
+            btn.classList.add("bg-amber-500", "text-white", "border-amber-500");
+          });
+        });
+        // Default highlight PM
+        const pmBtn = document.querySelector(".night_btn");
+        if (pmBtn)
+          pmBtn.classList.add("bg-amber-500", "text-white", "border-amber-500");
+      }
+
+      function updateTimeDisplay() {
+        const hour12 = selectedHour;
+        const minuteStr = selectedMinute.toString().padStart(2, "0");
+        selectedTimeDisplay.textContent = `${hour12}:${minuteStr} ${selectedPeriod}`;
+      }
+
+      // Render drink options
+      function renderDrinks() {
+        drinksContainer.innerHTML = "";
+        drinksData.forEach((drink) => {
+          const drinkCard = document.createElement("div");
+          drinkCard.className = `drink-card border rounded-lg p-2 text-center transition cursor-pointer ${selectedDrink?.id === drink.id ? "selected bg-amber-500 border-amber-600" : "border-gray-200 hover:border-amber-400"}`;
+          drinkCard.innerHTML = `
+          <div class="text-2xl mb-1">${drink.icon}</div>
+          <div class="drink-name text-sm font-medium ${selectedDrink?.id === drink.id ? "text-white" : "text-gray-800"}">${drink.name}</div>
+          <div class="drink-price text-xs ${selectedDrink?.id === drink.id ? "text-amber-100" : "text-amber-600"}">+$${drink.price.toFixed(2)}</div>
+        `;
+          drinkCard.addEventListener("click", () => {
+            if (selectedDrink?.id === drink.id) {
+              selectedDrink = null;
+            } else {
+              selectedDrink = drink;
+            }
+            renderDrinks();
+            updateDrinkPreview();
+            updateTotalPrice();
+          });
+          drinksContainer.appendChild(drinkCard);
+        });
+      }
+
+      function updateDrinkPreview() {
+        if (selectedDrink) {
+          selectedDrinkName.textContent = selectedDrink.name;
+          selectedDrinkPrice.textContent = `+$${selectedDrink.price.toFixed(2)}`;
+          selectedDrinkPreview.classList.remove("hidden");
+          drinkStatus.textContent = `${selectedDrink.name} selected`;
+          drinkStatus.classList.add("text-green-600");
+        } else {
+          selectedDrinkPreview.classList.add("hidden");
+          drinkStatus.textContent = "No drink selected";
+          drinkStatus.classList.remove("text-green-600");
+        }
+      }
+
+      function updateTotalPrice() {
+        let total = currentFood.price * quantity;
+        if (selectedDrink) {
+          total += selectedDrink.price * quantity;
+        }
+        totalPriceEl.textContent = `$${total.toFixed(2)}`;
+      }
+
+      // Update quantity
+      function updateQuantity(change) {
+        let newQty = quantity + change;
+        if (newQty >= 1 && newQty <= 20) {
+          quantity = newQty;
+          amountEl.textContent = quantity;
+          updateTotalPrice();
+        }
+      }
+
+      // Reset modal state (for new order)
+      function resetOrderState() {
+        selectedDrink = null;
+        quantity = 1;
+        selectedHour = 2;
+        selectedMinute = 6;
+        selectedPeriod = "PM";
+        amountEl.textContent = "1";
+        updateTimeDisplay();
+        updateTotalPrice();
+        renderDrinks();
+        updateDrinkPreview();
+        highlightSelectedHour(2);
+        highlightSelectedMinute(6);
+        // Reset period highlight
+        document.querySelectorAll(".period-btn").forEach((btn) => {
+          btn.classList.remove(
+            "bg-amber-500",
+            "text-white",
+            "border-amber-500",
+          );
+          btn.classList.add("border-gray-300");
+        });
+        const pmBtn = document.querySelector(".night_btn");
+        if (pmBtn)
+          pmBtn.classList.add("bg-amber-500", "text-white", "border-amber-500");
+      }
+
+      // Show confirmation popup (with the design you provided)
+      function showConfirmation() {
+        const foodTotal = currentFood.price * quantity;
+        const drinkTotal = selectedDrink ? selectedDrink.price * quantity : 0;
+        const grandTotal = foodTotal + drinkTotal;
+
+        confirmFoodName.textContent = currentFood.name;
+        confirmCost.textContent = `$${grandTotal.toFixed(2)}`;
+        confirmDrink.textContent = selectedDrink
+          ? `${selectedDrink.name} (+$${(selectedDrink.price * quantity).toFixed(2)})`
+          : "None";
+        confirmTime.textContent = `${selectedHour}:${selectedMinute.toString().padStart(2, "0")} ${selectedPeriod}`;
+        confirmAmount.textContent = quantity;
+
+        // Prepare order info to send to server
+        const orderData = {
+          food: currentFood,
+          drink: selectedDrink,
+          quantity: quantity,
+          time: `${selectedHour}:${selectedMinute.toString().padStart(2, "0")} ${selectedPeriod}`,
+          totalAmount: grandTotal,
+          orderDate: new Date().toISOString(),
+        };
+        orderInfoInput.value = JSON.stringify(orderData);
+
+        // Hide main popup content, show confirmation form
+        const mainPopup = modal.querySelector(".border.border-gray-300");
+        mainPopup.classList.add("hidden");
+        confirmForm.classList.remove("hidden");
+      }
+
+      // Hide confirmation and go back
+      function hideConfirmation() {
+        const mainPopup = modal.querySelector(".border.border-gray-300");
+        mainPopup.classList.remove("hidden");
+        confirmForm.classList.add("hidden");
+      }
+
+      // Submit order to server (simulate POST)
+      async function submitOrderToServer(orderData) {
+        // Simulate server POST request
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            console.log("📡 [SERVER] Order received:", orderData);
+            // In real scenario: fetch('/api/order', { method: 'POST', body: JSON.stringify(orderData) })
+            resolve({ success: true, orderId: `ORD${Date.now()}` });
+          }, 500);
+        });
+      }
+
+      // Show success toast
+      function showSuccessToast() {
+        const toast = document.getElementById("successToast");
+        toast.classList.remove("hidden");
+        setTimeout(() => {
+          toast.classList.add("hidden");
+        }, 3000);
+      }
+
+      // Close modal
+      function closeModal() {
+        modal.classList.add("hidden");
+        resetOrderState();
+        hideConfirmation();
+      }
+
+      // Open modal
+      function openModal() {
+        resetOrderState();
+        hideConfirmation();
+        modal.classList.remove("hidden");
+      }
+
+      // Event Listeners
+      openBtn.addEventListener("click", openModal);
+      closeBtn.addEventListener("click", closeModal);
+      decreaseBtn.addEventListener("click", () => updateQuantity(-1));
+      increaseBtn.addEventListener("click", () => updateQuantity(1));
+      removeDrinkBtn.addEventListener("click", () => {
+        selectedDrink = null;
+        renderDrinks();
+        updateDrinkPreview();
+        updateTotalPrice();
+      });
+
+      orderBtn.addEventListener("click", () => {
+        if (quantity < 1) {
+          alert("Please select at least 1 item");
+          return;
+        }
+        showConfirmation();
+      });
+
+      cancelConfirm.addEventListener("click", hideConfirmation);
+
+      submitOrder.addEventListener("click", async (e) => {
+        e.preventDefault();
+
+        const orderData = JSON.parse(orderInfoInput.value);
+
+        // Disable button to prevent double submission
+        const submitBtn = submitOrder;
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = "Processing...";
+        submitBtn.disabled = true;
+
+        try {
+          const response = await submitOrderToServer(orderData);
+          if (response.success) {
+            showSuccessToast();
+            closeModal();
+            // Reset form
+            resetOrderState();
+          }
+        } catch (error) {
+          console.error("Order failed:", error);
+          alert("Failed to place order. Please try again.");
+        } finally {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+      });
+
+      // Close modal when clicking overlay
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+
+      // Initialize
+      initHourPicker();
+      initMinutePicker();
+      initPeriodButtons();
+      renderDrinks();
+      updateDrinkPreview();
+      updateTotalPrice();
+      updateTimeDisplay();
+
+      // For demonstration: allow changing food dynamically (optional)
+      // You can extend this to accept different food items from your menu
+    </script>
+  </body>
+</html>

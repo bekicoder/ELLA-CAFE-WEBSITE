@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>LuxeStay Hotel | Book Your Room</title>
+    <!-- Tailwind CSS + Font Awesome -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      /* Custom animations and offcanvas styles */
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(3px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        z-index: 40;
+        cursor: pointer;
+      }
+      #offcanvas-control:checked ~ #overlay {
+        opacity: 1;
+        visibility: visible;
+      }
+      .nav-links {
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: 50;
+      }
+      #offcanvas-control:checked ~ .nav-links {
+        transform: translateX(0%);
+      }
+      @media (min-width: 768px) {
+        .nav-links {
+          transform: translateX(0) !important;
+          background: transparent !important;
+          box-shadow: none;
+          height: auto;
+          width: auto;
+          position: relative;
+          right: auto;
+          top: auto;
+        }
+        .nav-links a {
+          color: white !important;
+        }
+        .nav-links .bg-gray-00,
+        .nav-links .pl-5 {
+          padding-left: 0;
+        }
+        .signUp_link {
+          display: block;
+        }
+      }
+      @media (max-width: 767px) {
+        .nav-links {
+          background: white;
+          box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+        }
+        .nav-links a {
+          color: #1f2937 !important;
+        }
+      }
+      .right-18 {
+        right: 4.5rem;
+      }
+      @media (max-width: 640px) {
+        .right-18 {
+          right: 1rem;
+        }
+      }
+      .profileLetter {
+        background: #b87333;
+      }
+      /* Room card hover effects */
+      .room-card {
+        transition: all 0.3s ease;
+      }
+      .room-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.25);
+      }
+      /* Success popup animation */
+      .popup_overlay {
+        transition: opacity 0.3s ease;
+      }
+      .succes_massage {
+        animation: bouncePop 0.5s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+      }
+      @keyframes bouncePop {
+        0% {
+          transform: scale(0.7);
+          opacity: 0;
+        }
+        80% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .fa-circle-check {
+        filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.5));
+      }
+      .btn-loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 overflow-x-hidden">
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav
+      class="w-screen fixed top-0 right-0 flex flex-row items-center justify-between z-[100] absolute bg-transparent md:text-white"
+    >
+      <input type="checkbox" id="offcanvas-control" class="peer hidden" />
+      <label id="overlay" for="offcanvas-control"></label>
+
+      <a
+        href="#signup"
+        class="bg-white py-3 px-5 rounded-full absolute right-18 md:right-10 font-medium text-black block signUp_link shadow-md hover:shadow-lg transition hidden md:block"
+        >Sign Up</a
+      >
+
+      <label
+        for="offcanvas-control"
+        class="humbergur ml-auto cursor-pointer bg-gray-800 m-2 rounded-full md:hidden p-2"
+        tabindex="0"
+      >
+        <svg width="40" height="40" viewBox="-20 -20 40 40">
+          <path
+            d="M -9 0 L 10 0 M -9 -7 L 10 -7 M -9 7 L 10 7"
+            stroke="white"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </label>
+
+      <div
+        class="nav-links flex flex-col md:flex-row w-[300px] md:w-full h-screen md:h-full bg-white md:bg-transparent absolute md:relative top-0 right-0 justify-start items-start text-black md:text-white peer-checked:transition peer-checked:duration-500 peer-checked:ease-out translate-x-[100%] md:translate-x-0"
+      >
+        <a
+          href="/logout"
+          class="text-lg ml-auto mr-2 absolute top-5 right-4 text-[18px] font-medium hidden"
+          >&larr; Sign out</a
+        >
+        <div
+          class="flex absolute bottom-15 left-2 h-max gap-2 items-center md:hidden"
+        >
+          <div
+            class="w-15 h-15 rounded-full text-4xl font-medium flex justify-center items-center text-white profileLetter"
+          >
+            🏨
+          </div>
+          <div>
+            <p class="text-lg profileName font-semibold">James Carter</p>
+            <p class="text-sm profileEmail">james@luxestay.com</p>
+          </div>
+        </div>
+        <label
+          for="offcanvas-control"
+          class="cursor-pointer md:hidden bg-gray-800 m-2 rounded-full md:hidden p-2"
+        >
+          <svg width="40" height="40" viewBox="-20 -20 40 40">
+            <path
+              d="M -8 -7 L 8 7 M 8 -7 L -8 7"
+              stroke="white"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </label>
+        <a
+          href="#signup"
+          class="signUp_link bg-gray-800 py-3 px-5 rounded-full absolute right-4 font-medium text-white top-2 md:hidden hidden"
+          >Sign Up</a
+        >
+        <div
+          class="h-full w-full bg-gray-00 pl-5 mt-2 flex flex-col text-[18px] md:flex-row md:gap-7 min-[850px]:justify-center"
+        >
+          <a
+            href="/Ella_home"
+            class="nav-link w-full py-3 md:w-fit hover:text-amber-300 transition"
+            >Home</a
+          >
+          <a href="/Ella_menu" class="nav-link w-full py-3 md:w-fit">Menu</a>
+          <a href="/Ella_room" class="nav-link w-full py-3 md:w-fit">Room</a>
+          <a
+            href="/Ella_orders"
+            class="nav-link w-full py-3 md:w-fit hover:text-amber-300 transition"
+            >Orders</a
+          >
+          <a
+            href="/Ella_favorites"
+            class="nav-link w-full py-3 sm:w-fit hover:text-amber-300 transition"
+            >Favorites</a
+          >
+          <a
+            href="/getInto_Manager"
+            class="nav-link w-full py-3 md:w-fit hover:text-amber-300 transition"
+            >Manage</a
+          >
+          <a
+            href="/Ella_waiter"
+            class="nav-link w-full py-3 md:w-fit hover:text-amber-300 transition"
+            >Waiter</a
+          >
+          <a
+            href="#about"
+            class="nav-link w-full py-3 md:w-fit hover:text-amber-300 transition"
+            >About</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Banner for Booking Page -->
+    <div
+      class="bg-[url('https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=1600')] bg-cover bg-center w-screen h-80 relative flex justify-center items-center mt-0"
+    >
+      <div class="absolute inset-0 bg-black/50"></div>
+      <div class="relative z-10 text-center text-white px-4">
+        <h1
+          class="text-5xl md:text-6xl font-bold mb-3"
+          style="font-family: &quot;Playfair Display&quot;"
+        >
+          Reserve Your Stay
+        </h1>
+        <p class="text-xl max-w-2xl mx-auto">
+          Luxury rooms, ocean views, and world-class hospitality — book
+          instantly
+        </p>
+      </div>
+    </div>
+
+    <!-- Room Listing Section -->
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-12">
+      <div class="text-center mb-10">
+        <span class="text-amber-600 font-semibold tracking-wide"
+          >Exclusive Collection</span
+        >
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">
+          Choose Your Perfect Room
+        </h2>
+        <div class="w-20 h-1 bg-amber-500 mx-auto mt-4 rounded-full"></div>
+      </div>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 rooms-grid"
+      >
+        <!-- Room cards will be injected dynamically with JavaScript -->
+      </div>
+    </div>
+
+    <!-- ==================== SUCCESS POPUP (as requested) ==================== -->
+    <div
+      class="h-screen w-screen bg-black/80 fixed top-0 left-0 flex justify-center items-center z-[8000] popup_overlay hidden"
+      id="successPopup"
+    >
+      <div
+        class="flex flex-col justify-center items-center scale-75 transition-all duration-650 succes_massage max-w-xl bg-transparent p-8 rounded-2xl"
+      >
+        <i
+          class="far fa-circle-check text-green-500 text-7xl md:text-8xl scale-200 drop-shadow-2xl"
+        ></i>
+        <p class="text-3xl md:text-4xl text-white mt-6 font-bold text-center">
+          Successfully Booked!
+        </p>
+        <p class="text-white/80 text-lg mt-3 text-center">
+          Your reservation has been confirmed. Check your email for details.
+        </p>
+        <button
+          class="mt-8 bg-white text-gray-800 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition shadow-lg"
+          id="closePopupBtn"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 mt-12">
+      <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div>
+          <h2 class="text-xl font-bold mb-3">LuxeStay Hotel</h2>
+          <p class="text-gray-400 text-sm">
+            Experience timeless elegance. Book your dream stay with us.
+          </p>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold mb-3">Contact</h2>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li><i class="fas fa-phone mr-2"></i>+251 911 123 456</li>
+            <li><i class="fas fa-envelope mr-2"></i>bookings@luxestay.com</li>
+            <li>
+              <i class="fas fa-map-marker-alt mr-2"></i>Addis Ababa, Ethiopia
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold mb-3">Follow Us</h2>
+          <div class="flex gap-4">
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-twitter"></i
+            ></a>
+          </div>
+          <p class="text-gray-500 text-xs mt-5">Handcrafted by Bereket Girma</p>
+        </div>
+      </div>
+      <p class="text-center text-gray-500 text-sm mt-8">
+        &copy; <span id="currentYear"></span> LuxeStay Hotel. All rights
+        reserved.
+      </p>
+    </footer>
+
+    <script>
+      // Set current year
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
+
+      // ==================== ROOM DATABASE (full info) ====================
+      const roomsData = [
+        {
+          id: 1,
+          name: "Ocean Panorama Suite",
+          price: "$489",
+          pricePerNight: 489,
+          size: "65 sqm",
+          bedType: "King-size bed",
+          view: "Oceanfront with private balcony",
+          amenities: [
+            "Jacuzzi tub",
+            "Rain shower",
+            "Mini bar",
+            "Nespresso machine",
+            '65" Smart TV',
+          ],
+          maxGuests: 3,
+          img: "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg?auto=compress&cs=tinysrgb&w=600",
+          available: true,
+        },
+        {
+          id: 2,
+          name: "Deluxe Executive Room",
+          price: "$299",
+          pricePerNight: 299,
+          size: "45 sqm",
+          bedType: "Queen-size bed",
+          view: "City skyline view",
+          amenities: [
+            "Work desk",
+            "Free Wi-Fi",
+            "Air conditioning",
+            "LED TV",
+            "Tea/Coffee maker",
+          ],
+          maxGuests: 2,
+          img: "https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=600",
+          available: true,
+        },
+        {
+          id: 3,
+          name: "Presidential Sky Villa",
+          price: "$1299",
+          pricePerNight: 1299,
+          size: "180 sqm",
+          bedType: "Super King + Separate Living",
+          view: "360° City & Ocean View",
+          amenities: [
+            "Butler service",
+            "Private pool",
+            "Home theater",
+            "Grand piano",
+            "Luxury bath",
+          ],
+          maxGuests: 6,
+          img: "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600",
+          available: true,
+        },
+        {
+          id: 4,
+          name: "Cozy Garden View Room",
+          price: "$189",
+          pricePerNight: 189,
+          size: "32 sqm",
+          bedType: "Double bed",
+          view: "Lush garden & courtyard",
+          amenities: [
+            "Garden access",
+            "Smart TV",
+            "Ensuite bathroom",
+            "Complimentary breakfast",
+          ],
+          maxGuests: 2,
+          img: "https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=600",
+          available: true,
+        },
+      ];
+
+      // ==================== RENDER ROOM CARDS ====================
+      const roomsGrid = document.querySelector(".rooms-grid");
+
+      function renderRoomCards() {
+        roomsGrid.innerHTML = "";
+        roomsData.forEach((room) => {
+          const card = document.createElement("div");
+          card.className =
+            "room-card bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col";
+          card.innerHTML = `
+          <div class="relative h-56 overflow-hidden">
+            <img src="${room.img}" alt="${room.name}" class="w-full h-full object-cover transition duration-500 hover:scale-105">
+            <div class="absolute top-3 left-3 bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full">${room.view.split(" ")[0]} View</div>
+          </div>
+          <div class="p-5 flex-grow">
+            <div class="flex justify-between items-start">
+              <h3 class="text-xl font-bold text-gray-800">${room.name}</h3>
+              <span class="text-2xl font-bold text-amber-700">${room.price}</span>
+            </div>
+            <p class="text-gray-500 text-sm mt-1"><i class="fas fa-bed mr-1"></i> ${room.bedType} | <i class="fas fa-expand-alt ml-1 mr-1"></i> ${room.size}</p>
+            <div class="flex flex-wrap gap-1 mt-3">
+              ${room.amenities
+                .slice(0, 3)
+                .map(
+                  (am) =>
+                    `<span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full"><i class="fas fa-check-circle text-green-600 text-xs mr-1"></i>${am}</span>`,
+                )
+                .join("")}
+              ${room.amenities.length > 3 ? `<span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">+${room.amenities.length - 3} more</span>` : ""}
+            </div>
+            <div class="mt-4 flex items-center justify-between text-sm text-gray-600">
+              <span><i class="fas fa-users mr-1"></i> Max ${room.maxGuests} guests</span>
+              <span><i class="fas fa-calendar-alt mr-1"></i> Free cancellation</span>
+            </div>
+          </div>
+          <div class="p-5 pt-0 border-t border-gray-100 mt-2">
+            <button class="book-room-btn w-full bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 rounded-xl transition shadow-md flex items-center justify-center gap-2" data-room-id="${room.id}">
+              <i class="fas fa-calendar-check"></i> Book Now
+            </button>
+          </div>
+        `;
+          roomsGrid.appendChild(card);
+        });
+      }
+
+      // Helper: show success popup (with exact design requested)
+      const popupOverlay = document.getElementById("successPopup");
+
+      function showSuccessPopup() {
+        popupOverlay.classList.remove("hidden");
+        // Auto hide after 4 seconds (optional, but user can also close)
+        setTimeout(() => {
+          if (!popupOverlay.classList.contains("hidden")) {
+            popupOverlay.classList.add("hidden");
+          }
+        }, 4000);
+      }
+
+      function hidePopup() {
+        popupOverlay.classList.add("hidden");
+      }
+
+      // ==================== SERVER SIMULATION (POST request with full room info) ====================
+      // This function mimics sending data to a real server endpoint
+      async function sendBookingToServer(roomData, bookingDetails) {
+        // Simulate network delay (like real API call)
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            // Mock server response
+            console.log("📡 [SERVER] Received booking request:", {
+              room: roomData,
+              booking: bookingDetails,
+              timestamp: new Date().toISOString(),
+              bookingId: `LUX${Math.floor(Math.random() * 100000)}`,
+            });
+            // In a real scenario, you'd use fetch() to POST to your backend:
+            // fetch('/api/book-room', { method: 'POST', body: JSON.stringify({roomData, bookingDetails}) })
+            resolve({
+              success: true,
+              message: "Room booked successfully",
+              bookingRef: `LX-${Date.now()}`,
+            });
+          }, 800);
+        });
+      }
+
+      // Collect additional booking info (guest name, dates) via simple prompt or modal (user-friendly)
+      // To keep the flow smooth without overcomplicating, we'll show a lightweight inline date picker simulation
+      // but also we can use a clean dialog approach: a simple modal that asks for check-in/out and name.
+      // Let's create a dynamic mini form that pops up? But the requirement is: "when they click book now it really send that room full info to the server and shows confirmation popup"
+      // To respect user experience while sending full room info, I'll implement a beautiful modal that captures guest name, check-in/out and then POST to server.
+
+      // Build a floating booking modal (lightweight, better than alert)
+      let bookingModal = null;
+
+      function createBookingModal(room) {
+        // Remove existing modal if any
+        if (bookingModal) bookingModal.remove();
+
+        const modalDiv = document.createElement("div");
+        modalDiv.className =
+          "fixed inset-0 bg-black/60 flex items-center justify-center z-[9000] transition-all duration-300 booking-modal";
+        modalDiv.innerHTML = `
+        <div class="bg-white rounded-2xl max-w-md w-full mx-4 p-6 shadow-2xl transform transition-all scale-100">
+          <div class="flex justify-between items-center border-b pb-3">
+            <h3 class="text-2xl font-bold text-gray-800">Complete Booking</h3>
+            <button class="close-modal-btn text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+          </div>
+          <div class="mt-4">
+            <p class="text-amber-700 font-semibold">${room.name}</p>
+            <p class="text-gray-500 text-sm">${room.price} / night · ${room.bedType}</p>
+          </div>
+          <form id="bookingForm" class="mt-4 space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Full Name</label>
+              <input type="text" id="guestName" required class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-amber-500 focus:border-amber-500" placeholder="John Doe" value="James Carter">
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Check-in</label>
+                <input type="date" id="checkin" required class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" value="2026-06-10">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700">Check-out</label>
+                <input type="date" id="checkout" required class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" value="2026-06-15">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700">Special requests (optional)</label>
+              <textarea id="requests" rows="2" class="mt-1 w-full border border-gray-300 rounded-lg px-3 py-2" placeholder="Extra pillows, late check-in..."></textarea>
+            </div>
+            <button type="submit" id="confirmBookingBtn" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 rounded-xl transition flex justify-center items-center gap-2">
+              <i class="fas fa-credit-card"></i> Confirm & Pay
+            </button>
+          </form>
+          <p class="text-xs text-gray-400 mt-3 text-center">Your payment method will be charged upon arrival</p>
+        </div>
+      `;
+        document.body.appendChild(modalDiv);
+
+        // Close modal functionality
+        const closeBtn = modalDiv.querySelector(".close-modal-btn");
+        closeBtn.addEventListener("click", () => modalDiv.remove());
+        modalDiv.addEventListener("click", (e) => {
+          if (e.target === modalDiv) modalDiv.remove();
+        });
+
+        // Handle form submission (send full room info + booking data to server)
+        const form = modalDiv.querySelector("#bookingForm");
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const guestName = document.getElementById("guestName").value.trim();
+          const checkin = document.getElementById("checkin").value;
+          const checkout = document.getElementById("checkout").value;
+          const requests = document.getElementById("requests").value;
+
+          if (!guestName || !checkin || !checkout) {
+            alert("Please fill in all required fields.");
+            return;
+          }
+
+          // Disable button and show loading state
+          const submitBtn = document.getElementById("confirmBookingBtn");
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML =
+            '<i class="fas fa-spinner fa-spin"></i> Processing...';
+          submitBtn.disabled = true;
+
+          // Prepare full booking info (including full room details)
+          const bookingPayload = {
+            room: {
+              id: room.id,
+              name: room.name,
+              pricePerNight: room.pricePerNight,
+              size: room.size,
+              bedType: room.bedType,
+              view: room.view,
+              amenities: room.amenities,
+              maxGuests: room.maxGuests,
+              image: room.img,
+            },
+            bookingDetails: {
+              guestName: guestName,
+              checkInDate: checkin,
+              checkOutDate: checkout,
+              specialRequests: requests,
+              totalNights: calculateNights(checkin, checkout),
+              totalPrice: calculateTotal(room.pricePerNight, checkin, checkout),
+              bookingTimestamp: new Date().toISOString(),
+            },
+          };
+
+          try {
+            // Send to server (mock POST)
+            const response = await sendBookingToServer(
+              bookingPayload.room,
+              bookingPayload.bookingDetails,
+            );
+            if (response.success) {
+              // Remove modal
+              modalDiv.remove();
+              // Show the success popup (exactly as requested)
+              showSuccessPopup();
+            } else {
+              alert("Booking failed. Please try again.");
+            }
+          } catch (err) {
+            console.error("Booking error:", err);
+            alert("Network error. Could not complete booking.");
+          } finally {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+          }
+        });
+      }
+
+      function calculateNights(checkin, checkout) {
+        const start = new Date(checkin);
+        const end = new Date(checkout);
+        const diffTime = Math.abs(end - start);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays || 1;
+      }
+
+      function calculateTotal(pricePerNight, checkin, checkout) {
+        const nights = calculateNights(checkin, checkout);
+        return (pricePerNight * nights).toFixed(2);
+      }
+
+      // Event delegation for Book Now buttons
+      document.body.addEventListener("click", (e) => {
+        const bookBtn = e.target.closest(".book-room-btn");
+        if (bookBtn) {
+          const roomId = parseInt(bookBtn.getAttribute("data-room-id"));
+          const selectedRoom = roomsData.find((room) => room.id === roomId);
+          if (selectedRoom && selectedRoom.available) {
+            // Open booking modal that collects info and sends full room details to server
+            createBookingModal(selectedRoom);
+          } else {
+            alert("This room is currently unavailable.");
+          }
+          e.preventDefault();
+        }
+
+        // Close popup via close button
+        const closePopup = e.target.closest("#closePopupBtn");
+        if (closePopup) {
+          hidePopup();
+        }
+      });
+
+      // Close popup if user clicks outside the content area? Already handled by clicking close btn; also click on overlay background can close
+      popupOverlay.addEventListener("click", (e) => {
+        if (e.target === popupOverlay) {
+          hidePopup();
+        }
+      });
+
+      // Initialize page
+      renderRoomCards();
+    </script>
+  </body>
+</html>

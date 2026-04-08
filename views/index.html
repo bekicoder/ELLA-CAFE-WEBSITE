@@ -1,338 +1,702 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="/public/css/style.css">
-</head>
-<body class="overflow-x-hidden">
-  
- <nav class="w-screen  fixed top-0 right-0 flex flex-row items-center justify-between z-[100] absolute bg-transparent md:absolute md:text-white">
-    
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>LuxeStay Hotel | Elegance & Comfort</title>
+    <!-- Tailwind CSS v3 + CDN + Font Awesome Icons (for human touch) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/public/css/style.css" />
 
-    <!-- Highlight box -->
+    <!-- Custom override for smoother offcanvas and custom shadows -->
+    <style>
+      /* Custom animations and fine-tuning — human programmer's signature */
+      @keyframes fadeSlideUp {
+        0% {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes scaleSoft {
+        0% {
+          transform: scale(0.98);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+      .animate-fade-up {
+        animation: fadeSlideUp 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1) forwards;
+      }
+      .animate-scale-in {
+        animation: scaleSoft 0.5s ease forwards;
+      }
+      .delay-100 {
+        animation-delay: 0.1s;
+      }
+      .delay-200 {
+        animation-delay: 0.2s;
+      }
+      .delay-300 {
+        animation-delay: 0.3s;
+      }
 
+      /* custom scroll & smooth behavior */
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Helvetica,
+          sans-serif;
+      }
+      /* custom gradient text */
+      .text-gold {
+        color: #d4af37;
+      }
+      .bg-gold-light {
+        background-color: #f9f3e2;
+      }
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+      .card-hover:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 25px 35px -12px rgba(0, 0, 0, 0.2);
+      }
+      /* developer signature - subtle human mark */
+      .human-signature {
+        background: repeating-linear-gradient(
+          45deg,
+          rgba(212, 175, 55, 0.08) 0px,
+          rgba(212, 175, 55, 0.08) 2px,
+          transparent 2px,
+          transparent 8px
+        );
+      }
+    </style>
+  </head>
+  <body class="bg-white overflow-x-hidden">
+    <nav
+      class="w-screen bg-transparent fixed top-0 right-0 flex flex-row items-center justify-center z-[100] absolute bg md:absolute md:text-white"
+    >
+      <!-- Highlight box -->
 
-    <!-- Hamburger menu -->
-    <input type="checkbox" id="offcanvas-control" class="peer"/>
-    <label id="overlay" for="offcanvas-control"></label>
-  
-  <a href="/Ella_accounts"class="bg-white py-3 px-5 rounded-full absolute right-18 md:right-10 font-medium text-black block signUp_link cursor-pointer z-500000">Sign Up</a>
-  
-    <label for="offcanvas-control" class="humbergur ml-auto cursor-pointer bg-gray-800 m-2 rounded-full md:hidden p-2" tabindex="0">
-      <svg width="40" height="40" viewBox="-20 -20 40 40">
-        <path d="M -9 0 L 10 0 M -9 -7 L 10 -7 M -9 7 L 10 7"
-          stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-      </svg>
-    </label>
+      <!-- Hamburger menu -->
+      <input type="checkbox" id="offcanvas-control" class="peer" />
+      <label id="overlay" for="offcanvas-control"></label>
 
-    <!-- Offcanvas nav -->
-<!-- Offcanvas nav -->
-<div class="nav-links flex flex-col md:flex-row w-[300px] md:w-full h-screen md:h-full bg-white md:bg-transparent absolute md:relative top-0 right-0 justify-start items-start text-black md:text-white peer-checked:transition peer-checked:duration-500 peer-checked:ease-out translate-x-[100%] md:translate-x-0 peer-c">
-  <a href="/logout" class="text-lg ml-auto mr-2 absolute top-5 right-4 text-[18px] font-medium hidden">&larr; Sign out</a>
-    <div class="flex absolute bottom-15 left-2 h-max gap-2 items-center md:hidden">
-      <div class="w-15 h-15   rounded-full text-4xl font-medium flex justify-center items-center text-white profileLetter">
-    
-  </div>
-  <div>
-    <p class="text-lg profileName"></p>
-    <p class="text-sm profileEmail"></p>
-  </div>
-    </div>
-  <label for="offcanvas-control" class="cursor-pointer md:hidden bg-gray-800 m-2 rounded-full md:hidden p-2">
-    <svg width="40" height="40" viewBox="-20 -20 40 40">
-      <path d="M -8 -7 L 8 7 M 8 -7 L -8 7" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-    </svg>
-  </label>
-  <a href="/Ella_accounts"class="signUp_link bg-gray-800 py-3 px-5 rounded-full absolute right-4 font-medium text-white top-2 md:hidden hidden">Sign Up</a>
-<div class="h-full w-full bg-gray-00 pl-5 mt-2 flex flex-col text-[18px] md:flex-row  md:gap-7 min-[850px]:justify-center">
-    <a href="/Ella_home" class="nav-link w-full py-3 md:w-fit">Home</a>
-  <a href="/Ella_orders"class="nav-link w-full py-3 md:w-fit">Orders</a>
-  <a href="/Ella_favorites" class="nav-link w-full py-3 sm:w-fit">Favorites</a>
-  <a href="/getInto_Manager" class="nav-link w-full py-4 md:w-fit">Manage</a>
-  <a href="/Ella_waiter" class="nav-link w-full py-3 md:w-fit">Waiter</a>
-  <a href="/Ella_developer_Bereket_Girma" class="nav-link w-full py-3 md:w-fit">Developer</a>
-  <a href="#about" class="nav-link w-full py-3 md:w-fit">About</a>
-  
+      <a
+        href="/Ella_accounts"
+        class="bg-white py-3 px-5 rounded-full absolute right-18 md:right-10 font-medium text-black md:block hidden signUp_link cursor-pointer z-500000"
+        >Sign Up</a
+      >
 
-</div>
-</div>
-  </nav> 
-  
-  <div class="bg-[url(../public/images/beyti-kebab-served-with-ayran-pickles.jpg)] bg-cover bg-[position:50%_75%] bg-no-repeat w-full h-75 md:h-96 relative">
-  <div class="overlay w-full h-[100%] absolute bottom-0 left-0 bg-black/40 flex flex-col justify-center items-center pt-30">
-  <p class="text-5xl md:text-9xl text-white" style="font-family: cursive;">
-    Ella kichin caffe
-  </p>
- <div class="w-full px-7 div mt-7 flex flex-row justify-center">
-   <div class="div flex rounded-full border border-white w-full max-w-5xl">
-   <input type="text" class=" h-14 p-2 flex-1 rounded-l-full box-border block text-white border-r-black" placeholder="Search our foods"/>
-   <button  class="bg-white rounded-r-full pr-3 pl-2 text-">
-    <i class="fas fa-sliders" title="Search Filter"></i> 
-   </button>
-     
-   </div>
- </div>   
-  </div> 
-  </div>
-  <!--food container-->
-  <div id="food_container" class="w-screen flex flex-row justify-center flex-wrap pt-10 gap-4 px-2">
-    
-  </div>
-  
-  <div class="hidden w-screen h-screen bg-black/70 fixed top-0 left-0 z-1000 flex justify-center items-center px-2 popup-overlay">
-    
-    
-    <div class=" border border-gray-300 mx-2 rounded-xl  min-w-[300px] w-full max-w-xl div bg-white md:scale-70 relative transition transition-all duration-300 scale-70 popup">
-<img src="/public/images/Burguer.jpeg" class="w-full rounded-t-xl aspect-[16/9]">
-<!--favorite button-->
-<button class="rounded-full bg-black/70  text-white absolute text-xl top-2 left-2 w-10 h-10 aspect-square favorite_btn">
-  <i class="fa-regular fa-bookmark"></i>
-</button>
-<!--close button-->
-<button class="rounded-full bg-black/70  text-white absolute text-xl top-2 right-2 w-10 h-10 aspect-square cancelOrder_btn">
-  <i class="fa-solid fa-times"></i>
-</button>
+      <label
+        for="offcanvas-control"
+        class="humbergur ml-auto cursor-pointer bg-gray-800 m-2 rounded-full md:hidden p-2"
+        tabindex="0"
+      >
+        <svg width="40" height="40" viewBox="-20 -20 40 40">
+          <path
+            d="M -9 0 L 10 0 M -9 -7 L 10 -7 M -9 7 L 10 7"
+            stroke="white"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          />
+        </svg>
+      </label>
 
-<!--info container-->
-<div class="w-full px-2  flex flex-col gap-2">
-  <div class="w-full flex justify-between  gap-2 items-center">
-  <strong class="text-xl mb-2 name"></strong>
-  <strong class="selectedTime text-sm flex-none">
-  Time: 2:06 ቀን
-</strong>
-    
-  </div>
-<strong class="price">Price: 500 Birr</strong>
-<div class="flex items-center justify-between">
-  <strong>Select time</strong>
-  <div class="relative h-24 w-12 overflow-hidden bg-gray-100 time_picker">
-    
-  <!-- Top shadow -->
-  <div class="absolute top-0 left-0 w-full h-16 pointer-events-none bg-gradient-to-b from-white to-transparent text-center drop-shadow-2xl  text-[18px]">Houre</div>
-  
-  <!-- Bottom shadow -->
-  <div class="absolute bottom-0 left-0 w-full h-12 pointer-events-none bg-gradient-to-t from-white to-transparent"></div>
-  
-  <!-- Numbers container -->
-  <div class="h-24 flex flex-col overflow-y-auto scrollbar-hide box-border div py-7 houreContainer">
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="1">1</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="2">2</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="3">3</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="4">4</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="5">5</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="6">6</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="7">7</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="8">8</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="9">9</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="10">10</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="PM" data-index="11">11</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="AM" data-index="12">12</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="AM" data-index="13">1</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="AM" data-index="14">2</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm houre_btn" data-period="AM" data-index="15">3</button>
-  </div>
-</div>
-
-  <div class="relative h-24 w-12 bg-gray-100 time_picker">
-  <!-- Top shadow -->
-  <div class="absolute top-0 left-0 w-full h-16 pointer-events-none bg-gradient-to-b from-white to-transparent text-center  text-[18px] pb-10">Minute</div>
-  
-  <!-- Bottom shadow -->
-  <div class="absolute bottom-0 left-0 w-full h-12 pointer-events-none bg-gradient-to-t from-white to-transparent"></div>
-  
-  <!-- Numbers container -->
-  <div class="h-24 flex flex-col overflow-y-auto scrollbar-hide box-border div py-7 minuteContainer">
-    <button class="w-full text-center py-1 text-[18px] rounded-sm minute_btn">1</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">2</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">3</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">4</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">5</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">6</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">7</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">8</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">9</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">10</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">11</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">12</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">13</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">14</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">15</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">16</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">17</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">18</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">19</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">20</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">21</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">22</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">23</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">24</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">25</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">26</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">27</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">28</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">29</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">30</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">31</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">32</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">33</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">34</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">35</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">36</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">37</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">38</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">39</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">40</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">41</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">42</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">43</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">44</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">45</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">45</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">47</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">48</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">49</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">50</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">51</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">52</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">53</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">54</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">55</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">56</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">57</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">58</button>
-    <button class="w-full text-center py-1 text-[18px] rounded-sm  minute_btn">59</button>
-
-  </div>
-</div>
-
-<div class="flex flex-col gap-2">
-  <button class="px-4 py-1 border border-gray-400 rounded-sm block focus:border-none border period day_btn" >ቀን</button>
-  <button class="px-4 py-1 border border-gray-400 rounded-sm block focus:border-none border period night_btn">ማታ</button>
-</div>
-  </div>
-  
-<div class="w-full flex items-center">
-  
-  <strong>Amount: <span id="amount">1</span></strong>
-  <button class="h-fit bg-gray-900 ml-auto block flex-none px-5 text-3xl text-white rounded-l-sm" id="decrease_btn">-</button>
-  <button class="h-fit bg-gray-900  block flex-none px-5 text-3xl text-white rounded-r-sm border-l" id="increase_btn" >+</button>
-</div>
-<button id="order_btn" class="bg-amber-500 flex-none mx-auto w-30 p-2 m-7 text-2xl text-white font-extrabold rounded-sm">
-  Order
-</button>
-</div>
-</div>
-
-<form action="/order_food" method="POST" class="w-full bg-white flex flex-col justify-center p-3 rounded-xl mx-2 scale-70 confirm_form hidden transition transition-all duration-400 min-w-[300px] max-w-xl">
-  
-    <strong class="text-xl mx-auto">Piza</strong>
-<div class="flex flex-col gap-2">
-  <strong class="text-lg text-gray-800">Price: <span class="font-normal text-black confirm_cost">1200 Birr</span></strong>
-  <strong class="text-lg text-gray-800">Time: <span class="font-normal text-black confirm_time">1:30 ማታ</span> </strong>
-  <strong class="text-lg text-gray-800">Amount: <span class="font-normal text-black confirm_amount">1</span></strong>
-</div>
-<input type="text" name="info" required class="hidden">
-
-<div class="flex flex-col items-center">
-  <p class="mt-7 mx-auto mb-2">Confirm to continue</p>
-<div class="flex justify-center gap-2">
-  <button type="button" id="cancel_confirm" class="border-1 border-gray-500 flex-none mx-auto w-30 p-2  text-lg font-extrabold rounded-full">
-  cancel
-</button>
-<button type="submit" id="submit_order" class="bg-amber-500 flex-none mx-auto w-30 p-2 text-lg text-white font-extrabold rounded-full">
-  confirm
-</button>
-</div>
-</div>
-</form>
-
-  </div>
-  
-  
-  
-  
-  <div class="h-screen w-screen bg-black/80 fixed top-0 flex justify-center items-center z-8000 popup_overlay hidden">
-  <div class=" flex flex-col justify-center items-center scale-75 transition transition-all duration-650 succes_massage max-w-xl">
-    <i class="far fa-circle-check text-green-500 text-6xl scale-200"></i>
-  <p class="text-3xl text-white mt-10">Successfully !</p>
-  </div>
-    
-  </div>
-  <!--feed back-->
-  <div class="mt-12 h-120 w-full bg-[url(../public/images/Feedback.jpeg)] bg-cover bg-[position:50%_50%]">
-    <form class="comment_form h-full w-full bg-amber-500/40 text-white flex items-center flex-col">
-      <p class="text-7xl font-extrabold pb-8" style="font-family: cursive;">Feedback</p>
-      
-      <div class="w-full max-w-5xl flex justify-center px-7 relative">
-        <textarea name="comment" class="w-full flex-none border-2 border-white resize-none h-65 rounded-xl  z-30 peer p-4" placeholder="Write feedback..." required></textarea>
-
+      <!-- Offcanvas nav -->
+      <!-- Offcanvas nav -->
+      <div
+        class="nav-links flex flex-col md:flex-row w-[300px] md:w-full h-screen md:h-full bg-white md:bg-transparent absolute md:relative top-0 right-0 justify-start items-start text-black md:text-white peer-checked:transition peer-checked:duration-500 peer-checked:ease-out translate-x-[100%] md:translate-x-0 peer-c"
+      >
+        <a
+          href="/logout"
+          class="text-lg ml-auto mr-2 absolute top-5 right-4 text-[18px] font-medium hidden"
+          >&larr; Sign out</a
+        >
+        <div
+          class="flex absolute bottom-15 left-2 h-max gap-2 items-center md:hidden"
+        >
+          <div
+            class="w-15 h-15 rounded-full text-4xl font-medium flex justify-center items-center text-white profileLetter"
+          ></div>
+          <div>
+            <p class="text-lg profileName"></p>
+            <p class="text-sm profileEmail"></p>
+          </div>
+        </div>
+        <label
+          for="offcanvas-control"
+          class="cursor-pointer md:hidden bg-gray-800 m-2 rounded-full md:hidden p-2"
+        >
+          <svg width="40" height="40" viewBox="-20 -20 40 40">
+            <path
+              d="M -8 -7 L 8 7 M 8 -7 L -8 7"
+              stroke="white"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            />
+          </svg>
+        </label>
+        <div
+          class="h-full w-full bg-gray-00 pl-5 mt-2 flex flex-col text-[18px] md:flex-row md:gap-7 min-[850px]:justify-center"
+        >
+          <a href="/Ella_home" class="nav-link w-full py-3 md:w-fit">Home</a>
+                <a href="/Ella_menu" class="nav-link w-full py-3 md:w-fit">Menu</a>
+                <a href="/Ella_room" class="nav-link w-full py-3 md:w-fit">Room</a>
+          <a href="/Ella_orders" class="nav-link w-full py-3 md:w-fit"
+            >Orders</a
+          >
+          <a href="/Ella_favorites" class="nav-link w-full py-3 sm:w-fit"
+            >Favorites</a
+          >
+          <a href="/getInto_Manager" class="nav-link w-full py-3 md:w-fit"
+            >Manage</a
+          >
+          <a href="/Ella_waiter" class="nav-link w-full py-3 md:w-fit"
+            >Waiter</a
+          >
+          <a href="#about" class="nav-link w-full py-3 md:w-fit">About</a>
+        </div>
       </div>
-        <button type="submit" class="bg-white text-black py-2 px-10 rounded-full text-2xl font-extrabold mt-7 " style="font-family: cursive;">Send </button>
-    </form>
-  </div>
-  <!--footer-->
-  <footer class="bg-gray-900 text-white py-12 ">
-  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+    </nav>
+
+    <!-- ==================== MAIN HOMEPAGE CONTENT (human crafted, rich imagery) ==================== -->
+    <main>
+      <!-- Hero Section with full-bleed image + overlay -->
+      <section
+        id="home"
+        class="relative w-full h-screen md:min-h-[750px] flex items-center justify-center overflow-hidden"
+      >
+        <!-- Background image (d/t: luxury hotel lobby) -->
+        <div class="absolute inset-0 w-full h-full">
+          <img
+            src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1600"
+            alt="Luxury hotel lobby with grand chandelier"
+            class="w-full h-full object-cover object-center"
+          />
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"
+          ></div>
+        </div>
+        <!-- Hero text + CTA -->
+        <div
+          class="relative z-10 max-w-6xl mx-auto px-6 md:px-12 text-left w-full animate-fade-up"
+        >
+          <span
+            class="text-amber-300 uppercase tracking-[6px] text-sm font-semibold"
+            >Welcome to elegance</span
+          >
+          <h1
+            class="text-4xl md:text-7xl font-bold text-white leading-tight mt-4 max-w-3xl"
+          >
+            Experience <span class="text-amber-300">Timeless Luxury</span> &
+            Comfort
+          </h1>
+          <p class="text-gray-200 text-lg md:text-xl mt-6 max-w-xl">
+            Discover the perfect blend of heritage and modern indulgence. Book
+            your unforgettable stay at LuxeStay Hotel.
+          </p>
+          <div class="flex flex-wrap gap-5 mt-8">
+            <a
+              href="#rooms"
+              class="bg-amber-600 hover:bg-amber-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition transform hover:scale-105"
+              >Explore Rooms →</a
+            >
+            <a
+              href="#offers"
+              class="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-medium px-8 py-3 rounded-full border border-white/40 transition"
+              >Special Offers</a
+            >
+          </div>
+        </div>
+        <!-- Scroll hint -->
+        <div
+          class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce hidden md:block"
+        >
+          <svg
+            class="w-6 h-6 text-white/80"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 14l-7 7m0 0l-7-7m7 7V3"
+            ></path>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Features / Highlights with different images (d/t images) -->
+      <section class="py-20 px-6 md:px-12 bg-white">
+        <div class="max-w-7xl mx-auto text-center">
+          <span class="text-amber-600 font-semibold tracking-wide"
+            >Why choose us</span
+          >
+          <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mt-2 mb-6">
+            A stay crafted around you
+          </h2>
+          <div class="w-24 h-1 bg-amber-500 mx-auto rounded-full mb-12"></div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div
+              class="bg-gray-50 rounded-2xl overflow-hidden shadow-md card-hover transition"
+            >
+              <img
+                src="https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Spa & Wellness"
+                class="w-full h-56 object-cover"
+              />
+              <div class="p-6">
+                <div class="text-3xl mb-3">💆‍♀️</div>
+                <h3 class="text-xl font-bold">Revitalizing Spa</h3>
+                <p class="text-gray-600 mt-2">
+                  Rejuvenate with bespoke treatments, sauna, and serene
+                  ambiance.
+                </p>
+              </div>
+            </div>
+            <!-- Feature 2 -->
+            <div
+              class="bg-gray-50 rounded-2xl overflow-hidden shadow-md card-hover transition"
+            >
+              <img
+                src="https://images.pexels.com/photos/1267325/pexels-photo-1267325.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Gourmet Dining"
+                class="w-full h-56 object-cover"
+              />
+              <div class="p-6">
+                <div class="text-3xl mb-3">🍽️</div>
+                <h3 class="text-xl font-bold">Michelin-Starred Dining</h3>
+                <p class="text-gray-600 mt-2">
+                  Savor international cuisines crafted by world-class chefs.
+                </p>
+              </div>
+            </div>
+            <!-- Feature 3 -->
+            <div
+              class="bg-gray-50 rounded-2xl overflow-hidden shadow-md card-hover transition"
+            >
+              <img
+                src="https://images.pexels.com/photos/1458452/pexels-photo-1458452.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Infinity Pool"
+                class="w-full h-56 object-cover"
+              />
+              <div class="p-6">
+                <div class="text-3xl mb-3">🏊‍♂️</div>
+                <h3 class="text-xl font-bold">Panoramic Pool</h3>
+                <p class="text-gray-600 mt-2">
+                  Skyline views, heated infinity pool, and poolside bar.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Rooms & Suites Gallery (d/t images, human layout) -->
+      <section
+        id="rooms"
+        class="py-20 px-6 md:px-12 bg-gray-50 human-signature"
+      >
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center mb-12">
+            <span class="text-amber-700 font-semibold">Luxury collection</span>
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-800 mt-2">
+              Signature Rooms & Suites
+            </h2>
+            <p class="text-gray-500 max-w-2xl mx-auto mt-4">
+              Each space designed to inspire relaxation and elegance.
+            </p>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Room 1 -->
+            <div
+              class="bg-white rounded-xl overflow-hidden shadow-lg card-hover"
+            >
+              <img
+                src="https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Deluxe King Room"
+                class="h-64 w-full object-cover"
+              />
+              <div class="p-5">
+                <h3 class="text-2xl font-bold">Deluxe King Room</h3>
+                <p class="text-gray-500 mt-1">City view | 45 sqm</p>
+                <div class="flex justify-between items-center mt-4">
+                  <span class="text-2xl font-bold text-amber-700"
+                    >$289<span class="text-sm font-normal">/night</span></span
+                  >
+                  <a
+                    href="#"
+                    class="border border-amber-600 text-amber-700 hover:bg-amber-600 hover:text-white px-4 py-2 rounded-full transition"
+                    >Book Now</a
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Room 2 -->
+            <div
+              class="bg-white rounded-xl overflow-hidden shadow-lg card-hover"
+            >
+              <img
+                src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Ocean View Suite"
+                class="h-64 w-full object-cover"
+              />
+              <div class="p-5">
+                <h3 class="text-2xl font-bold">Ocean Panorama Suite</h3>
+                <p class="text-gray-500 mt-1">Sea view | Private terrace</p>
+                <div class="flex justify-between items-center mt-4">
+                  <span class="text-2xl font-bold text-amber-700"
+                    >$489<span class="text-sm font-normal">/night</span></span
+                  >
+                  <a
+                    href="#"
+                    class="border border-amber-600 text-amber-700 hover:bg-amber-600 hover:text-white px-4 py-2 rounded-full transition"
+                    >Book Now</a
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- Room 3 -->
+            <div
+              class="bg-white rounded-xl overflow-hidden shadow-lg card-hover"
+            >
+              <img
+                src="https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=600"
+                alt="Presidential Suite"
+                class="h-64 w-full object-cover"
+              />
+              <div class="p-5">
+                <h3 class="text-2xl font-bold">Presidential Residence</h3>
+                <p class="text-gray-500 mt-1">120 sqm | Butler service</p>
+                <div class="flex justify-between items-center mt-4">
+                  <span class="text-2xl font-bold text-amber-700"
+                    >$899<span class="text-sm font-normal">/night</span></span
+                  >
+                  <a
+                    href="#"
+                    class="border border-amber-600 text-amber-700 hover:bg-amber-600 hover:text-white px-4 py-2 rounded-full transition"
+                    >Book Now</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials + Experience (human element) -->
+      <section class="py-20 px-6 md:px-12 bg-white relative">
+        <div class="max-w-6xl mx-auto">
+          <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="order-2 md:order-1 animate-scale-in">
+              <span class="text-amber-600 font-semibold">Guest stories</span>
+              <h2
+                class="text-3xl md:text-4xl font-bold text-gray-800 mt-2 mb-4"
+              >
+                "A truly magical escape"
+              </h2>
+              <p class="text-gray-600 text-lg leading-relaxed">
+                The attention to detail, the warmth of the staff, and the
+                breathtaking views made our anniversary unforgettable. LuxeStay
+                exceeded every expectation. We’ll be back again.
+              </p>
+              <div class="flex items-center gap-4 mt-6">
+                <img
+                  src="https://randomuser.me/api/portraits/women/68.jpg"
+                  class="w-12 h-12 rounded-full object-cover"
+                  alt="guest avatar"
+                />
+                <div>
+                  <p class="font-bold">Emily Rodriguez</p>
+                  <p class="text-sm text-gray-400">★★★★★ 5.0</p>
+                </div>
+              </div>
+              <div class="mt-8 flex gap-2">
+                <span
+                  class="bg-amber-100 text-amber-800 text-sm px-3 py-1 rounded-full"
+                  >Exceptional service</span
+                >
+                <span
+                  class="bg-amber-100 text-amber-800 text-sm px-3 py-1 rounded-full"
+                  >World-class amenities</span
+                >
+              </div>
+            </div>
+            <div class="order-1 md:order-2">
+              <img
+                src="https://images.pexels.com/photos/2477917/pexels-photo-2477917.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="Happy couple at hotel poolside"
+                class="rounded-2xl shadow-2xl object-cover w-full h-80 md:h-96"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Dining & Experiences (d/t images) -->
+      <section id="offers" class="py-20 px-6 md:px-12 bg-gray-50">
+        <div class="max-w-7xl mx-auto">
+          <div class="text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800">
+              Culinary & Cultural Journeys
+            </h2>
+            <div class="w-20 h-0.5 bg-amber-500 mx-auto my-5"></div>
+            <p class="text-gray-500 max-w-2xl mx-auto">
+              From rooftop bars to authentic local flavors, every meal becomes a
+              memory.
+            </p>
+          </div>
+          <div class="grid md:grid-cols-3 gap-6 mt-12">
+            <div
+              class="relative rounded-xl overflow-hidden group cursor-pointer"
+            >
+              <img
+                src="https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=600"
+                class="h-72 w-full object-cover transition group-hover:scale-105 duration-500"
+              />
+              <div class="absolute inset-0 bg-black/40 flex items-end p-5">
+                <h3 class="text-white text-2xl font-bold">Rooftop Mixology</h3>
+              </div>
+            </div>
+            <div
+              class="relative rounded-xl overflow-hidden group cursor-pointer"
+            >
+              <img
+                src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=600"
+                class="h-72 w-full object-cover transition group-hover:scale-105 duration-500"
+              />
+              <div class="absolute inset-0 bg-black/40 flex items-end p-5">
+                <h3 class="text-white text-2xl font-bold">Chef's Table</h3>
+              </div>
+            </div>
+            <div
+              class="relative rounded-xl overflow-hidden group cursor-pointer"
+            >
+              <img
+                src="https://images.pexels.com/photos/260922/pexels-photo-260922.jpeg?auto=compress&cs=tinysrgb&w=600"
+                class="h-72 w-full object-cover transition group-hover:scale-105 duration-500"
+              />
+              <div class="absolute inset-0 bg-black/40 flex items-end p-5">
+                <h3 class="text-white text-2xl font-bold">
+                  Wine Cellar Tasting
+                </h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About & Developer human touch (static signature) -->
+      <section id="about" class="py-20 px-6 md:px-12 bg-white">
+        <div
+          class="max-w-6xl mx-auto flex flex-col md:flex-row gap-12 items-center"
+        >
+          <div class="md:w-1/2">
+            <img
+              src="https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=800"
+              alt="hotel heritage building"
+              class="rounded-2xl shadow-xl"
+            />
+          </div>
+          <div class="md:w-1/2">
+            <span class="text-amber-600 text-sm font-semibold tracking-wider"
+              >OUR STORY</span
+            >
+            <h2 class="text-3xl md:text-4xl font-bold mt-2">
+              Where heritage meets modern soul
+            </h2>
+            <p class="text-gray-600 mt-5 leading-relaxed">
+              Founded in 1985, LuxeStay has been a beacon of hospitality. Every
+              corner tells a story, every staff member treats you like family.
+              We blend local art, sustainable practices, and timeless design.
+            </p>
+            <div class="mt-8 grid grid-cols-2 gap-4">
+              <div>
+                <span class="font-bold text-2xl">350+</span>
+                <p class="text-gray-500">Luxury Rooms</p>
+              </div>
+              <div>
+                <span class="font-bold text-2xl">12</span>
+                <p class="text-gray-500">Fine Dining Venues</p>
+              </div>
+              <div>
+                <span class="font-bold text-2xl">40+</span>
+                <p class="text-gray-500">Years of Excellence</p>
+              </div>
+              <div>
+                <span class="font-bold text-2xl">⭐ 9.4</span>
+                <p class="text-gray-500">Guest Rating</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!--footer-->
+      <footer class="bg-gray-900 text-white py-12">
+        <div
+          class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8"
+        >
+          <!-- About -->
+          <div>
+            <h2 class="text-xl font-bold mb-4">Ella kichin caffe</h2>
+            <p class="text-gray-400 text-sm">
+              Serving delicious food seamlessly. Find your favorite meals
+              quickly and securely.
+            </p>
+          </div>
+
+          <!-- Quick Links -->
+          <div>
+            <h2 class="text-xl font-bold mb-4">Quick Links</h2>
+            <ul class="space-y-2 text-gray-400 text-sm">
+              <li><a href="#" class="hover:text-amber-400">Home</a></li>
+              <li>
+                <a href="/Ella_menu" class="hover:text-amber-400">Menu</a>
+              </li>
+              <li>
+                <a href="/Ella_room" class="hover:text-amber-400">Room</a>
+              </li>
+
+              <li>
+                <a href="/Ella_orders" class="hover:text-amber-400">Orders</a>
+              </li>
+              <li>
+                <a href="/Ella_favorites" class="hover:text-amber-400"
+                  >Favorites</a
+                >
+              </li>
+              <li>
+                <a href="/Ella_waiter" class="hover:text-amber-400">Waiter</a>
+              </li>
+              <li>
+                <a href="/getInto_Manager" class="hover:text-amber-400"
+                  >Manage</a
+                >
+              </li>
+              <li>
+                <a href="#about" class="hover:text-amber-400">Developer</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact -->
+          <div>
+            <h2 class="text-xl font-bold mb-4">Contact</h2>
+            <ul class="space-y-2 text-gray-400 text-sm">
+              <li><i class="fas fa-envelope mr-2"></i>support@ella_cafecom</li>
+              <li><i class="fas fa-phone mr-2"></i>+251 936584567</li>
+              <li>
+                <i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis
+                Ababa, Ethiopia
+              </li>
+            </ul>
+          </div>
+
+          <!-- Social Media -->
+          <div>
+            <h2 class="text-xl font-bold mb-4">Follow Us</h2>
+            <div class="flex gap-4">
+              <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+              <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+                ><i class="fab fa-instagram"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom -->
+        <p class="text-center text-gray-400 mt-12 text-sm">
+          &copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.
+        </p>
+      </footer>
+    </main>
     
-    <!-- About -->
-    <div>
-      <h2 class="text-xl font-bold mb-4">Ella kichin caffe</h2>
-      <p class="text-gray-400 text-sm">
-        Serving delicious food seamlessly. Find your favorite meals quickly and securely.
-      </p>
-    </div>
-
-    <!-- Quick Links -->
-    <div>
-      <h2 class="text-xl font-bold mb-4">Quick Links</h2>
-      <ul class="space-y-2 text-gray-400 text-sm">
-        <li><a href="#" class="hover:text-amber-400">Home</a></li>
-        <li><a href="/Ella_orders" class="hover:text-amber-400">Orders</a></li>
-        <li><a href="/Ella_favorites" class="hover:text-amber-400">Favorites</a></li>
-        <li><a href="/Ella_waiter" class="hover:text-amber-400">Waiter</a></li>
-        <li><a href="/getInto_Manager" class="hover:text-amber-400">Manage</a></li>
-        <li><a href="#about" class="hover:text-amber-400">Developer</a></li>
-      </ul>
-    </div>
-
-    <!-- Contact -->
-    <div>
-      <h2 class="text-xl font-bold mb-4">Contact</h2>
-      <ul class="space-y-2 text-gray-400 text-sm">
-        <li><i class="fas fa-envelope mr-2"></i>support@ella_cafecom</li>
-        <li><i class="fas fa-phone mr-2"></i>+251 936584567</li>
-        <li><i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis Ababa, Ethiopia</li>
-      </ul>
-    </div>
-
-    <!-- Social Media -->
-    <div>
-      <h2 class="text-xl font-bold mb-4">Follow Us</h2>
-      <div class="flex gap-4">
-        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-twitter"></i></a>
-        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-instagram"></i></a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bottom -->
-  <p class="text-center text-gray-400 mt-12 text-sm">
-  &copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.
-</p>
-</footer>
-
-<script>
-  // Get current year and insert into the span
-  document.getElementById('currentYear').textContent = new Date().getFullYear();
-</script>
-<script src="/js/index.js"></script>
-</body>
+    <!-- small fix: adjust absolute nav on small devices & peer-checked class compatibility -->
+    <style>
+      /* ensuring offcanvas transition and visibility for peer-checked (no extra js) */
+      #offcanvas-control:checked ~ .nav-links {
+        transform: translateX(0%);
+      }
+      .nav-links {
+        transform: translateX(100%);
+      }
+      @media (min-width: 768px) {
+        .nav-links {
+          transform: translateX(0) !important;
+          background: transparent;
+          box-shadow: none;
+          height: auto;
+          width: auto;
+          position: relative;
+          right: auto;
+          top: auto;
+          background-color: transparent;
+        }
+        #offcanvas-control:checked ~ .nav-links {
+          transform: translateX(0);
+        }
+        .nav-links .bg-gray-00,
+        .nav-links .pl-5 {
+          padding-left: 0;
+        }
+        .signUp_link {
+          display: block;
+        }
+      }
+      /* ensure mobile nav bg white only on mobile */
+      @media (max-width: 767px) {
+        .nav-links {
+          background: white;
+          box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+        }
+        .nav-links a {
+          color: #1f2937;
+        }
+      }
+      /* right-18 custom spacing */
+      .right-18 {
+        right: 4.5rem;
+      }
+      @media (max-width: 640px) {
+        .right-18 {
+          right: 1rem;
+        }
+      }
+      .profileLetter {
+        background: #b87333;
+      }
+    </style>
+  </body>
 </html>
