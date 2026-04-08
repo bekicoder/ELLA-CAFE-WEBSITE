@@ -7,17 +7,17 @@ const fs = require("fs");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const { Pool } = require("pg");
-require('dotenv').config();
+require("dotenv").config();
 // global to prevent multiple connections during development hot-reloads
-const db = global.pool || new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+const db =
+  global.pool ||
+  new Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
 
 if (process.env.NODE_ENV !== "production") {
   global.pool = db;
 }
-
-
 
 // Serve static files
 app.use(express.static(path.join(__dirname, "views")));
@@ -25,11 +25,20 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/Ella_home", express.static(path.join(__dirname, "views/index.html")));
 app.use("/Ella_menu", express.static(path.join(__dirname, "views/menu.html")));
 app.use("/Ella_room", express.static(path.join(__dirname, "views/room.html")));
-app.use("/Ella_orders", express.static(path.join(__dirname, "views/orders.html")));
-app.use("/Ella_waiter", express.static(path.join(__dirname, "views/waiter.html")));
-app.use("/Ella_favorites", express.static(path.join(__dirname, "views/favorites.html")));
-app.get("/getInto_Manager",(req,res)=>{
-res.send(`
+app.use(
+  "/Ella_orders",
+  express.static(path.join(__dirname, "views/orders.html")),
+);
+app.use(
+  "/Ella_waiter",
+  express.static(path.join(__dirname, "views/waiter.html")),
+);
+app.use(
+  "/Ella_favorites",
+  express.static(path.join(__dirname, "views/favorites.html")),
+);
+app.get("/getInto_Manager", (req, res) => {
+  res.send(`
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,10 +96,16 @@ res.send(`
 </body>
 </html>
 `);
-}) 
+});
 
-app.use("/Ella_accounts", express.static(path.join(__dirname, "views/account.html")));
-app.use("/Ella_developer_Bereket_Girma", express.static(path.join(__dirname, "views/developer.html")));
+app.use(
+  "/Ella_accounts",
+  express.static(path.join(__dirname, "views/account.html")),
+);
+app.use(
+  "/Ella_developer_Bereket_Girma",
+  express.static(path.join(__dirname, "views/developer.html")),
+);
 app.use(express.static(__dirname));
 
 app.use(cookieParser("mysecretkey"));
@@ -117,10 +132,14 @@ function sqlError(err, res) {
 // --- Authentication middleware ---
 async function auth(req, res, next) {
   try {
-    const session_id = req.signedCookies.session_id || req.headers["x-session-id"];
+    const session_id =
+      req.signedCookies.session_id || req.headers["x-session-id"];
     if (!session_id) return res.status(401).json({ message: "no session id" });
 
-    const result = await db.query("SELECT * FROM sessions WHERE session_id=$1", [session_id]);
+    const result = await db.query(
+      "SELECT * FROM sessions WHERE session_id=$1",
+      [session_id],
+    );
     if (result.rows.length === 0) {
       return res.status(401).json({ message: "invalid session" });
     }
@@ -144,13 +163,19 @@ app.post("/addNewFood", (req, res) => {
   form.parse(req, async (err, fields, files) => {
     if (err) return sqlError(err, res);
     try {
-      const { name, price, time_taken,description } = fields;
+      const { name, price, time_taken, description } = fields;
       const image_url = `/cloude_store/${files.photo[0].newFilename}`;
       const sql = `INSERT INTO foods (name,description,price, time_taken, image_url)
                    VALUES ($1, $2, $3, $4,$5)
                    RETURNING *;`;
-                   console.log(description,sql)
-      const result = await db.query(sql, [name[0], description[0],price[0], time_taken[0], image_url]);
+      console.log(description, sql);
+      const result = await db.query(sql, [
+        name[0],
+        description[0],
+        price[0],
+        time_taken[0],
+        image_url,
+      ]);
       res.status(200).json({ message: "successful", info: result.rows[0] });
     } catch (e) {
       sqlError(e, res);
@@ -169,25 +194,27 @@ app.post("/updateFood", (req, res) => {
   });
 
   form.parse(req, async (err, fields, files) => {
-    console.log(fields)
-    console.log(files)
+    console.log(fields);
+    console.log(files);
     if (err) return sqlError(err, res);
     try {
       // 🧠 Fix: Convert values properly
-      const name = fields.name[0] ? fields.name[0] : '';
+      const name = fields.name[0] ? fields.name[0] : "";
       const price = fields.price[0] ? Number(fields.price[0]) || null : null;
-      const time_taken = fields.time_taken[0] ? Number(fields.time_taken[0]) || null : null;
+      const time_taken = fields.time_taken[0]
+        ? Number(fields.time_taken[0]) || null
+        : null;
       const id = Number(fields.id[0]);
- 
-      let image_url = '';
+
+      let image_url = "";
       if (files.photo[0].originalFilename) {
         image_url = `/cloude_store/${files.photo[0].newFilename}`;
-       
-      await fs.promises.unlink(path.join(__dirname, fields.img_name[0]));
-      console.log('File deleted successfully');
+
+        await fs.promises.unlink(path.join(__dirname, fields.img_name[0]));
+        console.log("File deleted successfully");
       }
-      
-    const sql = `
+
+      const sql = `
         UPDATE foods SET
           name = COALESCE(NULLIF($1, ''), name),
           price = COALESCE($2, price),
@@ -200,9 +227,8 @@ app.post("/updateFood", (req, res) => {
       const params = [name, price, time_taken, image_url, id];
 
       const result = await db.query(sql, params);
-      console.log(result)
-      res.status(200).json({ message: "successful",info:result.rows[0]});  
-      
+      console.log(result);
+      res.status(200).json({ message: "successful", info: result.rows[0] });
     } catch (e) {
       sqlError(e, res);
     }
@@ -222,7 +248,10 @@ app.get("/getAllfoods", async (req, res) => {
 // --- Get liked foods ---
 app.get("/getLikedfoods", auth, async (req, res) => {
   try {
-    const result = await db.query("SELECT * FROM liked_foods WHERE user_id=$1 order by id desc;", [req.user_id]);
+    const result = await db.query(
+      "SELECT * FROM liked_foods WHERE user_id=$1 order by id desc;",
+      [req.user_id],
+    );
     res.json(result.rows);
   } catch (err) {
     sqlError(err, res);
@@ -232,7 +261,7 @@ app.get("/getLikedfoods", auth, async (req, res) => {
 // --- Delete food ---
 app.post("/deleteFood", async (req, res) => {
   const { id, image_url } = req.body;
-  
+
   try {
     await db.query("DELETE FROM foods WHERE id=$1;", [id]);
     fs.unlink(path.join(__dirname, image_url), (err) => {
@@ -247,32 +276,51 @@ app.post("/deleteFood", async (req, res) => {
 // --- Sign Up ---
 app.post("/signUp", async (req, res) => {
   try {
-      const profileColors = [
-  "#0388D2", "#00579B", "#0098A7", "#00897B", "#004D40",
-  "#68A039", "#EF6C00", "#F6511E", "#C1175C", "#AA47BD",
-  "#7B1FA2", "#512DA7", "#455A65",
-  "#D32F2F", "#388E3C", "#303F9F", "#FBC02D", "#5D4037"
-];
+    const profileColors = [
+      "#0388D2",
+      "#00579B",
+      "#0098A7",
+      "#00897B",
+      "#004D40",
+      "#68A039",
+      "#EF6C00",
+      "#F6511E",
+      "#C1175C",
+      "#AA47BD",
+      "#7B1FA2",
+      "#512DA7",
+      "#455A65",
+      "#D32F2F",
+      "#388E3C",
+      "#303F9F",
+      "#FBC02D",
+      "#5D4037",
+    ];
 
+    const randomIndex = Math.floor(Math.random() * profileColors.length);
 
-const randomIndex = Math.floor(Math.random() * profileColors.length);
-
-// Select the random color
-const randomColor = profileColors[randomIndex];
+    // Select the random color
+    const randomColor = profileColors[randomIndex];
 
     const { fname, lname, email, phone_number, password } = req.body;
     const name = `${fname} ${lname}`;
-    const exists = await db.query("SELECT * FROM customers WHERE email=$1;", [email]);
-    if (exists.rows.length !== 0) return res.json({ message: "user already exists" });
+    const exists = await db.query("SELECT * FROM customers WHERE email=$1;", [
+      email,
+    ]);
+    if (exists.rows.length !== 0)
+      return res.json({ message: "user already exists" });
 
     const insertUser = await db.query(
       "INSERT INTO customers (name, email, password, phone_number,profile_color) VALUES ($1, $2, $3, $4,$5) RETURNING id;",
-      [name, email, password, phone_number,randomColor]
+      [name, email, password, phone_number, randomColor],
     );
 
     const user_id = insertUser.rows[0].id;
     const session_id = crypto.randomBytes(16).toString("hex");
-    await db.query("INSERT INTO sessions (session_id, user_id) VALUES ($1, $2);", [session_id, user_id]);
+    await db.query(
+      "INSERT INTO sessions (session_id, user_id) VALUES ($1, $2);",
+      [session_id, user_id],
+    );
 
     res.cookie("session_id", session_id, {
       httpOnly: true,
@@ -290,14 +338,21 @@ const randomColor = profileColors[randomIndex];
 app.post("/signIn", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const result = await db.query("SELECT * FROM customers WHERE email=$1;", [email]);
-    if (result.rows.length === 0) return res.json({ message: "don't have an account" });
+    const result = await db.query("SELECT * FROM customers WHERE email=$1;", [
+      email,
+    ]);
+    if (result.rows.length === 0)
+      return res.json({ message: "don't have an account" });
 
     const user = result.rows[0];
-    if (user.password !== password) return res.json({ message: "password don't match" });
+    if (user.password !== password)
+      return res.json({ message: "password don't match" });
 
     const session_id = crypto.randomBytes(16).toString("hex");
-    await db.query("INSERT INTO sessions (session_id, user_id) VALUES ($1, $2);", [session_id, user.id]);
+    await db.query(
+      "INSERT INTO sessions (session_id, user_id) VALUES ($1, $2);",
+      [session_id, user.id],
+    );
 
     res.cookie("session_id", session_id, {
       httpOnly: true,
@@ -306,33 +361,37 @@ app.post("/signIn", async (req, res) => {
     });
     res.json({ message: "successful" });
   } catch (err) {
-
     sqlError(err, res);
   }
 });
 
 // --- Check login ---
-app.get("/isloged_in",auth,async (req, res) => {
-  const session_id = req.signedCookies.session_id || req.headers["x-session-id"];
+app.get("/isloged_in", auth, async (req, res) => {
+  const session_id =
+    req.signedCookies.session_id || req.headers["x-session-id"];
   if (!session_id) return res.json({ message: "no session id" });
 
   try {
-    const result = await db.query("SELECT * FROM sessions WHERE session_id=$1;", [session_id]);
+    const result = await db.query(
+      "SELECT * FROM sessions WHERE session_id=$1;",
+      [session_id],
+    );
     if (result.rows.length === 0) res.json({ message: "not logged in" });
-    else{
-    db.query("SELECT * from customers where id = $1 ;",[req.user_id],(err,data)=>{
-      if(err){
-        console.log(err)
-        return res.json({message:"Internal Server Error"})
-        
-      }
-     delete data.rows[0].id
-     delete data.rows[0].password
-      res.json({ message: "user logged in",info:data .rows});
-    })  
-    
-      
-    } 
+    else {
+      db.query(
+        "SELECT * from customers where id = $1 ;",
+        [req.user_id],
+        (err, data) => {
+          if (err) {
+            console.log(err);
+            return res.json({ message: "Internal Server Error" });
+          }
+          delete data.rows[0].id;
+          delete data.rows[0].password;
+          res.json({ message: "user logged in", info: data.rows });
+        },
+      );
+    }
   } catch (err) {
     sqlError(err, res);
   }
@@ -340,7 +399,8 @@ app.get("/isloged_in",auth,async (req, res) => {
 
 // --- Logout ---
 app.get("/logout", async (req, res) => {
-  const session_id = req.signedCookies.session_id || req.headers["x-session-id"];
+  const session_id =
+    req.signedCookies.session_id || req.headers["x-session-id"];
   if (!session_id) return res.status(401).json({ message: "no session id" });
   try {
     await db.query("DELETE FROM sessions WHERE session_id=$1;", [session_id]);
@@ -355,11 +415,15 @@ app.get("/logout", async (req, res) => {
 // --- Comments ---
 app.post("/comments", async (req, res) => {
   try {
-    const session_id = req.signedCookies.session_id || req.headers["x-session-id"];
+    const session_id =
+      req.signedCookies.session_id || req.headers["x-session-id"];
     const comment = req.body.comment;
     if (!session_id || !comment) return res.json({ message: "Error" });
 
-    const session = await db.query("SELECT * FROM sessions WHERE session_id=$1;", [session_id]);
+    const session = await db.query(
+      "SELECT * FROM sessions WHERE session_id=$1;",
+      [session_id],
+    );
     if (session.rows.length === 0) return res.json({ message: "Error" });
 
     await db.query("INSERT INTO comments (comment, user_id) VALUES ($1, $2);", [
@@ -377,13 +441,15 @@ app.post("/togglelike", auth, async (req, res) => {
   const { is_liked, food_id } = req.body;
   try {
     if (is_liked) {
-      await db.query("DELETE FROM liked_foods WHERE liked_foodId=$1;", [food_id]);
-      res.status(200).json({ message: "successfully unliked" });
-    } else {
-      await db.query("INSERT INTO liked_foods (user_id, liked_foodId) VALUES ($1, $2);", [
-        req.user_id,
+      await db.query("DELETE FROM liked_foods WHERE liked_foodId=$1;", [
         food_id,
       ]);
+      res.status(200).json({ message: "successfully unliked" });
+    } else {
+      await db.query(
+        "INSERT INTO liked_foods (user_id, liked_foodId) VALUES ($1, $2);",
+        [req.user_id, food_id],
+      );
       res.status(200).json({ message: "successfully liked" });
     }
   } catch (err) {
@@ -393,36 +459,62 @@ app.post("/togglelike", auth, async (req, res) => {
 
 // --- Get liked food info ---
 app.post("/getLikedfood_info", auth, async (req, res) => {
-  if (!req.body.food_id) return res.status(401).json({ message: "Error no food id" });
+  if (!req.body.food_id)
+    return res.status(401).json({ message: "Error no food id" });
   try {
-    const result = await db.query("SELECT * FROM foods WHERE id=$1;", [req.body.food_id]);
+    const result = await db.query("SELECT * FROM foods WHERE id=$1;", [
+      req.body.food_id,
+    ]);
     res.json(result.rows);
   } catch (err) {
     sqlError(err, res);
   }
 });
 
-app.post("/order_food",auth,(req,res)=>{
-  const info=JSON.parse(req.body.info)
-  db.query("insert into orders(user_id,food_id,drinkIds,date,hour,minute,period,totalFoodQty,totalDrinkQty,totalFoodPrice,totalDrinkPrice) VALUES($1,$2,$3,$4,$5,$6,$7)",[req.user_id,info.food_id,info.hour,info.minute,info.period,info.totallFoodQty,info.total_price],(err,results)=>{
-    if(err) return(res.json({errir:"Internal databses Error try again later"+err}))
-    else{
-      res.status(200).redirect("/")
-    }
-  })
-  
-  
-})
+app.post("/order_food", auth, (req, res) => {
+  const info = JSON.parse(req.body.info);
+  db.query("INSERT INTO orders (user_id, food_id, drink_ids, numeric_date, day, hour, minute, period, total_food_qty, total_drink_qty, total_food_price, total_drink_price, total_price) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);",
+    [
+      req.user_id,
+      info.food_id,
+      JSON.stringify(info.drinkIds),
+      info.date,
+      info.day,
+      info.hour,
+      info.minute,
+      info.period,
+      info.totalFoodQty,
+      info.totalDrinkQty,
+      info.totalFoodPrice,
+      info.totalDrinkPrice,
+      info.total_price,
+    ],
+    (err, results) => {
+      if (err)
+        return res.json({
+          errir: "Internal databases Error try again later" + err,
+        });
+      else {
+        res.status(200).redirect("/ella_menu");
+      }
+    },
+  );
+});
 
 app.get("/getAllOrders", auth, async (req, res) => {
   try {
-    const ordersResult = await db.query("SELECT * FROM orders WHERE user_id=$1 order by id desc", [req.user_id]);
+    const ordersResult = await db.query(
+      "SELECT * FROM orders WHERE user_id=$1 order by id desc",
+      [req.user_id],
+    );
 
     const orders = await Promise.all(
       ordersResult.rows.map(async (order) => {
-        const foodResult = await db.query("SELECT * FROM foods WHERE id=$1", [parseInt(order.food_id)]);
+        const foodResult = await db.query("SELECT * FROM foods WHERE id=$1", [
+          parseInt(order.food_id),
+        ]);
         return { ...order, ...foodResult.rows[0] };
-      })
+      }),
     );
 
     res.json(orders);
@@ -434,19 +526,25 @@ app.get("/getAllOrders", auth, async (req, res) => {
 
 app.get("/getActiveOrders", async (req, res) => {
   try {
-    const results = await db.query(`SELECT * FROM orders WHERE status = 'false' order by id desc`);
+    const results = await db.query(
+      `SELECT * FROM orders WHERE status = 'false' order by id desc`,
+    );
 
     const orders = await Promise.all(
-      
       results.rows.map(async (order) => {
         // Get food info
-        const foodResult = await db.query("SELECT * FROM foods WHERE id = $1", [order.food_id]);
+        const foodResult = await db.query("SELECT * FROM foods WHERE id = $1", [
+          order.food_id,
+        ]);
         const foodInfo = foodResult.rows[0];
-  
+
         // Get customer info
-        const customerResult = await db.query("SELECT * FROM customers WHERE id = $1", [order.user_id]);
+        const customerResult = await db.query(
+          "SELECT * FROM customers WHERE id = $1",
+          [order.user_id],
+        );
         const customer = customerResult.rows[0];
-    
+
         // Remove sensitive or redundant data
         const { password, id, ...safeCustomer } = customer;
         const { user_id, ...safeOrder } = order;
@@ -454,8 +552,9 @@ app.get("/getActiveOrders", async (req, res) => {
         return {
           ...safeOrder,
           ...safeCustomer,
-          food: foodInfo,};
-      })
+          food: foodInfo,
+        };
+      }),
     );
 
     res.json(orders);
@@ -466,40 +565,43 @@ app.get("/getActiveOrders", async (req, res) => {
 });
 
 // get all comments
-app.get("/getAllcomments",async(req,res)=>{
-  const comments = await db.query("select * from comments order by id desc;")
-  const commentInfo = await Promise.all(comments.rows.map(async (comment)=>{
-  const fullInfo = await db.query(`select * from customers where id=$1`,[comment.user_id]) 
-  const feedback=comment.comment
-  const name=fullInfo.rows[0].name
-  const color=fullInfo.rows[0].profile_color
-  
-  return {name,feedback,color}
-  }))
-  
-  
- res.json(commentInfo) 
- console.log(commentInfo)
-})
+app.get("/getAllcomments", async (req, res) => {
+  const comments = await db.query("select * from comments order by id desc;");
+  const commentInfo = await Promise.all(
+    comments.rows.map(async (comment) => {
+      const fullInfo = await db.query(`select * from customers where id=$1`, [
+        comment.user_id,
+      ]);
+      const feedback = comment.comment;
+      const name = fullInfo.rows[0].name;
+      const color = fullInfo.rows[0].profile_color;
 
+      return { name, feedback, color };
+    }),
+  );
 
-app.post("/Ella_manager",async(req,res)=>{
-  try{
-  const {password}=req.body
-  console.log(password,"hire is the password")
-  db.query("select * from managers where id = 1",async(err,results)=>{
-    if(err){
-      res.json({message:err})
-      return console.log(err,results.rows[0])
-    }
-    console.log(results.rows)
+  res.json(commentInfo);
+  console.log(commentInfo);
+});
 
-  const isMatched= password ? await bcrypt.compare(password,results.rows[0]?.password) :''
-  if(isMatched){
-    res.sendFile(path.join(__dirname,"views/cms.html"))
-  }  
-  else if(!isMatched){
-    res.send(`
+app.post("/Ella_manager", async (req, res) => {
+  try {
+    const { password } = req.body;
+    console.log(password, "hire is the password");
+    db.query("select * from managers where id = 1", async (err, results) => {
+      if (err) {
+        res.json({ message: err });
+        return console.log(err, results.rows[0]);
+      }
+      console.log(results.rows);
+
+      const isMatched = password
+        ? await bcrypt.compare(password, results.rows[0]?.password)
+        : "";
+      if (isMatched) {
+        res.sendFile(path.join(__dirname, "views/cms.html"));
+      } else if (!isMatched) {
+        res.send(`
    <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -544,32 +646,34 @@ app.post("/Ella_manager",async(req,res)=>{
    </script>
 </body>
 </html> 
-    `)
+    `);
+      }
+    });
+  } catch (err) {
+    console.log(err);
   }
-  })
-}catch(err){
-  console.log(err)
-}
-})
+});
 
-app.post("/changeSecret",async(req,res)=>{
-  const {password,recoveryEmail}=req.body  
-  const hashedPass=password ? await bcrypt.hash(password,10) :''
-  console.log(hashedPass,password,"this is the password");
+app.post("/changeSecret", async (req, res) => {
+  const { password, recoveryEmail } = req.body;
+  const hashedPass = password ? await bcrypt.hash(password, 10) : "";
+  console.log(hashedPass, password, "this is the password");
   const query = `
   UPDATE managers 
   SET 
     password = COALESCE(NULLIF($1, ''), password),
     recovery_email = COALESCE(NULLIF($2, ''), recovery_email) RETURNING *;`;
-  db.query(query,[hashedPass,recoveryEmail],async(err,results)=>{
-   console.log(results.rows)
-    if(err){
-      res.json({message:err})
-      return console.log(err)
-    } 
-    console.log(hashedPass+recoveryEmail)
-   res.json({message:"successful"})
-  })
-})
+  db.query(query, [hashedPass, recoveryEmail], async (err, results) => {
+    console.log(results.rows);
+    if (err) {
+      res.json({ message: err });
+      return console.log(err);
+    }
+    console.log(hashedPass + recoveryEmail);
+    res.json({ message: "successful" });
+  });
+});
 
-app.listen(3000,"0.0.0.0", () => console.log("Server running on http://localhost:3000"));
+app.listen(3000, "0.0.0.0", () =>
+  console.log("Server running on http://localhost:3000"),
+);

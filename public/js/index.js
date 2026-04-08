@@ -156,7 +156,6 @@ function closeDrinkContainer() {
   popup.classList.remove("hidden");
 }
 function handleSelectedDrinks() {
-  console.log(selectedDrinks, "this is the selected ");
   if (selectedDrinks.length > 0) {
     noDrinkMessage.classList.add("hidden");
 
@@ -179,10 +178,10 @@ function handleSelectedDrinks() {
                   </div>
                   <div class="text-right">
                     <span class="text-sm text-gray-500 drink-qty-text"
-                      >${sdrink.amount} * ${sdrink.price} <span class="text-xs text-gray-400 ml-1">Birr</span></span
+                      >${sdrink.amount} × ${sdrink.price} <span class="text-xs text-gray-400 ml-1">Birr</span></span
                     >
                     <div class="font-bold text-green-600 drink-total">
-                      ${sdrink.amount > 0 ? sdrink.amount * sdrink.price : sdrink.price} <span class="text-xs text-gray-400 ml-1">Birr</span>
+                      ${sdrink.amount > 0 ? (sdrink.amount * sdrink.price).toFixed(2) : sdrink.price} <span class="text-xs text-gray-400 ml-1">Birr</span>
                     </div>
                   </div>
                 </div>`;
@@ -191,6 +190,7 @@ function handleSelectedDrinks() {
     });
     confirmDrinksList;
   } else {
+    confirmDrinksList.innerHTML;
     noDrinkMessage.classList.remove("hidden");
   }
 }
@@ -289,14 +289,28 @@ async function getEthiopianTime() {
     return { status: "API request failed" };
   }
 }
+let time;
 async function getEthiopianDay() {
   const res = await fetch("https://api.ethioall.com/date/api");
   if (!res.ok) console.log("failed to fetch api.ethioall.com");
-  const { day_english,numeric_date } = await res.json();
-  choosenPreferences.day = day_english;
-  choosenPreferences.date = numeric_date
+  const { day_amharic, numeric_date } = await res.json();
+  console.log(
+    daysOfWeek.indexOf(day_amharic),
+    time.period == "night",
+    choosenPreferences.period,
+    time.hour,
+  );
+  if (
+    (time.period == "night" && choosenPreferences.period == "day") ||
+    (time.period == "night" && time.hour > 3 && time.minute > 1)
+  ) {
+    choosenPreferences.day = daysOfWeek[daysOfWeek.indexOf(day_amharic) + 1];
+  } else {
+    choosenPreferences.day = day_amharic;
+  }
+  choosenPreferences.date = numeric_date;
 }
-let time;
+
 choosenPreferences.period = time?.period;
 let amountShow = document.getElementById("amount");
 let amount = 1;
@@ -440,8 +454,10 @@ async function manageCenterd() {
     centerdHour = getCenteredItem(houreContainer);
     centerdMinute = getCenteredItem(minuteContainer);
     choosenPreferences.food_id = popup.dataset.id;
-    choosenPreferences.totalFoodQty = amount;
-    choosenPreferences.total_price = total_price;
+    choosenPreferences.total_price = (
+      total_price * 0.025 +
+      total_price
+    ).toFixed(2);
     choosenPreferences.minute = parseInt(centerdMinute.textContent);
     orderInfoInput.value = JSON.stringify(choosenPreferences);
     excutingCentered = false;
@@ -492,7 +508,9 @@ day_btn.addEventListener("click", function () {
 
 function calculateTotal() {
   const totalFoodQt = choosenPreferences.totalFoodQty;
-  const totalFoodPrice = totalFoodQt * popup.dataset.price.split(".")[0];
+  const totalFoodPrice = totalFoodQt
+    ? totalFoodQt * Math.trunc(parseInt(popup.dataset.price))
+    : Math.trunc(parseInt(popup.dataset.price));
   let totalDrinkPrice = 0;
   let drinkAmount = 0;
   selectedDrinks.map(({ price, amount }) => {
@@ -508,13 +526,20 @@ function calculateTotal() {
   confirmTotalDrinkQty.textContent = choosenPreferences.totalDrinkQty
     ? choosenPreferences.totalDrinkQty
     : 0;
-  summaryFoodSubtotal.textContent = totalFoodPrice + 0.025 * totalFoodPrice;
-  summaryDrinkSubtotal.textContent = totalDrinkPrice + 0.025 * totalDrinkPrice;
-  confirmTotalPrice.textContent =
+  summaryFoodSubtotal.textContent = (
+    totalFoodPrice +
+    0.025 * totalFoodPrice
+  ).toFixed(2);
+  summaryDrinkSubtotal.textContent = (
+    totalDrinkPrice +
+    0.025 * totalDrinkPrice
+  ).toFixed(2);
+  confirmTotalPrice.textContent = (
     totalFoodPrice +
     0.025 * totalFoodPrice +
     totalDrinkPrice +
-    0.025 * totalDrinkPrice;
+    0.025 * totalDrinkPrice
+  ).toFixed(2);
   console.log(choosenPreferences);
   manageCenterd();
 }
@@ -542,7 +567,7 @@ async function cheack() {
 }
 const confirm_form = document.querySelector(".confirm_form");
 
-order_btn.addEventListener("click", () => {
+order_btn.addEventListener("click", async () => {
   if (isloged_in) {
     popup.classList.add("scale-70");
     setTimeout(() => {
@@ -553,11 +578,12 @@ order_btn.addEventListener("click", () => {
     setTimeout(() => {
       confirm_form.classList.remove("scale-70");
     }, 260);
-    console.log(choosenPreferences);
     handleSelectedDrinks();
     calculateTotal();
-    getEthiopianDay();
+    await getEthiopianDay();
     showSelectedTime();
+    choosenPreferences.drinkIds = selectedDrinks.map((sdrink) => sdrink.id);
+    console.log(choosenPreferences);
   } else {
     window.location.href = "/Ella_accounts";
   }
@@ -625,7 +651,9 @@ totalDrinkCount.textContent = `⚡${drinksData.length} drinks`;
 function renderDrinks() {
   drinkCardsContainer.innerHTML = "";
   drinksData.forEach((drink) => {
-    let isSelected = selectedDrinks.find((sdrink) => sdrink.id == drink.id);
+    let isSelected = selectedDrinks.find((sdrink) => {
+      return sdrink.id == drink.id;
+    });
     const drinkCard = document.createElement("div");
     const selectBtn = document.createElement("button");
     const increaseDrinkBtn = document.createElement("button");
@@ -654,15 +682,17 @@ function renderDrinks() {
           name: drink.name,
           price: drink.price,
           description: drink.description,
-          amount: 0,
+          amount: 1,
         });
       }
       selectedDrinkCount.textContent = `${selectedDrinks.length} drinks selected`;
-
+      console.log(isSelected, selectedDrinks);
       renderDrinks();
+      console.log(isSelected);
     });
 
     increaseDrinkBtn.addEventListener("click", () => {
+      console.log(isSelected);
       if (isSelected) {
         selectedDrinks.forEach(
           (sdrink) => sdrink.id == drink.id && sdrink.amount++,
@@ -912,7 +942,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       popup.setAttribute("data-id", food.id);
       popup.setAttribute("data-imguri", food.image_url);
       total_price = parseInt(Math.trunc(food.price));
-      choosenPreferences.total_price = total_price;
+      choosenPreferences.total_price = (
+        total_price * 0.025 +
+        total_price
+      ).toFixed(2);
 
       // confirm screen
       confirmFoodName.textContent = food.name;
@@ -923,6 +956,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       choosenPreferences.period = time?.period;
       manageCenterd();
       manageCenterd();
+      await getEthiopianDay();
       showSelectedTime();
 
       let centerdMinute = getCenteredItem(minuteContainer);
