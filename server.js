@@ -495,7 +495,7 @@ app.post("/order_food", auth, (req, res) => {
           errir: "Internal databases Error try again later" + err,
         });
       else {
-        res.status(200).redirect("/ella_menu");
+        res.status(200).redirect("/");
       }
     },
   );
