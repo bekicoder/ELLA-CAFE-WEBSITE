@@ -52,7 +52,11 @@
         >
           Foods
         </button>
-
+        <button
+          class="drinks_btn scale-85 w-30 mt-2 px-4 py-2 bg-amber-400 rounded-sm text-white text-[18px] opacity-0 transition ease-in duration-300"
+        >
+          Drinks
+        </button>
         <button
           id="comments_btn"
           class="scale-85 w-30 mt-2 px-4 py-2 bg-amber-400 rounded-sm text-white text-[18px] opacity-0 transition ease-in duration-400"
@@ -186,9 +190,8 @@
         required
         name="time_taken"
       />
-
       <label
-        class="flex flex-col items-center justify-center w-full h-20 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer transition"
+        class="flex bg-cover bg-center flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer transition foodPreview"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -210,6 +213,73 @@
           accept="image/*"
           id="food_img"
           class="sr-only"
+          onchange="handleFoodPreview(event)"
+          required
+          name="photo"
+        />
+      </label>
+
+      <button
+        type="submit"
+        style="font-family: cursive"
+        class="mx-auto bg-amber-400 px-5 py-2 rounded-sm block text-2xl font-extrabold text-white mt-5"
+      >
+        Add
+      </button>
+    </form>
+
+    <form
+      id="addNewDrinkform"
+      class="hidden add_drink bg-amber-00 px-7 py-4 max-w-xl w-full border border-gray-300 mb-10 block flex flex-col gap-3 hidden"
+    >
+      <h1 class="text-center text-2xl font-extrabold mb-4;">Add New Drink</h1>
+      <input
+        type="text"
+        class="border w-full p-2 rounded border-gray-500"
+        placeholder="Drink Name"
+        required
+        name="name"
+      />
+      <input
+        type="text"
+        class="border w-full p-2 rounded-sm border-gray-500"
+        placeholder="Description"
+        required
+        name="description"
+      />
+
+      <input
+        type="number"
+        class="border w-full p-2 rounded-sm border-gray-500"
+        placeholder="Price"
+        required
+        name="price"
+      />
+
+      <label
+        class="flex bg-cover bg-center drinkPreview flex-col items-center h-32 justify-center w-full h-20 border-2 border-dashed border-gray-400 rounded-xl cursor-pointer transition"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="w-10 h-10 text-amber-00 mb-2"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0l-4 4m4-4l4 4"
+          />
+        </svg>
+        <span class="text-sm font-medium">Upload Image</span>
+        <input
+          type="file"
+          accept="image/*"
+          id="food_img"
+          class="sr-only"
+          onchange="handleDrinkPreview(event)"
           required
           name="photo"
         />
@@ -229,6 +299,63 @@
       class="hidden foods_container w-screen flex flex-row justify-center flex-wrap pt-10 gap-4 px-2"
     ></div>
 
+    <div
+      id="drinks_container"
+      class="hidden drinks_container w-screen flex flex-row justify-center flex-wrap pt-10 gap-4 px-2"
+    >
+  <div class="max-w-sm w-full bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group">
+  
+  <!-- Image Container -->
+  <div class="relative h-48 overflow-hidden">
+    <img 
+      src="/cloude_store/yrgecw97kn8l933ww483buxvb.jpg" 
+      alt="yt" 
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+      onerror="this.src='https://placehold.co/400x300?text=No+Image'"
+    >
+    <!-- Badge -->
+    <div class="absolute top-3 left-3 bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+      <i class="fas fa-star text-[10px] mr-1"></i> Popular
+    </div>
+  </div>
+  
+  <!-- Content -->
+  <div class="p-4">
+    <!-- Title and Price -->
+    <div class="flex justify-between items-start mb-2">
+      <h3 class="text-xl font-bold text-gray-800 capitalize">yt</h3>
+      <div class="bg-amber-100 rounded-lg px-2 py-1">
+        <span class="text-amber-700 font-bold">$45</span>
+      </div>
+    </div>
+    
+    <!-- Description -->
+    <p class="text-gray-500 text-sm mb-3 line-clamp-2">
+      there is no description
+    </p>
+    
+    <!-- Divider -->
+    <div class="border-t border-gray-100 my-3"></div>
+    
+    <!-- Order Button -->
+    <button class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold py-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg">
+      <i class="fas fa-shopping-cart text-sm"></i>
+      Order Now
+    </button>
+  </div>
+  
+</div>
+
+<!-- Add this style for line-clamp if not using Tailwind CDN with plugins -->
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+  </div>
     <!--popup overlay-->
     <div
       class="hidden w-screen h-screen bg-black/80 fixed top-0 left-0 z-1000 flex justify-center items-center px-2 popup-overlay"
@@ -363,13 +490,15 @@
       const add_food = document.querySelector(".add_food");
       const foods_btn = document.querySelector("#foods_btn");
       const foods_container = document.querySelector(".foods_container");
+      const drinks_btn = document.querySelector(".drinks_btn");
       const add_btn = document.querySelector("#add_btn");
       const orders_btn = document.getElementById("orders_btn");
       const comments_btn = document.getElementById("comments_btn");
       const secret_btn = document.getElementById("secret_btn");
       const home_btn = document.getElementById("home_btn");
       const comment_container = document.querySelector(".comment_container");
-
+      const add_drink = document.querySelector(".add_drink")
+      const drinks_container = document.querySelector(".drinks_container")
       function humbuttons() {
         document
           .querySelector("nav")
@@ -382,6 +511,9 @@
           foods_btn.classList.toggle("opacity-0");
           foods_btn.classList.toggle("scale-85");
           foods_btn.classList.toggle("scale-100");
+          drinks_btn.classList.toggle("opacity-0");
+          drinks_btn.classList.toggle("scale-85");
+          drinks_btn.classList.toggle("scale-100");
           comments_btn.classList.toggle("opacity-0");
           comments_btn.classList.toggle("scale-85");
           comments_btn.classList.toggle("scale-100");
@@ -399,24 +531,30 @@
       humbergur.addEventListener("blur", () => {
         setTimeout(humbuttons, 500);
       });
+
       home_btn.addEventListener("click", () => {
         add_food.classList.add("hidden");
         comment_container.classList.add("hidden");
         orders_container.classList.add("hidden");
         foods_container.classList.add("hidden");
+        add_drink.classList.add("hidden");
+        drinks_container.classList.add("hidden");
       });
       orders_btn.addEventListener("click", () => {
         add_food.classList.add("hidden");
         comment_container.classList.add("hidden");
         orders_container.classList.remove("hidden");
         foods_container.classList.add("hidden");
+        add_drink.classList.add("hidden");
+        drinks_container.classList.add("hidden");
       });
       comments_btn.addEventListener("click", async () => {
         comment_container.classList.remove("hidden");
         add_food.classList.add("hidden");
         orders_container.classList.add("hidden");
         foods_container.classList.add("hidden");
-
+        add_drink.classList.add("hidden");
+        drinks_container.classList.add("hidden");
         const getcomments = await fetch("/getAllcomments");
         const Comments = await getcomments.json();
         Comments.forEach((comment) => {
@@ -481,7 +619,18 @@
         foods_container.classList.remove("hidden");
         orders_container.classList.add("hidden");
         comment_container.classList.add("hidden");
+        add_drink.classList.add("hidden");
+        drinks_container.classList.add("hidden");
       });
+      drinks_btn.addEventListener("click", () => {
+        add_drink.classList.remove("hidden");
+        drinks_container.classList.remove("hidden");
+        add_food.classList.add("hidden");
+        foods_container.classList.add("hidden");
+        orders_container.classList.add("hidden");
+        comment_container.classList.add("hidden");
+      });
+      
       const changeSecret = document.getElementById("changeSecret");
       const succes_show = document.querySelector(".succes_show");
       const secretInputs = document.querySelector(".secretInputs");
@@ -732,13 +881,158 @@
         });
       });
     </script>
+    <!--fetch and display foods-->
+    <script>
+      function addNewDrink(food, food_container, popup_overlay, popup) {
+        const card = document.createElement("div");
+        const drink_photo = document.createElement("div");
+        const text_wrapper = document.createElement("div");
+        const food_name = document.createElement("strong");
+        const cook_time = document.createElement("span");
+        const food_price = document.createElement("strong");
+        const remove_btn = document.createElement("button");
+        food_name.classList.add("food_name");
+        cook_time.classList.add("cook_time");
+        food_price.classList.add("food_price");
+        card.classList.add(
+          "card",
+          "w-[150px]",
+          "min-h-48",
+          "h-fit",
+          "rounded-xl",
+          "border",
+          "border-gray-200",
+          "flex",
+          "flex-col",
+          "flex-none",
+        );
+        card.setAttribute("data-id", food.id);
+        food_photo.style.backgroundImage = `url(${food.image_url})`;
+        food_photo.classList.add(
+          "food_photo",
+          "w-full",
+          "h-25",
+          "bg-cover",
+          "rounded-t-xl",
+          "bg-no-repeat",
+          "bg-center",
+          "flex-none",
+        );
+        text_wrapper.classList.add("w-full", "p-2", "flex", "flex-col");
+        cook_time.classList.add("text-sm");
+        remove_btn.classList.add(
+          "py-0.5",
+          "px-3",
+          "border",
+          "border-red-500",
+          "rounded-xl",
+          "text-red-500",
+          "mt-1",
+          "focus:bg-red-500",
+          "w-fit",
+          "focus:text-white",
+        );
+        remove_btn.setAttribute("id", "remove_btn");
+        remove_btn.textContent = "Remove";
+        food_name.textContent = food.name;
+        cook_time.textContent = `${food.time_taken}+ min`;
+        food_price.textContent = `${food.price} Birr`;
+        text_wrapper.appendChild(food_name);
+        text_wrapper.appendChild(cook_time);
+        text_wrapper.appendChild(food_price);
+        remove_btn.addEventListener("click", async function () {
+          const confirmed = confirm(
+            "Are you sure you want to delete this item?",
+          );
+          if (confirmed) {
+            const remove_res = await fetch("/deleteFood", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ id: food.id, image_url: food.image_url }),
+            });
+            const res_message = await remove_res.json();
+            if (res_message.message === "successful") {
+              popup_overlay.classList.remove("hidden");
+              popup.classList.add("hidden");
+              succes_massage.querySelector("p").textContent =
+                "successful Removed!";
+              succes_massage.classList.remove("hidden");
+
+              setTimeout(() => {
+                succes_massage.classList.remove("scale-75");
+              }, 4);
+              setTimeout(async () => {
+                popup_overlay.classList.add("hidden");
+                popup.classList.remove("hidden");
+                succes_massage.classList.add("hidden");
+                succes_massage.classList.add("scale-75");
+                this.parentElement.parentElement.remove();
+              }, 650);
+            }
+          }
+        });
+
+        text_wrapper.appendChild(remove_btn);
+        card.appendChild(food_photo);
+        card.appendChild(text_wrapper);
+
+        card.addEventListener("click", async (e) => {
+          if (e.target.id != "remove_btn") {
+            const currentData = await fetch("/getAllfoods");
+            const currentInfo = await currentData.json();
+            const livedata = currentInfo.filter((info) => {
+              return info.id === food.id;
+            });
+
+            popup_overlay.querySelector("[name='id']").value = food.id;
+            popup_overlay.querySelector("[name='img_name']").value =
+              livedata[0].image_url;
+            popup_overlay.querySelector("[name='name']").value =
+              livedata[0].name;
+            popup_overlay.querySelector("[name='price']").value = parseFloat(
+              livedata[0].price,
+            );
+            popup_overlay.querySelector("[name='time_taken']").value =
+              livedata[0].time_taken;
+            popup_overlay
+              .querySelector("img")
+              .setAttribute("src", livedata[0].image_url);
+            popup_overlay.setAttribute("data-id", food.id);
+            popup_overlay.classList.remove("hidden");
+            setTimeout(() => {
+              popup.classList.remove("scale-70");
+            }, 10);
+          }
+        });
+
+        food_container.appendChild(card);
+      }
+      document.addEventListener("DOMContentLoaded", async () => {
+        const response = await fetch("/getAlldrinks");
+        const drinks = await response.json();
+
+        drinks.forEach((food) => {
+          addNewDrink(food, food_container, popup_overlay, popup);
+        });
+      });
+    </script>
     <!--add new food-->
     <script>
+      function handleFoodPreview(e) {
+        const url = URL.createObjectURL(e.target.files[0]);
+        document.querySelector(".foodPreview").style.backgroundImage = `url('${url}')`;
+        console.log(url);
+      }
+
       const addFoodForm = document.getElementById("addNewFoodform");
       addFoodForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const fd = new FormData(addFoodForm);
-        console.log(fd,'the form data')
+        console.log(fd, "the form data");
+
+        return;
         const response = await fetch("/addNewFood", {
           method: "POST",
           body: fd,
@@ -764,6 +1058,46 @@
         }, 700);
       });
     </script>
+
+    <!-- add new drink -->
+    <script>
+      function handleDrinkPreview(e) {
+        const url = URL.createObjectURL(e.target.files[0]);
+        document.querySelector(".drinkPreview").style.backgroundImage = `url('${url}')`;
+        console.log(url);
+      }
+
+      const addDrinkForm = document.getElementById("addNewDrinkform");
+      addDrinkForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const fd = new FormData(addDrinkForm);
+        console.log(fd, "the form data");
+
+        const response = await fetch("/addNewDrink", {
+          method: "POST",
+          body: fd,
+        });
+        const result = await response.json();
+        const drink = result.info;
+        console.log(drink)
+        popup_overlay.classList.remove("hidden");
+        popup.classList.add("hidden");
+        succes_massage.querySelector("p").textContent = "successful Added!";
+        succes_massage.classList.remove("hidden");
+        setTimeout(() => {
+          succes_massage.classList.remove("scale-75");
+        }, 10);
+        setTimeout(async () => {
+          popup_overlay.classList.add("hidden");
+          popup.classList.remove("hidden");
+          succes_massage.classList.add("hidden");
+          succes_massage.classList.add("scale-75");
+          addDrinkForm.querySelectorAll("input").forEach((input) => {
+            input.value = "";
+          });
+        }, 700);
+      });
+    </script>
     <!--fetch orders-->
     <script>
       async function fetchOrders() {
@@ -773,7 +1107,7 @@
         if (orders.length !== 0) {
           document.querySelector(".orders_container").textContent = "";
           orders.forEach((order) => {
-            console.log(order,'')
+            console.log(order, "");
             const card = document.createElement("div");
             const img = document.createElement("img");
             const infoContainer = document.createElement("div");

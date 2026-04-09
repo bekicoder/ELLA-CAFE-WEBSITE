@@ -583,6 +583,7 @@ order_btn.addEventListener("click", async () => {
     await getEthiopianDay();
     showSelectedTime();
     choosenPreferences.drinkIds = selectedDrinks.map((sdrink) => sdrink.id);
+    orderInfoInput.value = JSON.stringify(choosenPreferences);
     console.log(choosenPreferences);
   } else {
     window.location.href = "/Ella_accounts";

@@ -22,19 +22,19 @@ if (process.env.NODE_ENV !== "production") {
 // Serve static files
 app.use(express.static(path.join(__dirname, "views")));
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/Ella_home", express.static(path.join(__dirname, "views/index.html")));
-app.use("/Ella_menu", express.static(path.join(__dirname, "views/menu.html")));
-app.use("/Ella_room", express.static(path.join(__dirname, "views/room.html")));
+app.use("/ella_home", express.static(path.join(__dirname, "views/index.html")));
+app.use("/ella_menu", express.static(path.join(__dirname, "views/menu.html")));
+app.use("/ella_room", express.static(path.join(__dirname, "views/room.html")));
 app.use(
-  "/Ella_orders",
+  "/ella_orders",
   express.static(path.join(__dirname, "views/orders.html")),
 );
 app.use(
-  "/Ella_waiter",
+  "/ella_waiter",
   express.static(path.join(__dirname, "views/waiter.html")),
 );
 app.use(
-  "/Ella_favorites",
+  "/ella_favorites",
   express.static(path.join(__dirname, "views/favorites.html")),
 );
 app.get("/getInto_Manager", (req, res) => {
@@ -50,7 +50,7 @@ app.get("/getInto_Manager", (req, res) => {
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
-    <form id="autanticate" action="/Ella_manager" method="post" enctype="application/json" class="h-screen w-screen bg-white fixed top-0 left-0 z-10000 flex justify-center items-center text-white">
+    <form id="autanticate" action="/ella_manager" method="post" enctype="application/json" class="h-screen w-screen bg-white fixed top-0 left-0 z-10000 flex justify-center items-center text-white">
     <div class="w-80 h-50 bg-gray-800 border border-gray-300 rounded-xl flex justify-center py-4 flex-col px-3">
    <div>
     <div class="flex flex-col w-full relative bg-amber-00">
@@ -99,11 +99,11 @@ app.get("/getInto_Manager", (req, res) => {
 });
 
 app.use(
-  "/Ella_accounts",
+  "/ella_accounts",
   express.static(path.join(__dirname, "views/account.html")),
 );
 app.use(
-  "/Ella_developer_Bereket_Girma",
+  "/ella_developer_Bereket_Girma",
   express.static(path.join(__dirname, "views/developer.html")),
 );
 app.use(express.static(__dirname));
@@ -183,6 +183,39 @@ app.post("/addNewFood", (req, res) => {
   });
 });
 
+// --- Add new food ---
+app.post("/addNewDrink", (req, res) => {
+  const form = formidable({
+    multiples: false,
+    allowEmptyFiles: true,
+    uploadDir: store,
+    minFileSize: 0,
+    keepExtensions: true,
+  });
+
+  form.parse(req, async (err, fields, files) => {
+    if (err) return sqlError(err, res);
+    try {
+      const { name, price, description } = fields;
+      console.log(fields)
+      const image_url = `/cloude_store/${files.photo[0].newFilename}`;
+      const sql = `INSERT INTO drinks (name,description,price, image_url)
+                   VALUES ($1, $2, $3, $4)
+                   RETURNING *;`;
+      console.log(description, sql);
+      const result = await db.query(sql, [
+        name[0],
+        description[0],
+        price[0],
+        image_url,
+      ]);
+      res.status(200).json({ message: "successful", info: result.rows[0] });
+    } catch (e) {
+      sqlError(e, res);
+    }
+  });
+});
+
 // --- Update food ---
 app.post("/updateFood", (req, res) => {
   const form = formidable({
@@ -239,6 +272,16 @@ app.post("/updateFood", (req, res) => {
 app.get("/getAllfoods", async (req, res) => {
   try {
     const result = await db.query("SELECT * FROM foods;");
+    res.json(result.rows);
+  } catch (err) {
+    sqlError(err, res);
+  }
+});
+
+// --- Get all foods ---
+app.get("/getAlldrinks", async (req, res) => {
+  try {
+    const result = await db.query("SELECT * FROM drinks order by id desc;;");
     res.json(result.rows);
   } catch (err) {
     sqlError(err, res);
@@ -473,7 +516,8 @@ app.post("/getLikedfood_info", auth, async (req, res) => {
 
 app.post("/order_food", auth, (req, res) => {
   const info = JSON.parse(req.body.info);
-  db.query("INSERT INTO orders (user_id, food_id, drink_ids, numeric_date, day, hour, minute, period, total_food_qty, total_drink_qty, total_food_price, total_drink_price, total_price) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13);",
+  console.log(JSON.stringify(info),"is this the array")
+  db.query("INSERT INTO orders (user_id, food_id, drink_ids, numeric_date, day, hour, minute, period, total_drink_qty, total_food_price, total_drink_price, total_price) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12);",
     [
       req.user_id,
       info.food_id,
@@ -483,7 +527,6 @@ app.post("/order_food", auth, (req, res) => {
       info.hour,
       info.minute,
       info.period,
-      info.totalFoodQty,
       info.totalDrinkQty,
       info.totalFoodPrice,
       info.totalDrinkPrice,
@@ -495,7 +538,7 @@ app.post("/order_food", auth, (req, res) => {
           errir: "Internal databases Error try again later" + err,
         });
       else {
-        res.status(200).redirect("/");
+        res.status(200).redirect("/ella_menu");
       }
     },
   );
@@ -584,7 +627,7 @@ app.get("/getAllcomments", async (req, res) => {
   console.log(commentInfo);
 });
 
-app.post("/Ella_manager", async (req, res) => {
+app.post("/ella_manager", async (req, res) => {
   try {
     const { password } = req.body;
     console.log(password, "hire is the password");
@@ -613,7 +656,7 @@ app.post("/Ella_manager", async (req, res) => {
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
-    <form id="autanticate" action="/Ella_manager" method="post" enctype="application/json" class="h-screen w-screen bg-white fixed top-0 left-0 z-10000 flex justify-center items-center text-white">
+    <form id="autanticate" action="/ella_manager" method="post" enctype="application/json" class="h-screen w-screen bg-white fixed top-0 left-0 z-10000 flex justify-center items-center text-white">
     <div class="w-80 h-50 bg-gray-800 border border-gray-300 rounded-xl flex justify-center py-4 flex-col px-3">
    <div>
     <div class="flex flex-col w-full relative bg-amber-00">
