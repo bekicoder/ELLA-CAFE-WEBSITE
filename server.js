@@ -218,6 +218,7 @@ app.post("/addNewDrink", (req, res) => {
 
 // --- Update food ---
 app.post("/updateFood", (req, res) => {
+    console.log('food requested ')
   const form = formidable({
     multiples: false,
     allowEmptyFiles: true,
@@ -227,20 +228,19 @@ app.post("/updateFood", (req, res) => {
   });
 
   form.parse(req, async (err, fields, files) => {
-    console.log(fields);
-    console.log(files);
     if (err) return sqlError(err, res);
     try {
       // 🧠 Fix: Convert values properly
       const name = fields.name[0] ? fields.name[0] : "";
       const price = fields.price[0] ? Number(fields.price[0]) || null : null;
+      const description = fields.description[0] ? fields.description[0] : "";
       const time_taken = fields.time_taken[0]
         ? Number(fields.time_taken[0]) || null
         : null;
       const id = Number(fields.id[0]);
 
       let image_url = "";
-      if (files.photo[0].originalFilename) {
+      if (files.photo[0].originalFilename && files.photo[0].size > 0) {
         image_url = `/cloude_store/${files.photo[0].newFilename}`;
 
         await fs.promises.unlink(path.join(__dirname, fields.img_name[0]));
@@ -252,12 +252,13 @@ app.post("/updateFood", (req, res) => {
           name = COALESCE(NULLIF($1, ''), name),
           price = COALESCE($2, price),
           time_taken = COALESCE($3, time_taken),
-          image_url = COALESCE(NULLIF($4, ''), image_url)
-        WHERE id = $5
+          description = COALESCE(NULLIF($4, ''), description),
+          image_url = COALESCE(NULLIF($5, ''), image_url)
+        WHERE id = $6
         RETURNING *;`;
 
       // 🧠 Notice: no '' strings for numeric fields
-      const params = [name, price, time_taken, image_url, id];
+      const params = [name, price, time_taken,description,image_url, id];
 
       const result = await db.query(sql, params);
       console.log(result);
@@ -267,7 +268,52 @@ app.post("/updateFood", (req, res) => {
     }
   });
 });
+// --- Update drink ---
+app.post("/updateDrink", (req, res) => {
+  console.log('drink requested ')
+  const form = formidable({
+    multiples: false,
+    allowEmptyFiles: true,
+    uploadDir: store,
+    minFileSize: 0,
+    keepExtensions: true,
+  });
 
+  form.parse(req, async (err, fields, files) => {
+    if (err) return sqlError(err, res);
+    try {
+      const name = fields.name[0] ? fields.name[0] : "";
+      const price = fields.price[0] ? Number(fields.price[0]) || null : null;
+      const description = fields.description[0] ? fields.description[0] : "";
+      const id = Number(fields.id[0]);
+
+      let image_url = "";
+      if (files.photo[0].originalFilename && files.photo[0].size > 0) {
+        image_url = `/cloude_store/${files.photo[0].newFilename}`;
+
+        await fs.promises.unlink(path.join(__dirname, fields.img_name[0]));
+        console.log("File deleted successfully");
+      }
+
+      const sql = `
+        UPDATE drinks SET
+          name = COALESCE(NULLIF($1, ''), name),
+          price = COALESCE($2, price),
+          description = COALESCE($3, description),
+          image_url = COALESCE(NULLIF($4, ''), image_url)
+        WHERE id = $5
+        RETURNING *;`;
+
+      const params = [name, price,description,image_url, id];
+
+      const result = await db.query(sql, params);
+      console.log(result);
+      res.status(200).json({ message: "successful", info: result.rows[0] });
+    } catch (e) {
+      sqlError(e, res);
+    }
+  });
+});
 // --- Get all foods ---
 app.get("/getAllfoods", async (req, res) => {
   try {
@@ -307,6 +353,21 @@ app.post("/deleteFood", async (req, res) => {
 
   try {
     await db.query("DELETE FROM foods WHERE id=$1;", [id]);
+    fs.unlink(path.join(__dirname, image_url), (err) => {
+      if (err) console.error("File delete error:", err);
+      res.json({ message: "successful" });
+    });
+  } catch (err) {
+    sqlError(err, res);
+  }
+});
+
+// --- Delete drink ---
+app.post("/deleteDrink", async (req, res) => {
+  const { id, image_url } = req.body;
+
+  try {
+    await db.query("DELETE FROM drinks WHERE id=$1;", [id]);
     fs.unlink(path.join(__dirname, image_url), (err) => {
       if (err) console.error("File delete error:", err);
       res.json({ message: "successful" });
