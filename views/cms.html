@@ -306,7 +306,12 @@
             class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm hover:bg-amber-500 text-gray-700 hover:text-white rounded-full w-9 h-9 flex items-center justify-center cursor-pointer transition-all duration-200 shadow-md"
           >
             <i class="fas fa-camera text-sm"></i>
-            <input type="file" accept="image/*" class="hidden popup-file-input" name="photo" />
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden popup-file-input"
+              name="photo"
+            />
           </label>
           <button
             type="button"
@@ -319,42 +324,89 @@
         <input type="text" name="img_name" class="hidden" />
         <div class="p-5 space-y-4">
           <div class="text-center border-b border-gray-100 pb-3">
-            <h3 class="text-xl font-bold text-gray-800 popupHeader">Edit Item</h3>
+            <h3 class="text-xl font-bold text-gray-800 popupHeader">
+              Edit Item
+            </h3>
             <p class="text-xs text-gray-400 mt-1">Update the details below</p>
           </div>
           <div class="w-full flex flex-col sm:flex-row gap-4">
             <div class="space-y-1 flex-1">
-              <label class="block text-sm font-semibold text-gray-700"><i class="fas fa-tag text-amber-500 text-xs mr-1"></i> Name</label>
-              <input id="popup_name" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50" name="name" placeholder="Enter name" />
+              <label class="block text-sm font-semibold text-gray-700"
+                ><i class="fas fa-tag text-amber-500 text-xs mr-1"></i>
+                Name</label
+              >
+              <input
+                id="popup_name"
+                type="text"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50"
+                name="name"
+                placeholder="Enter name"
+              />
             </div>
             <div class="space-y-1 flex-1">
-              <label class="block text-sm font-semibold text-gray-700"><i class="fas fa-align-left text-amber-500 text-xs mr-1"></i> Description</label>
-              <input id="popup_desc" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50" name="description" placeholder="Description" />
+              <label class="block text-sm font-semibold text-gray-700"
+                ><i class="fas fa-align-left text-amber-500 text-xs mr-1"></i>
+                Description</label
+              >
+              <input
+                id="popup_desc"
+                type="text"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50"
+                name="description"
+                placeholder="Description"
+              />
             </div>
           </div>
           <div class="w-full flex flex-col sm:flex-row gap-4">
             <div class="flex-1 space-y-1">
-              <label class="block text-sm font-semibold text-gray-700"><i class="fas fa-dollar-sign text-amber-500 text-xs mr-1"></i> Price (Birr)</label>
-              <input id="popup_price" type="number" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50" name="price" placeholder="Enter price" />
+              <label class="block text-sm font-semibold text-gray-700"
+                ><i class="fas fa-dollar-sign text-amber-500 text-xs mr-1"></i>
+                Price (Birr)</label
+              >
+              <input
+                id="popup_price"
+                type="number"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50"
+                name="price"
+                placeholder="Enter price"
+              />
             </div>
             <div class="flex-1 space-y-1 timeTakenContainer hidden">
-              <label class="block text-sm font-semibold text-gray-700"><i class="fas fa-clock text-amber-500 text-xs mr-1"></i> Preparation Time (minutes)</label>
-              <input id="popup_time" type="number" class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50" name="time_taken" placeholder="Minutes" />
+              <label class="block text-sm font-semibold text-gray-700"
+                ><i class="fas fa-clock text-amber-500 text-xs mr-1"></i>
+                Preparation Time (minutes)</label
+              >
+              <input
+                id="popup_time"
+                type="number"
+                class="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-amber-400 bg-gray-50"
+                name="time_taken"
+                placeholder="Minutes"
+              />
             </div>
           </div>
           <div class="flex gap-3 pt-4">
-            <button type="submit" class="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-2.5 rounded-xl transition-all duration-200 shadow-md flex items-center justify-center gap-2">
+            <button
+              type="submit"
+              class="flex-1 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-2.5 rounded-xl transition-all duration-200 shadow-md flex items-center justify-center gap-2"
+            >
               <i class="fas fa-save text-sm"></i> Update
             </button>
           </div>
         </div>
       </form>
-      <div class="hidden flex flex-col justify-center items-center transform transition-all duration-300 succes_massage">
+      <div
+        class="hidden flex flex-col justify-center items-center transform transition-all duration-300 succes_massage"
+      >
         <div class="bg-white/10 backdrop-blur-md rounded-2xl p-8 text-center">
-          <div class="w-20 h-20 mx-auto bg-green-500 rounded-full flex items-center justify-center animate-bounce">
+          <div
+            class="w-20 h-20 mx-auto bg-green-500 rounded-full flex items-center justify-center animate-bounce"
+          >
             <i class="fas fa-check text-white text-4xl"></i>
           </div>
-          <p class="text-2xl text-white font-bold mt-4">Successfully Updated!</p>
+          <p class="text-2xl text-white font-bold mt-4">
+            Successfully Updated!
+          </p>
         </div>
       </div>
     </div>
@@ -363,31 +415,46 @@
       <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
           <h2 class="text-xl font-bold mb-4">Ella kichin caffe</h2>
-          <p class="text-gray-400 text-sm">Serving delicious food seamlessly. Find your favorite meals quickly and securely.</p>
+          <p class="text-gray-400 text-sm">
+            Serving delicious food seamlessly. Find your favorite meals quickly
+            and securely.
+          </p>
         </div>
         <div>
           <h2 class="text-xl font-bold mb-4">Contact</h2>
           <ul class="space-y-2 text-gray-400 text-sm">
             <li><i class="fas fa-envelope mr-2"></i>support@ella_cafe.com</li>
             <li><i class="fas fa-phone mr-2"></i>+251 936584567</li>
-            <li><i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis Ababa, Ethiopia</li>
+            <li>
+              <i class="fas fa-map-marker-alt mr-2"></i>Bole Road 45, Addis
+              Ababa, Ethiopia
+            </li>
           </ul>
         </div>
         <div>
           <h2 class="text-xl font-bold mb-4">Follow Us</h2>
           <div class="flex gap-4">
-            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-twitter"></i
+            ></a>
+            <a href="#" class="text-gray-400 hover:text-amber-400 text-2xl"
+              ><i class="fab fa-instagram"></i
+            ></a>
           </div>
         </div>
       </div>
-      <p class="text-center text-gray-400 mt-12 text-sm">&copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.</p>
+      <p class="text-center text-gray-400 mt-12 text-sm">
+        &copy; <span id="currentYear"></span> ELLA CAFE. All Rights Reserved.
+      </p>
     </footer>
 
     <script>
       // ======================== GLOBAL DOM READY & HELPERS ========================
-      document.getElementById("currentYear").textContent = new Date().getFullYear();
+      document.getElementById("currentYear").textContent =
+        new Date().getFullYear();
 
       // Navigation & UI Helpers
       const humbergur = document.querySelector(".humbergur");
@@ -408,9 +475,16 @@
       function toggleNavButtons() {
         const navDiv = document.querySelector("nav div");
         navDiv.classList.toggle("hidden");
-        const btns = [orders_btn, foods_btn, drinks_btn, comments_btn, home_btn, secret_btn];
+        const btns = [
+          orders_btn,
+          foods_btn,
+          drinks_btn,
+          comments_btn,
+          home_btn,
+          secret_btn,
+        ];
         setTimeout(() => {
-          btns.forEach(btn => {
+          btns.forEach((btn) => {
             btn.classList.toggle("opacity-0");
             btn.classList.toggle("scale-85");
             btn.classList.toggle("scale-100");
@@ -418,7 +492,9 @@
         }, 50);
       }
       humbergur.addEventListener("click", toggleNavButtons);
-      humbergur.addEventListener("blur", () => setTimeout(toggleNavButtons, 300));
+      humbergur.addEventListener("blur", () =>
+        setTimeout(toggleNavButtons, 300),
+      );
 
       function hideAllSections() {
         add_food.classList.add("hidden");
@@ -429,10 +505,22 @@
         drinks_container.classList.add("hidden");
       }
       home_btn.addEventListener("click", hideAllSections);
-      orders_btn.addEventListener("click", () => { hideAllSections(); orders_container.classList.remove("hidden"); fetchOrders(); });
-      foods_btn.addEventListener("click", () => { hideAllSections(); add_food.classList.remove("hidden"); foods_container.classList.remove("hidden"); });
-      drinks_btn.addEventListener("click", () => { hideAllSections(); add_drink.classList.remove("hidden"); drinks_container.classList.remove("hidden"); });
-      
+      orders_btn.addEventListener("click", () => {
+        hideAllSections();
+        orders_container.classList.remove("hidden");
+        fetchOrders();
+      });
+      foods_btn.addEventListener("click", () => {
+        hideAllSections();
+        add_food.classList.remove("hidden");
+        foods_container.classList.remove("hidden");
+      });
+      drinks_btn.addEventListener("click", () => {
+        hideAllSections();
+        add_drink.classList.remove("hidden");
+        drinks_container.classList.remove("hidden");
+      });
+
       // Comments logic - working fully
       comments_btn.addEventListener("click", async () => {
         hideAllSections();
@@ -441,11 +529,12 @@
         try {
           const res = await fetch("/getAllcomments");
           const comments = await res.json();
-          comments.forEach(comment => {
+          comments.forEach((comment) => {
             const wrapper = document.createElement("div");
             wrapper.className = "flex items-end gap-2 flex-none flex-1 w-82";
             const textDiv = document.createElement("div");
-            textDiv.className = "h-fit md:h-30 w-full bg-gray-50 flex-1 rounded-t-3xl rounded-bl-3xl p-4 shadow-sm shadow-gray-400 break-words overflow-y-auto";
+            textDiv.className =
+              "h-fit md:h-30 w-full bg-gray-50 flex-1 rounded-t-3xl rounded-bl-3xl p-4 shadow-sm shadow-gray-400 break-words overflow-y-auto";
             textDiv.textContent = comment.feedback;
             const ownerDiv = document.createElement("div");
             ownerDiv.className = "flex flex-col gap-2 items-end";
@@ -463,7 +552,9 @@
             wrapper.appendChild(ownerDiv);
             comment_container.appendChild(wrapper);
           });
-        } catch(e) { console.error("Comments error", e); }
+        } catch (e) {
+          console.error("Comments error", e);
+        }
       });
 
       // Password overlay logic
@@ -474,17 +565,34 @@
         changeSecret.classList.remove("hidden");
         setTimeout(() => secretInputs.classList.remove("scale-75"), 5);
       });
-      changeSecret.addEventListener("click", (e) => { if(e.target === changeSecret) { changeSecret.classList.add("hidden"); secretInputs.classList.add("scale-75"); } });
-      changeSecret.addEventListener("submit", async function(e) {
+      changeSecret.addEventListener("click", (e) => {
+        if (e.target === changeSecret) {
+          changeSecret.classList.add("hidden");
+          secretInputs.classList.add("scale-75");
+        }
+      });
+      changeSecret.addEventListener("submit", async function (e) {
         e.preventDefault();
         const fd = new FormData(e.target);
         const credentials = Object.fromEntries(fd.entries());
-        const secret = await fetch("/changeSecret", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(credentials) });
+        const secret = await fetch("/changeSecret", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(credentials),
+        });
         const secretRes = await secret.json();
         if (secretRes.message === "successful") {
           secretInputs.classList.add("scale-75");
-          setTimeout(() => { secretInputs.classList.add("hidden"); succes_show.classList.remove("hidden", "scale-75"); }, 250);
-          setTimeout(() => { succes_show.classList.add("scale-75", "hidden"); secretInputs.classList.remove("hidden"); changeSecret.classList.add("hidden"); e.target.reset(); }, 800);
+          setTimeout(() => {
+            secretInputs.classList.add("hidden");
+            succes_show.classList.remove("hidden", "scale-75");
+          }, 250);
+          setTimeout(() => {
+            succes_show.classList.add("scale-75", "hidden");
+            secretInputs.classList.remove("hidden");
+            changeSecret.classList.add("hidden");
+            e.target.reset();
+          }, 800);
         }
       });
 
@@ -492,34 +600,53 @@
       const popup_overlay = document.querySelector(".popup-overlay");
       const popup = document.querySelector(".popup");
       const succes_massage = document.querySelector(".succes_massage");
-      document.querySelector(".cancelOrder_btn").addEventListener("click", () => {
-        popup.classList.add("scale-70");
-        setTimeout(() => popup_overlay.classList.add("hidden"), 250);
-        popup.querySelectorAll("input").forEach(i => i.value = "");
-      });
+      document
+        .querySelector(".cancelOrder_btn")
+        .addEventListener("click", () => {
+          popup.classList.add("scale-70");
+          setTimeout(() => popup_overlay.classList.add("hidden"), 250);
+          popup.querySelectorAll("input").forEach((i) => (i.value = ""));
+        });
 
       // Update submit handler (foods/drinks)
       popup.addEventListener("submit", async (e) => {
         e.preventDefault();
         const type = popup.dataset.type;
         popup.classList.add("scale-70");
-        setTimeout(() => { popup.classList.add("hidden"); succes_massage.classList.remove("hidden"); }, 250);
+        setTimeout(() => {
+          popup.classList.add("hidden");
+          succes_massage.classList.remove("hidden");
+        }, 250);
         setTimeout(() => succes_massage.classList.remove("scale-75"), 255);
         setTimeout(async () => {
           const formdata = new FormData(e.target);
           const route = type === "foods" ? "Food" : "Drink";
-          const response = await fetch(`/update${route}`, { method: "POST", body: formdata });
+          const response = await fetch(`/update${route}`, {
+            method: "POST",
+            body: formdata,
+          });
           const data = await response.json();
-          console.log(data)
+          console.log(data);
           if (data.message === "successful") {
-            const selector = type === "foods" ? `.food_card[data-id='${data.info.id}']` : `.drink_card[data-id='${data.info.id}']`;
+            const selector =
+              type === "foods"
+                ? `.food_card[data-id='${data.info.id}']`
+                : `.drink_card[data-id='${data.info.id}']`;
             const updatedCard = document.querySelector(selector);
-            if(updatedCard) {
-              if(data.info.image_url) updatedCard.querySelector(".photo").src = data.info.image_url;
-              if(data.info.name) updatedCard.querySelector(".name").textContent = data.info.name;
-              if(data.info.price) updatedCard.querySelector(".price").textContent = data.info.price + " Birr";
-              if(data.info.time_taken && type === "foods") updatedCard.querySelector(".cook_time").innerHTML = `<i class="far fa-clock"></i> Est. ${data.info.time_taken} min`;
-              if(data.info.description) updatedCard.querySelector(".description").textContent = data.info.description;
+            if (updatedCard) {
+              if (data.info.image_url)
+                updatedCard.querySelector(".photo").src = data.info.image_url;
+              if (data.info.name)
+                updatedCard.querySelector(".name").textContent = data.info.name;
+              if (data.info.price)
+                updatedCard.querySelector(".price").textContent =
+                  data.info.price + " Birr";
+              if (data.info.time_taken && type === "foods")
+                updatedCard.querySelector(".cook_time").innerHTML =
+                  `<i class="far fa-clock"></i> Est. ${data.info.time_taken} min`;
+              if (data.info.description)
+                updatedCard.querySelector(".description").textContent =
+                  data.info.description;
             }
           }
           popup_overlay.classList.add("hidden");
@@ -530,28 +657,51 @@
       });
 
       // Image preview handlers
-      window.handleFoodPreview = function(e) {
+      window.handleFoodPreview = function (e) {
         const file = e.target.files[0];
-        if(file) { const url = URL.createObjectURL(file); document.querySelector(".foodPreview").style.backgroundImage = `url('${url}')`; document.querySelector(".foodPreview").style.backgroundSize = "cover"; }
+        if (file) {
+          const url = URL.createObjectURL(file);
+          document.querySelector(".foodPreview").style.backgroundImage =
+            `url('${url}')`;
+          document.querySelector(".foodPreview").style.backgroundSize = "cover";
+        }
       };
-      window.handleDrinkPreview = function(e) {
+      window.handleDrinkPreview = function (e) {
         const file = e.target.files[0];
-        if(file) { const url = URL.createObjectURL(file); document.querySelector(".drinkPreview").style.backgroundImage = `url('${url}')`; document.querySelector(".drinkPreview").style.backgroundSize = "cover"; }
+        if (file) {
+          const url = URL.createObjectURL(file);
+          document.querySelector(".drinkPreview").style.backgroundImage =
+            `url('${url}')`;
+          document.querySelector(".drinkPreview").style.backgroundSize =
+            "cover";
+        }
       };
-      document.querySelector("#addNewFoodform .food-img-input")?.addEventListener("change", handleFoodPreview);
-      document.querySelector("#addNewDrinkform .drink-img-input")?.addEventListener("change", handleDrinkPreview);
-      document.querySelector(".popup-file-input")?.addEventListener("change", (e) => { if(e.target.files[0]) { const url = URL.createObjectURL(e.target.files[0]); document.querySelector(".popup-img").src = url; } });
+      document
+        .querySelector("#addNewFoodform .food-img-input")
+        ?.addEventListener("change", handleFoodPreview);
+      document
+        .querySelector("#addNewDrinkform .drink-img-input")
+        ?.addEventListener("change", handleDrinkPreview);
+      document
+        .querySelector(".popup-file-input")
+        ?.addEventListener("change", (e) => {
+          if (e.target.files[0]) {
+            const url = URL.createObjectURL(e.target.files[0]);
+            document.querySelector(".popup-img").src = url;
+          }
+        });
 
       // ======================== FOODS ========================
       async function loadFoods() {
         foods_container.innerHTML = "";
         const res = await fetch("/getAllfoods");
         const foods = await res.json();
-        foods.forEach(food => addNewFoodCard(food));
+        foods.forEach((food) => addNewFoodCard(food));
       }
       function addNewFoodCard(food) {
         const card = document.createElement("div");
-        card.className = "food_card bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group border border-gray-100 hover:border-amber-200";
+        card.className =
+          "food_card bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group border border-gray-100 hover:border-amber-200";
         card.setAttribute("data-id", food.id);
         card.innerHTML = `
           <div class="relative h-40 overflow-hidden rounded-t-xl">
@@ -565,8 +715,27 @@
           </div>
         `;
         const removeBtn = card.querySelector(".remove-item-btn");
-        removeBtn.addEventListener("click", async (e) => { e.stopPropagation(); if(confirm("Delete this food?")) { const delRes = await fetch("/deleteFood", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: food.id, image_url: food.image_url }) }); const result = await delRes.json(); if(result.message === "successful") { card.remove(); showTemporaryMessage("successful Removed!"); } } });
-        card.addEventListener("click", (e) => { if(e.target !== removeBtn && !removeBtn.contains(e.target)) { openEditPopup("foods", food); } });
+        removeBtn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          if (confirm("Delete this food?")) {
+            const delRes = await fetch("/deleteFood", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ id: food.id, image_url: food.image_url }),
+            });
+            const result = await delRes.json();
+            
+            if (result.message === "successful") {
+              card.remove();
+              showTemporaryMessage("successful Removed!");
+            }
+          }
+        });
+        card.addEventListener("click", (e) => {
+          if (e.target !== removeBtn && !removeBtn.contains(e.target)) {
+            openEditPopup("foods", food);
+          }
+        });
         foods_container.appendChild(card);
       }
 
@@ -575,19 +744,39 @@
         drinks_container.innerHTML = "";
         const res = await fetch("/getAlldrinks");
         const drinks = await res.json();
-        drinks.forEach(drink => addNewDrinkCard(drink));
+        drinks.forEach((drink) => addNewDrinkCard(drink));
       }
       function addNewDrinkCard(drink) {
         const card = document.createElement("div");
-        card.className = "drink_card bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group border border-gray-100 hover:border-amber-200";
+        card.className =
+          "drink_card bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer group border border-gray-100 hover:border-amber-200";
         card.setAttribute("data-id", drink.id);
         card.innerHTML = `
           <div class="relative h-40 overflow-hidden rounded-t-xl"><img src="${drink.image_url}" class="photo w-full h-full object-cover group-hover:scale-105 transition duration-500 rounded-t-xl" /><div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition"></div></div>
           <div class="innercard p-3"><div class="flex justify-between items-start mb-1"><h3 class="name text-base font-bold text-gray-800">${escapeHtml(drink.name)}</h3><span class="text-amber-600 font-bold text-base price">${drink.price} Birr</span></div><p class="description text-gray-400 text-xs mb-2">${escapeHtml(drink.description)}</p><button class="remove-item-btn w-full bg-red-50 hover:bg-red-600 text-red-600 hover:text-white font-semibold py-1.5 rounded-lg transition-all duration-200 text-sm border border-red-200">Remove Item</button></div>
         `;
         const removeBtn = card.querySelector(".remove-item-btn");
-        removeBtn.addEventListener("click", async (e) => { e.stopPropagation(); if(confirm("Delete this drink?")) { const delRes = await fetch("/deleteDrink", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: drink.id, image_url: drink.image_url }) }); const result = await delRes.json(); if(result.message === "successful") { card.remove(); showTemporaryMessage("successful Removed!"); } } });
-        card.addEventListener("click", (e) => { if(e.target !== removeBtn) openEditPopup("drinks", drink); });
+        removeBtn.addEventListener("click", async (e) => {
+          e.stopPropagation();
+          if (confirm("Delete this drink?")) {
+            const delRes = await fetch("/deleteDrink", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                id: drink.id,
+                image_url: drink.image_url,
+              }),
+            });
+            const result = await delRes.json();
+            if (result.message === "successful") {
+              card.remove();
+              showTemporaryMessage("successful Removed!");
+            }
+          }
+        });
+        card.addEventListener("click", (e) => {
+          if (e.target !== removeBtn) openEditPopup("drinks", drink);
+        });
         drinks_container.appendChild(card);
       }
 
@@ -599,7 +788,7 @@
         document.getElementById("popup_desc").value = item.description || "";
         document.getElementById("popup_price").value = item.price;
         document.querySelector(".popup-img").src = item.image_url;
-        if(type === "foods") {
+        if (type === "foods") {
           timeTakenContainer.classList.remove("hidden");
           document.getElementById("popup_time").value = item.time_taken || "";
         } else {
@@ -617,47 +806,56 @@
         popup.classList.add("hidden");
         msgDiv.classList.remove("hidden");
         setTimeout(() => msgDiv.classList.remove("scale-75"), 5);
-        setTimeout(() => { msgDiv.classList.add("hidden", "scale-75"); popup_overlay.classList.add("hidden"); popup.classList.remove("hidden"); }, 800);
+        setTimeout(() => {
+          msgDiv.classList.add("hidden", "scale-75");
+          popup_overlay.classList.add("hidden");
+          popup.classList.remove("hidden");
+        }, 800);
       }
 
       // ADD NEW FOOD
-      document.getElementById("addNewFoodform").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const fd = new FormData(e.target);
-        const res = await fetch("/addNewFood", { method: "POST", body: fd });
-        const result = await res.json();
-        if(result.info) {
-          addNewFoodCard(result.info);
-          showTemporaryMessage("successful Added!");
-          e.target.reset();
-          document.querySelector(".foodPreview").style.backgroundImage = "";
-        }
-      });
+      document
+        .getElementById("addNewFoodform")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const fd = new FormData(e.target);
+          const res = await fetch("/addNewFood", { method: "POST", body: fd });
+          const result = await res.json();
+          if (result.info) {
+            addNewFoodCard(result.info);
+            showTemporaryMessage("successful Added!");
+            e.target.reset();
+            document.querySelector(".foodPreview").style.backgroundImage = "";
+          }
+        });
 
       // ADD NEW DRINK
-      document.getElementById("addNewDrinkform").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const fd = new FormData(e.target);
-        const res = await fetch("/addNewDrink", { method: "POST", body: fd });
-        const result = await res.json();
-        if(result.info) {
-          addNewDrinkCard(result.info);
-          showTemporaryMessage("successful Added!");
-          e.target.reset();
-          document.querySelector(".drinkPreview").style.backgroundImage = "";
-        }
-      });
+      document
+        .getElementById("addNewDrinkform")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const fd = new FormData(e.target);
+          const res = await fetch("/addNewDrink", { method: "POST", body: fd });
+          const result = await res.json();
+          if (result.info) {
+            addNewDrinkCard(result.info);
+            showTemporaryMessage("successful Added!");
+            e.target.reset();
+            document.querySelector(".drinkPreview").style.backgroundImage = "";
+          }
+        });
 
       // ORDERS fetching with proper data mapping
       async function fetchOrders() {
         try {
-          const res = await fetch("/getActiveOrders");
+          const res = await fetch("/getAllOrders");
           const orders = await res.json();
           orders_container.innerHTML = "";
-          if(orders.length) {
-            orders.forEach(order => {
+          if (orders.length) {
+            orders.forEach((order) => {
               const card = document.createElement("div");
-              card.className = "border border-gray-300 ml-2 flex rounded-xl gap-2 min-w-[300px] max-h-30 bg-white";
+              card.className =
+                "border border-gray-300 ml-2 flex rounded-xl gap-2 min-w-[300px] max-h-30 bg-white";
               const img = document.createElement("img");
               img.src = order.food?.image_url || "";
               img.className = "w-28 rounded-l-xl object-cover";
@@ -673,11 +871,19 @@
               priceSpan.textContent = `Total: ${order.total_price} Birr`;
               const amountSpan = document.createElement("small");
               amountSpan.textContent = `Amount: ${order.amount}`;
-              infoDiv.append(nameStrong, timeSpan, timeTakenSpan, priceSpan, amountSpan);
+              infoDiv.append(
+                nameStrong,
+                timeSpan,
+                timeTakenSpan,
+                priceSpan,
+                amountSpan,
+              );
               const customerDiv = document.createElement("div");
-              customerDiv.className = "ml-auto mr-3 flex flex-col my-auto justify-center items-center";
+              customerDiv.className =
+                "ml-auto mr-3 flex flex-col my-auto justify-center items-center";
               const circle = document.createElement("div");
-              circle.className = "w-12 aspect-square rounded-full text-3xl font-medium text-white flex items-center justify-center";
+              circle.className =
+                "w-12 aspect-square rounded-full text-3xl font-medium text-white flex items-center justify-center";
               circle.style.backgroundColor = order.profile_color || "#f59e0b";
               circle.textContent = (order.name?.charAt(0) || "U").toUpperCase();
               const custName = document.createElement("small");
@@ -687,12 +893,23 @@
               orders_container.appendChild(card);
             });
           } else {
-            orders_container.innerHTML = "<p class='text-gray-500 text-center w-full'>No active orders</p>";
+            orders_container.innerHTML =
+              "<p class='text-gray-500 text-center w-full'>No active orders</p>";
           }
-        } catch(e) { console.error(e); }
+        } catch (e) {
+          console.error(e);
+        }
       }
 
-      function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, function(m){ if(m === "&") return "&amp;"; if(m === "<") return "&lt;"; if(m === ">") return "&gt;"; return m;}); }
+      function escapeHtml(str) {
+        if (!str) return "";
+        return str.replace(/[&<>]/g, function (m) {
+          if (m === "&") return "&amp;";
+          if (m === "<") return "&lt;";
+          if (m === ">") return "&gt;";
+          return m;
+        });
+      }
 
       // Initial load
       document.addEventListener("DOMContentLoaded", () => {
